@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- To use YLAD, do the following: 
+     * Adjust this configuration file to your personal needs: change entries and labels, add more items etc.
+     * Anywhere in your application, for example in an application bar button click event handler, put the
+       required code that initiates navigation to the about screen:
+
+       NavigationService.Navigate(new Uri("/YourLastAboutDialog;component/AboutPage.xaml", UriKind.Relative));
+
+    For more information on the powerful additional options and features of YLAD, like localization, support
+    of trial mode, remote and local rich XAML and text content etc., please refer to the documentation that 
+    is available at:
+
+    http://ylad.codeplex.com/documentation
+-->
+
+<About>
+  <!-- The App element allows you to override the values that are extracted from the WMAppManifest.xml file automatically -->
+  <!-- The AdditionalNotes attribute has no equivalent in the WMAppManifest.xml; you can only define its content here -->
+  <!-- Explicitly set any of the attributes to an empty string to remove it (including its label) from the dialog -->
+  <App Author="Matt McCormick"
+       Publisher=""       
+       AdditionalNotes="This application is not endorsed or certified by Breaking News or NBC News Digital. Special thanks to Adhara Garcia for the application icon." 
+       Description=" " />
+  <Items>
+    <!-- Create a MainItem entry to configure the front page -->
+    <!-- The Titel attribute defines the title of the pivot item -->
+    <!-- The Label (and review buttong content) attributes can override the default values to what you like, and also help with localization -->
+    <!-- By default, the "Buy this app!" button is only shown when the app runs in trial mode (more on trial mode and how to configure YLAD accordingly here:
+          http://ylad.codeplex.com/documentation). Explicitly set any of the button contents to an empty string to override the default behavior, and remove the button from the page. -->
+    <MainItem Title="about"
+              AppAuthorLabel="by"
+              AppDescriptionLabel=""
+              AppPublisherLabel=""
+              AppVersionLabel="Version:"
+              AppAdditionalNotesLabel="Additional Notes:"
+              AppReviewButtonContent="Review This App"
+              AppBuyButtonContent="Buy This App">
+      <Links>
+        <!-- A collection of links presented on the front page. -->
+        <!-- By using different protocols like http or mailto you can invoke the respective applications -->
+        <!-- The Label attribute defines an additional label placed in front of the hyperlink -->
+        <!-- Use this to provide contact/support details for your app -->
+        <Link NavigateUri="http://mbmccormick.com"
+              Content="http://mbmccormick.com"
+              Label="Web:" />
+        <Link NavigateUri="mailto:feedback@mbmccormick.com"
+              Content="feedback@mbmccormick.com"
+              Label="Support:" />
+      </Links>
+    </MainItem>
+    <Item Title="legal" Type="text">
+      Privacy Policy
+      Breaking News is a client application designed to connect you with the excellent Breaking News service.
+
+      Information Collected
+      In the event of an application error, crash, or problem, we may ask you to send an email message with crash information. Such an email may contain personally identifiable information, and it is your choice whether to send such a message. While using the app, we may ask you to provide us with certain personally identifiable information that can be used to contact or identify you and help you resolve support or assistance with the app. This will happen through a prompt asking for feedback, allowing you to send an e-mail message, and is not automatic. In order to provide you with a better experience, to improve the application and its services, we may share non-identifying information (such as the current page within the application being viewed) to serve you better and analyze and understand how the app is used.
+
+      Notes
+      Breaking News is a trademark of NBC News Digital. This application uses the Breaking News website for retrieving data but is not endorsed or certified by NBC News Digital.
+
+      Contacting the Author
+      If you have any questions about this Privacy Policy, please send an email to feedback@mbmccormick.com.
+    </Item>
+    <Item Title="what's new?"
+          Type="text">
+      Version 1.0
+      This is the initial release of Breaking News for Windows Phone. This version includes the ability to fetch the Latest, Popular, and user-defined Topic posts from Breaking News and visit the links in Internet Explorer. You can also keep track of which posts have been read.
+    </Item>
+  </Items>
+</About>
