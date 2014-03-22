@@ -22,11 +22,13 @@ namespace BreakingNews
 
         public static ObservableCollection<Post> LatestPosts { get; set; }
         public static ObservableCollection<Post> PopularPosts { get; set; }
+        public static ObservableCollection<Topic> Topics { get; set; }
 
         #endregion
 
         private bool isLatestLoaded = false;
         private bool isPopularLoaded = false;
+        private bool isTopicsLoaded = false;
 
         public PostsPage()
         {
@@ -36,6 +38,7 @@ namespace BreakingNews
 
             LatestPosts = new ObservableCollection<Post>();
             PopularPosts = new ObservableCollection<Post>();
+            Topics = new ObservableCollection<Topic>();
         }
 
         private void App_UnhandledExceptionHandled(object sender, ApplicationUnhandledExceptionEventArgs e)
@@ -56,7 +59,8 @@ namespace BreakingNews
                 LittleWatson.CheckForPreviousException(true);
 
                 if (isLatestLoaded == false ||
-                    isPopularLoaded == false)
+                    isPopularLoaded == false ||
+                    isTopicsLoaded == false)
                     LoadData();
             }
         }
@@ -79,7 +83,8 @@ namespace BreakingNews
                     isLatestLoaded = true;
 
                     if (isLatestLoaded &&
-                        isPopularLoaded)
+                        isPopularLoaded &&
+                        isTopicsLoaded)
                     {
                         ToggleLoadingText();
                         ToggleEmptyText();
@@ -103,7 +108,33 @@ namespace BreakingNews
                     isPopularLoaded = true;
 
                     if (isLatestLoaded &&
-                        isPopularLoaded)
+                        isPopularLoaded &&
+                        isTopicsLoaded)
+                    {
+                        ToggleLoadingText();
+                        ToggleEmptyText();
+
+                        this.prgLoading.Visibility = System.Windows.Visibility.Collapsed;
+                    }
+                });
+            });
+
+            App.BreakingNewsClient.GetOngoingTopics((result) =>
+            {
+                SmartDispatcher.BeginInvoke(() =>
+                {
+                    Topics.Clear();
+
+                    foreach (Topic item in result)
+                    {
+                        Topics.Add(item);
+                    }
+
+                    isTopicsLoaded = true;
+
+                    if (isLatestLoaded &&
+                        isPopularLoaded &&
+                        isTopicsLoaded)
                     {
                         ToggleLoadingText();
                         ToggleEmptyText();
@@ -120,6 +151,7 @@ namespace BreakingNews
 
             isLatestLoaded = false;
             isPopularLoaded = false;
+            isTopicsLoaded = false;
 
             LoadData();
         }
@@ -147,9 +179,11 @@ namespace BreakingNews
         {
             this.txtLatestPostsLoading.Visibility = System.Windows.Visibility.Collapsed;
             this.txtPopularPostsLoading.Visibility = System.Windows.Visibility.Collapsed;
+            this.txtTopicsLoading.Visibility = System.Windows.Visibility.Collapsed;
 
             this.lstLatestPosts.Visibility = System.Windows.Visibility.Visible;
             this.lstPopularPosts.Visibility = System.Windows.Visibility.Visible;
+            this.lstTopics.Visibility = System.Windows.Visibility.Visible;
         }
 
         private void ToggleEmptyText()
@@ -163,6 +197,11 @@ namespace BreakingNews
                 this.txtPopularPostsEmpty.Visibility = System.Windows.Visibility.Visible;
             else
                 this.txtPopularPostsEmpty.Visibility = System.Windows.Visibility.Collapsed;
+
+            if (Topics.Count == 0)
+                this.txtTopicsEmpty.Visibility = System.Windows.Visibility.Visible;
+            else
+                this.txtTopicsEmpty.Visibility = System.Windows.Visibility.Collapsed;
         }
     }
 }

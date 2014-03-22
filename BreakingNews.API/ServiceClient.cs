@@ -1,6 +1,6 @@
 ﻿using BreakingNews.API.Common;
 using BreakingNews.API.Models;
-using HackerNews.API.Models;
+using BreakingNews.API.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -60,12 +60,6 @@ namespace BreakingNews.API
 
             stream.Dispose();
 
-            foreach (var item in data)
-            {
-                item.content = CleanContentText(item.content);
-                item.is_read = PostHistory.Contains(item.id);
-            }
-
             for (int i = 0; i < data.Count; i++)
             {
                 data[i] = FormatPost(data[i]);
@@ -94,12 +88,88 @@ namespace BreakingNews.API
             sr.Dispose();
 
             stream.Dispose();
-
-            foreach (var item in data)
+            
+            for (int i = 0; i < data.Count; i++)
             {
-                item.content = CleanContentText(item.content);
-                item.is_read = PostHistory.Contains(item.id);
+                data[i] = FormatPost(data[i]);
             }
+
+            callback(data);
+        }
+
+        public async Task GetOngoingTopics(Action<List<Topic>> callback)
+        {
+            HttpWebRequest request = HttpWebRequest.Create("http://" + serverAddress + "/api/v1/topic/hot/?kind__in=arc&limit=10") as HttpWebRequest;
+            request.Accept = "application/json";
+
+            var response = await request.GetResponseAsync().ConfigureAwait(false);
+
+            Stream stream = response.GetResponseStream();
+            UTF8Encoding encoding = new UTF8Encoding();
+            StreamReader sr = new StreamReader(stream, encoding);
+
+            JsonTextReader tr = new JsonTextReader(sr);
+            OngoingResponse topicsResponse = new JsonSerializer().Deserialize<OngoingResponse>(tr);
+
+            List<Topic> data = topicsResponse.objects;
+
+            tr.Close();
+            sr.Dispose();
+
+            stream.Dispose();
+
+            for (int i = 0; i < data.Count; i++)
+            {
+                data[i] = FormatTopic(data[i]);
+            }
+
+            callback(data);
+        }
+
+        public async void GetTopic(Action<Topic> callback, int topicId)
+        {
+            HttpWebRequest request = HttpWebRequest.Create("http://" + serverAddress + "/api/v1/topic/" + topicId) as HttpWebRequest;
+            request.Accept = "application/json";
+
+            var response = await request.GetResponseAsync().ConfigureAwait(false);
+
+            Stream stream = response.GetResponseStream();
+            UTF8Encoding encoding = new UTF8Encoding();
+            StreamReader sr = new StreamReader(stream, encoding);
+
+            JsonTextReader tr = new JsonTextReader(sr);
+            Topic data = new JsonSerializer().Deserialize<Topic>(tr);
+
+            tr.Close();
+            sr.Dispose();
+
+            stream.Dispose();
+
+            data = FormatTopic(data);
+
+            callback(data);
+        }
+
+        public async Task GetTopicPosts(Action<List<Post>> callback, int topicId)
+        {
+            HttpWebRequest request = HttpWebRequest.Create("http://" + serverAddress + "/api/v1/item/?topics=" + topicId) as HttpWebRequest;
+            request.Accept = "application/json";
+
+            var response = await request.GetResponseAsync().ConfigureAwait(false);
+
+            Stream stream = response.GetResponseStream();
+            UTF8Encoding encoding = new UTF8Encoding();
+            StreamReader sr = new StreamReader(stream, encoding);
+
+            JsonTextReader tr = new JsonTextReader(sr);
+            TopicResponse postsResponse = new JsonSerializer().Deserialize<TopicResponse>(tr);
+
+            List<Post> data = postsResponse.objects;
+
+            tr.Close();
+            sr.Dispose();
+
+            stream.Dispose();
 
             for (int i = 0; i < data.Count; i++)
             {
@@ -126,10 +196,31 @@ namespace BreakingNews.API
 
         private Post FormatPost(Post data)
         {
+            data.content = CleanText(data.content);
+            data.is_read = PostHistory.Contains(data.id);
+
             return data;
         }
 
-        private string CleanContentText(string data)
+        private Topic FormatTopic(Topic data)
+        {
+            data.name = CleanText(data.name).ToUpper();
+            data.description = CleanText(data.description);
+
+            if (data.description.Length > 140)
+            {
+                data.description = data.description.Substring(0, 140) + "...";
+            }
+
+            if (data.description.Length <= 0)
+            {
+                data.description = "There is no other information available for this topic at the moment.";
+            }
+
+            return data;
+        }
+
+        private string CleanText(string data)
         {
             data = data.Replace("�", "");
             data = data.Replace("&amp;", "");
@@ -141,6 +232,10 @@ namespace BreakingNews.API
             data = data.Replace("&euro;", "...");
             data = data.Replace("__BR__", "\n\n");
             data = data.Replace("\\", "");
+            data = data.Replace("<p>", "");
+            data = data.Replace("</p>", "");
+            data = data.Replace("<strong>", "");
+            data = data.Replace("</strong>", "");
             data = data.Trim();
 
             return data;

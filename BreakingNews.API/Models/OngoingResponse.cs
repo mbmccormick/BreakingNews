@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace BreakingNews.API.Models
 {
-    public class PopularResponse
+    public class OngoingResponse
     {
-        public List<Post> items { get; set; }
-        public List<Post> media { get; set; }
+        public List<Topic> objects { get; set; }
+        public Meta meta { get; set; }
     }
 }

@@ -20,7 +20,7 @@
   <!-- Explicitly set any of the attributes to an empty string to remove it (including its label) from the dialog -->
   <App Author="Matt McCormick"
        Publisher=""       
-       AdditionalNotes="This application is not endorsed or certified by Breaking News or NBC News Digital. Special thanks to Adhara Garcia for the application icon." 
+       AdditionalNotes="This application is not endorsed or certified by Breaking News or NBC News Digital. Special thanks to Juan Garces for the application icon." 
        Description=" " />
   <Items>
     <!-- Create a MainItem entry to configure the front page -->

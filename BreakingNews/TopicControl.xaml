@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="BreakingNews.TopicControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="480" d:DesignWidth="480">
+
+    <StackPanel x:Name="LayoutRoot" Background="#FFE2EBF2" Tap="TopicControl_Tap">
+        <TextBlock Name="txtName" Text="{Binding name}" TextWrapping="Wrap" Margin="12,12,12,12" Style="{StaticResource PhoneTextTitle3Style}" Foreground="#FF000000" />
+    </StackPanel>
+
+</UserControl>

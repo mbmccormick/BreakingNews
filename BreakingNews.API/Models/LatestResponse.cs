@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HackerNews.API.Models
+namespace BreakingNews.API.Models
 {
     public class LatestResponse
     {
@@ -15,7 +15,9 @@ namespace HackerNews.API.Models
 
     public class Meta
     {
-        public string next { get; set; }
+        public string previous { get; set; }
         public int limit { get; set; }
+        public string next { get; set; }
+        public int offset { get; set; }
     }
 }
