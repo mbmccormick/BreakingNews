@@ -18,8 +18,8 @@
     shell:SystemTray.ForegroundColor="#FF000000"
     toolkit:TiltEffect.IsTiltEnabled="True"
     DataContext="{Binding RelativeSource={RelativeSource Self}}">
-    
-	<phone:PhoneApplicationPage.Resources>
+
+    <phone:PhoneApplicationPage.Resources>
         <Style x:Key="ScrollViewerCustomStyle" TargetType="ScrollViewer">
             <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
             <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
@@ -55,26 +55,26 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
-		<Style x:Key="ListBoxCustomStyle" TargetType="ListBox">
-			<Setter Property="Background" Value="Transparent"/>
-			<Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
-			<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
-			<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-			<Setter Property="BorderThickness" Value="0"/>
-			<Setter Property="BorderBrush" Value="Transparent"/>
-			<Setter Property="Padding" Value="0"/>
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="ListBox">
+
+        <Style x:Key="ListBoxCustomStyle" TargetType="ListBox">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBox">
                         <ScrollViewer x:Name="ScrollViewer" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" Padding="{TemplateBinding Padding}" Style="{StaticResource ScrollViewerCustomStyle}">
-							<ItemsPresenter/>
-						</ScrollViewer>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
-	</phone:PhoneApplicationPage.Resources>
+                            <ItemsPresenter/>
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </phone:PhoneApplicationPage.Resources>
 
     <Grid x:Name="LayoutRoot" Background="#FFF6F6EF">
         <ProgressBar Name="prgLoading" Foreground="#FFDD3618" IsIndeterminate="True" Margin="0,0,0,0" VerticalAlignment="Top" />
@@ -95,7 +95,15 @@
                         </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <uc:PostControl Margin="12,0,12,24" />
+                                <StackPanel>
+                                    <uc:PostControl Margin="12,0,12,24" />
+
+                                    <toolkit:ContextMenuService.ContextMenu>
+                                        <toolkit:ContextMenu>
+                                            <toolkit:MenuItem Header="share" Foreground="#FF000000" Click="MenuItem_Click" />
+                                        </toolkit:ContextMenu>
+                                    </toolkit:ContextMenuService.ContextMenu>
+                                </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
@@ -120,8 +128,14 @@
                         </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Margin="12,0,12,24">
-                                    <uc:PostControl />
+                                <StackPanel>
+                                    <uc:PostControl Margin="12,0,12,24" />
+
+                                    <toolkit:ContextMenuService.ContextMenu>
+                                        <toolkit:ContextMenu>
+                                            <toolkit:MenuItem Header="share" Foreground="#FF000000" Click="MenuItem_Click" />
+                                        </toolkit:ContextMenu>
+                                    </toolkit:ContextMenuService.ContextMenu>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -148,7 +162,7 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="12,0,12,12">
-                                    <uc:TopicControl />
+                                    <uc:TopicControl FavoritesChanged="TopicControl_FavoritesChanged" />
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -156,6 +170,33 @@
 
                     <TextBlock x:Name="txtTopicsLoading" Visibility="Visible" TextWrapping="Wrap" Margin="12,-6,0,0" Text="Just a moment..." Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFDD3618" />
                     <TextBlock x:Name="txtTopicsEmpty" Visibility="Collapsed" TextWrapping="Wrap" Margin="12,-6,0,0" Text="Sorry, could not download topics right now." Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFDD3618" />
+                </Grid>
+            </phone:PivotItem>
+
+            <phone:PivotItem Header="favorites">
+                <Grid Margin="0,0,0,0">
+                    <ListBox x:Name="lstFavoriteTopics" ItemsSource="{Binding FavoriteTopics}" Margin="0,0,0,0" Foreground="Black" Visibility="Collapsed" ScrollViewer.VerticalScrollBarVisibility="Hidden" Style="{StaticResource ListBoxCustomStyle}">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Margin="0,0,0,6" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="12,0,12,12">
+                                    <uc:TopicControl FavoritesChanged="TopicControl_FavoritesChanged" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <TextBlock x:Name="txtFavoriteTopicsLoading" Visibility="Visible" TextWrapping="Wrap" Margin="12,-6,0,0" Text="Just a moment..." Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFDD3618" />
+                    <TextBlock x:Name="txtFavoriteTopicsEmpty" Visibility="Collapsed" TextWrapping="Wrap" Margin="12,-6,0,0" Text="You don't have any favorite topics to display. Would you like to add some?" Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFDD3618" />
                 </Grid>
             </phone:PivotItem>
         </phone:Pivot>

@@ -85,12 +85,16 @@
   <ItemGroup>
     <Compile Include="Common\AsyncState.cs" />
     <Compile Include="Common\IsolatedStorageHelper.cs" />
-    <Compile Include="Models\LatestResponse.cs" />
-    <Compile Include="Models\OngoingResponse.cs" />
+    <Compile Include="Models\Author.cs" />
+    <Compile Include="Models\LatestPostsResponse.cs" />
+    <Compile Include="Models\Media.cs" />
+    <Compile Include="Models\OngoingTopicsResponse.cs" />
     <Compile Include="Models\Post.cs" />
-    <Compile Include="Models\PopularResponse.cs" />
+    <Compile Include="Models\PopularPostsResponse.cs" />
     <Compile Include="Models\Topic.cs" />
+    <Compile Include="Models\TopicItem.cs" />
     <Compile Include="Models\TopicResponse.cs" />
+    <Compile Include="Models\Tweet.cs" />
     <Compile Include="ServiceClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

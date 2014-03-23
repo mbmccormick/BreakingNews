@@ -1,6 +1,5 @@
 ﻿using BreakingNews.API.Common;
 using BreakingNews.API.Models;
-using BreakingNews.API.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -29,12 +28,19 @@ namespace BreakingNews.API
         public List<int> PostHistory;
         public int MaxPostHistory = 250;
 
+        public List<TopicItem> FavoriteTopics;
+        public int MaxFavoriteTopics = 250;
+
         public ServiceClient(bool debug)
         {
             PostHistory = IsolatedStorageHelper.GetObject<List<int>>("PostHistory");
+            FavoriteTopics = IsolatedStorageHelper.GetObject<List<TopicItem>>("FavoriteTopics");
 
             if (PostHistory == null)
                 PostHistory = new List<int>();
+
+            if (FavoriteTopics == null)
+                FavoriteTopics = new List<TopicItem>();
 
             if (debug == true)
                 serverAddress = "api-breakingnews-com-pqib6nr22m80.runscope.net";
@@ -52,7 +58,7 @@ namespace BreakingNews.API
             StreamReader sr = new StreamReader(stream, encoding);
 
             JsonTextReader tr = new JsonTextReader(sr);
-            LatestResponse postsResponse = new JsonSerializer().Deserialize<LatestResponse>(tr);
+            LatestPostsResponse postsResponse = new JsonSerializer().Deserialize<LatestPostsResponse>(tr);
 
             List<Post> data = postsResponse.objects;
 
@@ -81,7 +87,7 @@ namespace BreakingNews.API
             StreamReader sr = new StreamReader(stream, encoding);
 
             JsonTextReader tr = new JsonTextReader(sr);
-            PopularResponse postsResponse = new JsonSerializer().Deserialize<PopularResponse>(tr);
+            PopularPostsResponse postsResponse = new JsonSerializer().Deserialize<PopularPostsResponse>(tr);
 
             List<Post> data = postsResponse.items;
 
@@ -98,7 +104,7 @@ namespace BreakingNews.API
             callback(data);
         }
 
-        public async Task GetOngoingTopics(Action<List<Topic>> callback)
+        public async Task GetOngoingTopics(Action<List<TopicItem>> callback)
         {
             HttpWebRequest request = HttpWebRequest.Create("http://" + serverAddress + "/api/v1/topic/hot/?kind__in=arc&limit=10") as HttpWebRequest;
             request.Accept = "application/json";
@@ -110,9 +116,9 @@ namespace BreakingNews.API
             StreamReader sr = new StreamReader(stream, encoding);
 
             JsonTextReader tr = new JsonTextReader(sr);
-            OngoingResponse topicsResponse = new JsonSerializer().Deserialize<OngoingResponse>(tr);
+            OngoingTopicsResponse topicsResponse = new JsonSerializer().Deserialize<OngoingTopicsResponse>(tr);
 
-            List<Topic> data = topicsResponse.objects;
+            List<TopicItem> data = topicsResponse.objects;
 
             tr.Close();
             sr.Dispose();
@@ -125,6 +131,11 @@ namespace BreakingNews.API
             }
 
             callback(data);
+        }
+
+        public async Task GetFavoriteTopics(Action<List<TopicItem>> callback)
+        {
+            callback(FavoriteTopics);
         }
 
         public async void GetTopic(Action<Topic> callback, int topicId)
@@ -190,9 +201,42 @@ namespace BreakingNews.API
             PostHistory.Insert(0, postId);
         }
 
+        public void FavoriteTopic(Topic data)
+        {
+            while (FavoriteTopics.Count >= MaxFavoriteTopics)
+            {
+                FavoriteTopics.RemoveAt(MaxFavoriteTopics - 1);
+            }
+
+            TopicItem item = new TopicItem(data);
+            FavoriteTopics.Insert(0, item);
+        }
+
+        public void FavoriteTopic(TopicItem item)
+        {
+            while (FavoriteTopics.Count >= MaxFavoriteTopics)
+            {
+                FavoriteTopics.RemoveAt(MaxFavoriteTopics - 1);
+            }
+
+            FavoriteTopics.Insert(0, item);
+        }
+
+        public void UnfavoriteTopic(int topicId)
+        {
+            int i = 0;
+            for (i = 0; i < FavoriteTopics.Count; i++)
+            {
+                if (FavoriteTopics[i].id == topicId) break;
+            }
+
+            FavoriteTopics.RemoveAt(i);
+        }
+
         public void SaveData()
         {
             IsolatedStorageHelper.SaveObject<List<int>>("PostHistory", PostHistory);
+            IsolatedStorageHelper.SaveObject<List<TopicItem>>("FavoriteTopics", FavoriteTopics);
         }
 
         private Post FormatPost(Post data)
@@ -217,6 +261,37 @@ namespace BreakingNews.API
             {
                 data.description = "There is no other information available for this topic at the moment.";
             }
+
+            bool found = false;
+            for (int i = 0; i < FavoriteTopics.Count; i++)
+            {
+                if (FavoriteTopics[i].id == data.id)
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            data.is_favorited = found;
+
+            return data;
+        }
+
+        private TopicItem FormatTopic(TopicItem data)
+        {
+            data.name = CleanText(data.name).ToUpper();
+            
+            bool found = false;
+            for (int i = 0; i < FavoriteTopics.Count; i++)
+            {
+                if (FavoriteTopics[i].id == data.id)
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            data.is_favorited = found;
 
             return data;
         }

@@ -10,10 +10,10 @@
     d:DesignHeight="480" d:DesignWidth="480">
 
     <StackPanel x:Name="LayoutRoot" Background="Transparent" Tap="PostControl_Tap">
-        <TextBlock Name="txtTopic" Text="{Binding PrimaryTopic}" TextWrapping="Wrap" Margin="0,0,12,0" Style="{StaticResource PhoneTextNormalStyle}" Foreground="{Binding topic_foreground}" />
-        <Image Name="imgMedia" Margin="0,8,0,6" Visibility="Collapsed" />
-        <TextBlock Name="txtContent" Text="{Binding content}" TextWrapping="Wrap" Margin="0,0,12,0" Style="{StaticResource PhoneTextTitle3Style}" Foreground="{Binding content_foreground}" />
-        <TextBlock Name="txtDescription" Text="{Binding FriendlyDate}" TextWrapping="Wrap" Margin="0,0,12,0" Style="{StaticResource PhoneTextSubtleStyle}" Foreground="{Binding description_foreground}" />
+        <TextBlock x:Name="txtTopic" Text="{Binding FriendlyTopic}" TextWrapping="Wrap" Margin="0,0,12,0" Style="{StaticResource PhoneTextNormalStyle}" Foreground="{Binding topic_foreground}" />
+        <Image x:Name="imgMedia" Margin="0,8,0,6" Visibility="Collapsed" />
+        <TextBlock x:Name="txtContent" Text="{Binding content}" TextWrapping="Wrap" Margin="0,0,12,0" Style="{StaticResource PhoneTextTitle3Style}" Foreground="{Binding content_foreground}" />
+        <TextBlock x:Name="txtDescription" Text="{Binding FriendlyDate}" TextWrapping="Wrap" Margin="0,0,12,0" Style="{StaticResource PhoneTextSubtleStyle}" Foreground="{Binding description_foreground}" />
     </StackPanel>
 
 </UserControl>

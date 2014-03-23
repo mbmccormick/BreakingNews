@@ -6,7 +6,6 @@ using System.Windows.Markup;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using BreakingNews.Resources;
 using BreakingNews.Common;
 using System.Collections;
 using System.Windows.Media;
@@ -22,7 +21,7 @@ namespace BreakingNews
         public static string FeedbackEmailAddress = "feedback@mbmccormick.com";
 
         public static event EventHandler<ApplicationUnhandledExceptionEventArgs> UnhandledExceptionHandled;
-
+        
         public static string VersionNumber
         {
             get
@@ -68,15 +67,15 @@ namespace BreakingNews
 
             BreakingNewsClient = new ServiceClient(Debugger.IsAttached);
 
-            Resources.Remove("PhoneAccentColor");
-            Resources.Add("PhoneAccentColor", Color.FromArgb(255, 255, 102, 0));
+            //Resources.Remove("PhoneAccentColor");
+            //Resources.Add("PhoneAccentColor", Color.FromArgb(255, 255, 102, 0));
 
-            ((SolidColorBrush)Resources["PhoneAccentBrush"]).Color = Color.FromArgb(255, 255, 102, 0);
+            //((SolidColorBrush)Resources["PhoneAccentBrush"]).Color = Color.FromArgb(255, 255, 102, 0);
 
-            Resources.Remove("PhoneForegroundColor");
-            Resources.Add("PhoneForegroundColor", Color.FromArgb(255, 130, 130, 130));
+            //Resources.Remove("PhoneForegroundColor");
+            //Resources.Add("PhoneForegroundColor", Color.FromArgb(255, 130, 130, 130));
 
-            ((SolidColorBrush)Resources["PhoneForegroundBrush"]).Color = Color.FromArgb(255, 130, 130, 130);
+            //((SolidColorBrush)Resources["PhoneForegroundBrush"]).Color = Color.FromArgb(255, 130, 130, 130);
 
             Resources.Remove("PhoneBackgroundColor");
             Resources.Add("PhoneBackgroundColor", Color.FromArgb(255, 246, 246, 239));

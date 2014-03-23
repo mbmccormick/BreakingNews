@@ -14,6 +14,8 @@ namespace BreakingNews
 {
     public partial class TopicControl : UserControl
     {
+        public event EventHandler<EventArgs> FavoritesChanged;
+
         public TopicControl()
         {
             InitializeComponent();
@@ -23,13 +25,73 @@ namespace BreakingNews
 
         private void TopicControl_Loaded(object sender, RoutedEventArgs e)
         {
+            TopicItem item = this.DataContext as TopicItem;
+
+            if (item.is_favorited)
+            {
+                this.vbxFavorite.Visibility = System.Windows.Visibility.Collapsed;
+                this.vbxUnfavorite.Visibility = System.Windows.Visibility.Visible;
+            }
+            else
+            {
+                this.vbxFavorite.Visibility = System.Windows.Visibility.Visible;
+                this.vbxUnfavorite.Visibility = System.Windows.Visibility.Collapsed;
+            }
         }
 
         private void TopicControl_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            Topic item = ((FrameworkElement)sender).DataContext as Topic;
+            TopicItem item = ((FrameworkElement)sender).DataContext as TopicItem;
 
             App.RootFrame.Navigate(new Uri("/TopicPage.xaml?id=" + item.id, UriKind.Relative));
+        }
+
+        private void FavoriteButton_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            TopicItem item = ((FrameworkElement)sender).DataContext as TopicItem;
+
+            item.is_favorited = true;
+            App.BreakingNewsClient.FavoriteTopic(item);
+
+            TopicControl_Loaded(sender, null);
+
+            if (FavoritesChanged != null)
+                FavoritesChanged(sender, e);
+        }
+
+        private void UnfavoriteButton_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            TopicItem item = ((FrameworkElement)sender).DataContext as TopicItem;
+
+            CustomMessageBox messageBox = new CustomMessageBox()
+            {
+                Caption = "Remove from favorites",
+                Message = "Are you sure you want to remove this topic from your favorites?",
+                LeftButtonContent = "yes",
+                RightButtonContent = "no",
+                IsFullScreen = false
+            };
+
+            messageBox.Dismissed += (s1, e1) =>
+            {
+                switch (e1.Result)
+                {
+                    case CustomMessageBoxResult.LeftButton:
+                        item.is_favorited = false;
+                        App.BreakingNewsClient.UnfavoriteTopic(item.id);
+
+                        TopicControl_Loaded(sender, null);
+
+                        if (FavoritesChanged != null)
+                            FavoritesChanged(sender, e);
+
+                        break;
+                    default:
+                        break;
+                }
+            };
+
+            messageBox.Show();
         }
     }
 }

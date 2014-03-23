@@ -42,7 +42,28 @@ namespace BreakingNews.API.Models
         public string date { get; set; }
         public string short_permalink { get; set; }
 
-        public string PrimaryTopic
+        private bool _is_read;
+
+        public bool is_read
+        {
+            get
+            {
+                return _is_read;
+            }
+
+            set
+            {
+                _is_read = value;
+
+                OnPropertyChanged("is_read");
+
+                OnPropertyChanged("topic_foreground");
+                OnPropertyChanged("content_foreground");
+                OnPropertyChanged("description_foreground");
+            }
+        }
+
+        public string FriendlyTopic
         {
             get
             {
@@ -73,26 +94,6 @@ namespace BreakingNews.API.Models
                     return "Posted " + Convert.ToInt32(minutes) + " minutes ago";
                 else
                     return "Posted just now";
-            }
-        }
-
-        private bool _is_read;
-        public bool is_read
-        {
-            get
-            {
-                return _is_read;
-            }
-
-            set
-            {
-                _is_read = value;
-
-                OnPropertyChanged("is_read");
-
-                OnPropertyChanged("topic_foreground");
-                OnPropertyChanged("content_foreground");
-                OnPropertyChanged("description_foreground");
             }
         }
 
@@ -137,51 +138,5 @@ namespace BreakingNews.API.Models
                 handler(this, new PropertyChangedEventArgs(name));
             }
         }
-    }
-
-    public class Media
-    {
-        public string html { get; set; }
-        public int thumbnail_width { get; set; }
-        public string author_url { get; set; }
-        public string original_url { get; set; }
-        public string title { get; set; }
-        public string resource_uri { get; set; }
-        public int width { get; set; }
-        public string author_name { get; set; }
-        public string provider_url { get; set; }
-        public int thumbnail_height { get; set; }
-        public int height { get; set; }
-        public string provider_name { get; set; }
-        public int id { get; set; }
-        public string url { get; set; }
-        public string type { get; set; }
-        public string thumbnail_url { get; set; }
-    }
-
-    public class Tweet
-    {
-        public object location { get; set; }
-        public string avatar { get; set; }
-        public string resource_uri { get; set; }
-        public string screen_name { get; set; }
-        public string user_id { get; set; }
-        public string name { get; set; }
-        public int id { get; set; }
-        public string url { get; set; }
-        public string tweet_id { get; set; }
-        public string content { get; set; }
-        public string date { get; set; }
-    }
-
-    public class Author
-    {
-        public string first_name { get; set; }
-        public string username { get; set; }
-        public string email { get; set; }
-        public string last_name { get; set; }
-        public string resource_uri { get; set; }
-        public bool is_staff { get; set; }
-        public int id { get; set; }
     }
 }

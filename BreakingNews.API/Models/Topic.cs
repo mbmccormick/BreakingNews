@@ -45,6 +45,23 @@ namespace BreakingNews.API.Models
         public string short_permalink { get; set; }
         public bool? primary { get; set; }
 
+        private bool _is_favorited;
+
+        public bool is_favorited
+        {
+            get
+            {
+                return _is_favorited;
+            }
+
+            set
+            {
+                _is_favorited = value;
+
+                OnPropertyChanged("is_favorited");
+            }
+        }
+
         protected void OnPropertyChanged(string name)
         {
             PropertyChangedEventHandler handler = PropertyChanged;

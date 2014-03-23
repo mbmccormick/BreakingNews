@@ -27,7 +27,8 @@ namespace BreakingNews
         {
             Post item = this.DataContext as Post;
 
-            if (item.media != null)
+            if (item.media != null &&
+                item.media.type == "photo")
             {
                 Uri imageSource = new Uri(item.media.url);
                 this.imgMedia.Source = new BitmapImage(imageSource);

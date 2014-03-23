@@ -105,11 +105,6 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\AppResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AppResources.resx</DependentUpon>
-    </Compile>
     <Compile Include="TopicControl.xaml.cs">
       <DependentUpon>TopicControl.xaml</DependentUpon>
     </Compile>
@@ -143,7 +138,6 @@
     <Content Include="Content\About\Data.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Resources\Browser.png" />
     <Content Include="Resources\Refresh.png" />
     <Content Include="Resources\Share.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
@@ -151,12 +145,6 @@
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\AppResources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\About\AboutStyles.xaml">
