@@ -16,7 +16,7 @@ using System.Windows.Media;
 
 namespace BreakingNews
 {
-    public partial class PostsPage : PhoneApplicationPage
+    public partial class MainPage : PhoneApplicationPage
     {
         #region List Properties
 
@@ -30,7 +30,7 @@ namespace BreakingNews
         private bool isPopularLoaded = false;
         private bool isTopicsLoaded = false;
 
-        public PostsPage()
+        public MainPage()
         {
             InitializeComponent();
 
