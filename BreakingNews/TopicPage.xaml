@@ -46,7 +46,7 @@
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
                                 <ViewportControl x:Name="ViewportControl" HorizontalContentAlignment="Stretch" VerticalAlignment="Top"/>
-                                <ScrollBar x:Name="VerticalScrollBar" Background="#7FDD3618" Grid.Column="1" Margin="4,0,4,0" Opacity="0" Orientation="Vertical"/>
+                                <ScrollBar x:Name="VerticalScrollBar" Background="#FFD4958A" Grid.Column="1" Margin="4,0,4,0" Opacity="0" Orientation="Vertical"/>
                             </Grid>
                         </Grid>
                     </ControlTemplate>

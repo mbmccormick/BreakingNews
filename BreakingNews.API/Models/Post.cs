@@ -95,9 +95,9 @@ namespace BreakingNews.API.Models
         {
             get
             {
-                if (this.is_read == true)
-                    return new SolidColorBrush(Color.FromArgb(255, 195, 195, 195));
-                else
+                //if (this.is_read == true)
+                //    return new SolidColorBrush(Color.FromArgb(255, 195, 195, 195));
+                //else
                     return new SolidColorBrush(Color.FromArgb(255, 152, 170, 185));
             }
         }
@@ -117,10 +117,10 @@ namespace BreakingNews.API.Models
         {
             get
             {
-                if (this.is_read == true)
-                    return new SolidColorBrush(Color.FromArgb(255, 213, 145, 115));
-                else
-                    return new SolidColorBrush(Color.FromArgb(255, 248, 36, 29));
+                //if (this.is_read == true)
+                //    return new SolidColorBrush(Color.FromArgb(255, 213, 145, 115));
+                //else
+                    return new SolidColorBrush(Color.FromArgb(255, 212, 149, 138));
             }
         }
 
