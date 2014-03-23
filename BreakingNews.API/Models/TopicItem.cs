@@ -12,16 +12,6 @@ namespace BreakingNews.API.Models
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public TopicItem(Topic data)
-        {
-            if (data != null)
-            {
-                id = data.id;
-                name = data.name;
-                is_favorited = data.is_favorited;
-            }
-        }
-
         public int id { get; set; }
         public string name { get; set; }
         

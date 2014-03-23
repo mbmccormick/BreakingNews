@@ -208,7 +208,13 @@ namespace BreakingNews.API
                 FavoriteTopics.RemoveAt(MaxFavoriteTopics - 1);
             }
 
-            TopicItem item = new TopicItem(data);
+            TopicItem item = new TopicItem()
+            {
+                id = data.id,
+                name = data.name,
+                is_favorited = data.is_favorited
+            };
+
             FavoriteTopics.Insert(0, item);
         }
 
