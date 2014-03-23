@@ -54,20 +54,25 @@ namespace BreakingNews.API.Models
         {
             get
             {
-                DateTime postDate = DateTime.Now;
-                DateTime.TryParse(date_ap, out postDate);
+                DateTime postDate = new DateTime();
+                DateTime.TryParse(date, out postDate);
 
-                double minutes = (DateTime.Now - postDate).TotalMinutes;
+                double minutes = (DateTime.UtcNow - postDate).TotalMinutes;
                 double hours = minutes / 60;
+                double days = hours / 24;
 
-                if (minutes < 2)
-                    return "Posted just now";
-                else if (minutes < 60)
-                    return "Posted " + Convert.ToInt32(minutes) + " minutes ago";
-                else if (minutes < 120)
-                    return "Posted 1 hour ago";
-                else
+                if (days >= 2.0)
+                    return "Posted " + Convert.ToInt32(days) + " days ago";
+                else if (days >= 1.0)
+                    return "Posted 1 day ago";
+                else if (hours >= 2.0)
                     return "Posted " + Convert.ToInt32(hours) + " hours ago";
+                else if (hours >= 1.0)
+                    return "Posted 1 hour ago";
+                else if (minutes >= 2.0)
+                    return "Posted " + Convert.ToInt32(minutes) + " minutes ago";
+                else
+                    return "Posted just now";
             }
         }
 
@@ -98,7 +103,7 @@ namespace BreakingNews.API.Models
                 //if (this.is_read == true)
                 //    return new SolidColorBrush(Color.FromArgb(255, 195, 195, 195));
                 //else
-                    return new SolidColorBrush(Color.FromArgb(255, 152, 170, 185));
+                return new SolidColorBrush(Color.FromArgb(255, 152, 170, 185));
             }
         }
 
@@ -120,7 +125,7 @@ namespace BreakingNews.API.Models
                 //if (this.is_read == true)
                 //    return new SolidColorBrush(Color.FromArgb(255, 213, 145, 115));
                 //else
-                    return new SolidColorBrush(Color.FromArgb(255, 212, 149, 138));
+                return new SolidColorBrush(Color.FromArgb(255, 212, 149, 138));
             }
         }
 
