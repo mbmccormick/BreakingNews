@@ -56,10 +56,10 @@ namespace BreakingNews
 
             BreakingNewsClient = new ServiceClient(Debugger.IsAttached);
 
-            //Resources.Remove("PhoneAccentColor");
-            //Resources.Add("PhoneAccentColor", Color.FromArgb(255, 255, 102, 0));
+            Resources.Remove("PhoneAccentColor");
+            Resources.Add("PhoneAccentColor", Color.FromArgb(255, 221, 54, 24));
 
-            //((SolidColorBrush)Resources["PhoneAccentBrush"]).Color = Color.FromArgb(255, 255, 102, 0);
+            ((SolidColorBrush)Resources["PhoneAccentBrush"]).Color = Color.FromArgb(255, 221, 54, 24);
 
             //Resources.Remove("PhoneForegroundColor");
             //Resources.Add("PhoneForegroundColor", Color.FromArgb(255, 130, 130, 130));
