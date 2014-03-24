@@ -50,19 +50,20 @@ namespace BreakingNews
         {
             TopicItem item = ((FrameworkElement)sender).DataContext as TopicItem;
 
-            if (sender == this.vbxFavorite)
-            {
-                item.is_favorited = true;
-                App.BreakingNewsClient.FavoriteTopic(item);
+            item.is_favorited = true;
+            App.BreakingNewsClient.FavoriteTopic(item);
 
-                TopicControl_Loaded(sender, null);
+            TopicControl_Loaded(sender, null);
 
-                if (FavoritesChanged != null)
-                    FavoritesChanged(sender, e);
-            }
-            else
-            {
-                CustomMessageBox messageBox = new CustomMessageBox()
+            if (FavoritesChanged != null)
+                FavoritesChanged(sender, e);
+        }
+
+        private void Unfavorite_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            TopicItem item = ((FrameworkElement)sender).DataContext as TopicItem;
+
+            CustomMessageBox messageBox = new CustomMessageBox()
                 {
                     Caption = "Remove from favorites",
                     Message = "Are you sure you want to remove this topic from your favorites?",
@@ -71,27 +72,26 @@ namespace BreakingNews
                     IsFullScreen = false
                 };
 
-                messageBox.Dismissed += (s1, e1) =>
+            messageBox.Dismissed += (s1, e1) =>
+            {
+                switch (e1.Result)
                 {
-                    switch (e1.Result)
-                    {
-                        case CustomMessageBoxResult.LeftButton:
-                            item.is_favorited = false;
-                            App.BreakingNewsClient.UnfavoriteTopic(item.id);
+                    case CustomMessageBoxResult.LeftButton:
+                        item.is_favorited = false;
+                        App.BreakingNewsClient.UnfavoriteTopic(item.id);
 
-                            TopicControl_Loaded(sender, null);
+                        TopicControl_Loaded(sender, null);
 
-                            if (FavoritesChanged != null)
-                                FavoritesChanged(sender, e);
+                        if (FavoritesChanged != null)
+                            FavoritesChanged(sender, e);
 
-                            break;
-                        default:
-                            break;
-                    }
-                };
+                        break;
+                    default:
+                        break;
+                }
+            };
 
-                messageBox.Show();
-            }
+            messageBox.Show();
         }
     }
 }

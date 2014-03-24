@@ -1,5 +1,5 @@
 ﻿<phone:PhoneApplicationPage
-    x:Class="BreakingNews.TopicPage"
+    x:Class="BreakingNews.TopicSelectorPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
@@ -63,50 +63,50 @@
 
         <StackPanel Grid.Row="0" Margin="12,18,0,28" DataContext="{Binding CurrentTopic}">
             <TextBlock Text="BREAKING NEWS" Style="{StaticResource PhoneTextNormalStyle}" FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Foreground="Black" />
-            <TextBlock x:Name="txtLoading" Margin="12,12,0,0" Visibility="Visible" TextWrapping="Wrap" Text="Just a moment..." Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFDD3618" />
-            <TextBlock Name="txtName" Margin="12,24,24,12" Style="{StaticResource PhoneTextTitle2Style}" Foreground="#FF98AAB9" TextWrapping="Wrap" Visibility="Collapsed" />
-            <TextBlock Name="txtDescription" Margin="12,0,24,0" Style="{StaticResource PhoneTextSubtleStyle}" Foreground="#FF828282" TextWrapping="Wrap" Visibility="Collapsed" />
+            <toolkit:PhoneTextBox x:Name="txtSearch" Hint="Search" ActionIcon="/Resources/Search.png" BorderBrush="#FFDD3618" TextChanged="Search_TextChanged" />
         </StackPanel>
 
         <ProgressBar Name="prgLoading" Foreground="#FFDD3618" IsIndeterminate="True" Margin="0,0,0,0" VerticalAlignment="Top" />
 
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="24,2,12,0">
-            <phone:LongListSelector x:Name="lstPosts" ItemsSource="{Binding TopicPosts}" Margin="0,0,0,0" Foreground="Black" Visibility="Collapsed" Style="{StaticResource LongListSelectorCustomStyle}">
+            <phone:LongListSelector x:Name="lstTopics" ItemsSource="{Binding Topics}" Margin="0,0,0,0" Foreground="Black" Visibility="Collapsed" Style="{StaticResource LongListSelectorCustomStyle}">
                 <phone:LongListSelector.ItemTemplate>
                     <DataTemplate>
-                        <uc:PostItemControl Margin="0,0,0,24" />
+                        <uc:TopicControl Margin="0,0,0,12" />
                     </DataTemplate>
                 </phone:LongListSelector.ItemTemplate>
             </phone:LongListSelector>
 
-            <TextBlock x:Name="txtEmpty" Margin="0,-6,0,0" Visibility="Collapsed" TextWrapping="Wrap" Text="There are no posts for this topic yet." Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFDD3618" />
+            <TextBlock x:Name="txtLoading" Visibility="Visible" TextWrapping="Wrap" Margin="0,-6,0,0" Text="Just a moment..." Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFDD3618" />
+            <TextBlock x:Name="txtEmpty" Margin="0,-6,0,0" Visibility="Collapsed" TextWrapping="Wrap" Text="There are no topics that match your search query." Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFDD3618" />
         </Grid>
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FFDD3618" ForegroundColor="#FF000000">
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" Mode="Minimized" BackgroundColor="#FFDD3618" ForegroundColor="#FF000000">
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
     <toolkit:TransitionService.NavigationInTransition>
         <toolkit:NavigationInTransition>
             <toolkit:NavigationInTransition.Backward>
-                <toolkit:TurnstileTransition Mode="BackwardIn"/>
+                <toolkit:TurnstileTransition Mode="BackwardIn" />
             </toolkit:NavigationInTransition.Backward>
             <toolkit:NavigationInTransition.Forward>
-                <toolkit:TurnstileTransition Mode="ForwardIn"/>
+                <toolkit:SlideTransition Mode="SlideUpFadeIn" />
             </toolkit:NavigationInTransition.Forward>
         </toolkit:NavigationInTransition>
     </toolkit:TransitionService.NavigationInTransition>
     <toolkit:TransitionService.NavigationOutTransition>
         <toolkit:NavigationOutTransition>
             <toolkit:NavigationOutTransition.Backward>
-                <toolkit:TurnstileTransition Mode="BackwardOut"/>
+                <toolkit:SlideTransition Mode="SlideDownFadeOut" />
             </toolkit:NavigationOutTransition.Backward>
             <toolkit:NavigationOutTransition.Forward>
-                <toolkit:TurnstileTransition Mode="ForwardOut"/>
+                <toolkit:TurnstileTransition Mode="ForwardOut" />
             </toolkit:NavigationOutTransition.Forward>
         </toolkit:NavigationOutTransition>
     </toolkit:TransitionService.NavigationOutTransition>
+
 
 </phone:PhoneApplicationPage>

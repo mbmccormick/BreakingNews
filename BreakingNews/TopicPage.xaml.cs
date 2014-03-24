@@ -26,6 +26,13 @@ namespace BreakingNews
         private bool isTopicLoaded = false;
         private bool isTopicPostsLoaded = false;
 
+        ApplicationBarIconButton refresh;
+
+        ApplicationBarMenuItem favorite;
+        ApplicationBarMenuItem unfavorite;
+        ApplicationBarMenuItem feedback;
+        ApplicationBarMenuItem about;
+
         public TopicPage()
         {
             InitializeComponent();
@@ -34,6 +41,39 @@ namespace BreakingNews
 
             CurrentTopic = null;
             TopicPosts = new ObservableCollection<Post>();
+
+            this.BuildApplicationBar();
+        }
+
+        private void BuildApplicationBar()
+        {
+            refresh = new ApplicationBarIconButton();
+            refresh.IconUri = new Uri("/Resources/Refresh.png", UriKind.RelativeOrAbsolute);
+            refresh.Text = "refresh";
+            refresh.Click += Refresh_Click;
+
+            favorite = new ApplicationBarMenuItem();
+            favorite.Text = "add to favorites";
+            favorite.Click += Favorite_Click;
+
+            unfavorite = new ApplicationBarMenuItem();
+            unfavorite.Text = "remove from favorites";
+            unfavorite.Click += Unfavorite_Click;
+
+            feedback = new ApplicationBarMenuItem();
+            feedback.Text = "feedback";
+            feedback.Click += Feedback_Click;
+
+            about = new ApplicationBarMenuItem();
+            about.Text = "about";
+            about.Click += About_Click;
+
+            // build application bar
+            ApplicationBar.Buttons.Add(refresh);
+
+            ApplicationBar.MenuItems.Add(favorite);
+            ApplicationBar.MenuItems.Add(feedback);
+            ApplicationBar.MenuItems.Add(about);
         }
 
         private void App_UnhandledExceptionHandled(object sender, ApplicationUnhandledExceptionEventArgs e)
@@ -79,20 +119,7 @@ namespace BreakingNews
                         this.txtName.Text = CurrentTopic.name;
                         this.txtDescription.Text = CurrentTopic.description;
 
-                        if (CurrentTopic.is_favorited)
-                        {
-                            ApplicationBarIconButton target = (ApplicationBarIconButton)this.ApplicationBar.Buttons[1];
-
-                            target.Text = "unfavorite";
-                            target.IconUri = new Uri("/Resources/Unfavorite.png", UriKind.Relative);
-                        }
-                        else
-                        {
-                            ApplicationBarIconButton target = (ApplicationBarIconButton)this.ApplicationBar.Buttons[1];
-
-                            target.Text = "favorite";
-                            target.IconUri = new Uri("/Resources/Favorite.png", UriKind.Relative);
-                        }
+                        ToggleFavoriteButton();
 
                         isTopicLoaded = true;
 
@@ -133,79 +160,6 @@ namespace BreakingNews
             }
         }
 
-        private void Refresh_Click(object sender, EventArgs e)
-        {
-            if (this.prgLoading.Visibility == System.Windows.Visibility.Visible) return;
-
-            isTopicLoaded = false;
-            isTopicPostsLoaded = false;
-
-            LoadData();
-        }
-
-        private void Favorite_Click(object sender, EventArgs e)
-        {
-            ApplicationBarIconButton target = (ApplicationBarIconButton)sender;
-
-            if (target.Text == "favorite")
-            {
-                CurrentTopic.is_favorited = true;
-                App.BreakingNewsClient.FavoriteTopic(CurrentTopic);
-
-                target.Text = "unfavorite";
-                target.IconUri = new Uri("/Resources/Unfavorite.png", UriKind.Relative);
-            }
-            else
-            {
-                CustomMessageBox messageBox = new CustomMessageBox()
-                {
-                    Caption = "Remove from favorites",
-                    Message = "Are you sure you want to remove this topic from your favorites?",
-                    LeftButtonContent = "yes",
-                    RightButtonContent = "no",
-                    IsFullScreen = false
-                };
-
-                messageBox.Dismissed += (s1, e1) =>
-                {
-                    switch (e1.Result)
-                    {
-                        case CustomMessageBoxResult.LeftButton:
-                            CurrentTopic.is_favorited = false;
-                            App.BreakingNewsClient.UnfavoriteTopic(CurrentTopic.id);
-
-                            target.Text = "favorite";
-                            target.IconUri = new Uri("/Resources/Favorite.png", UriKind.Relative);
-
-                            break;
-                        default:
-                            break;
-                    }
-                };
-
-                messageBox.Show();
-            }
-        }
-
-        private void Feedback_Click(object sender, EventArgs e)
-        {
-            if (this.prgLoading.Visibility == System.Windows.Visibility.Visible) return;
-
-            EmailComposeTask emailComposeTask = new EmailComposeTask();
-
-            emailComposeTask.To = App.FeedbackEmailAddress;
-            emailComposeTask.Subject = "Breaking News Feedback";
-            emailComposeTask.Body = "Version " + App.ExtendedVersionNumber + " (" + App.PlatformVersionNumber + ")\n\n";
-            emailComposeTask.Show();
-        }
-
-        private void About_Click(object sender, EventArgs e)
-        {
-            if (this.prgLoading.Visibility == System.Windows.Visibility.Visible) return;
-
-            NavigationService.Navigate(new Uri("/YourLastAboutDialog;component/AboutPage.xaml", UriKind.Relative));
-        }
-
         private void ToggleLoadingText()
         {
             SmartDispatcher.BeginInvoke(() =>
@@ -227,6 +181,103 @@ namespace BreakingNews
                 else
                     this.txtEmpty.Visibility = System.Windows.Visibility.Collapsed;
             });
+        }
+
+        private void ToggleFavoriteButton()
+        {
+            while (ApplicationBar.Buttons.Count > 0)
+            {
+                ApplicationBar.Buttons.RemoveAt(0);
+            }
+
+            while (ApplicationBar.MenuItems.Count > 0)
+            {
+                ApplicationBar.MenuItems.RemoveAt(0);
+            }
+
+            if (CurrentTopic.is_favorited == true)
+            {
+                ApplicationBar.Buttons.Add(refresh);
+
+                ApplicationBar.MenuItems.Add(unfavorite);
+                ApplicationBar.MenuItems.Add(feedback);
+                ApplicationBar.MenuItems.Add(about);
+            }
+            else
+            {
+                ApplicationBar.Buttons.Add(refresh);
+
+                ApplicationBar.MenuItems.Add(favorite);
+                ApplicationBar.MenuItems.Add(feedback);
+                ApplicationBar.MenuItems.Add(about);
+            }
+        }
+
+        private void Refresh_Click(object sender, EventArgs e)
+        {
+            if (this.prgLoading.Visibility == System.Windows.Visibility.Visible) return;
+
+            isTopicLoaded = false;
+            isTopicPostsLoaded = false;
+
+            LoadData();
+        }
+
+        private void Favorite_Click(object sender, EventArgs e)
+        {
+            CurrentTopic.is_favorited = true;
+            App.BreakingNewsClient.FavoriteTopic(CurrentTopic);
+
+            ToggleFavoriteButton();
+        }
+
+        private void Unfavorite_Click(object sender, EventArgs e)
+        {
+            CustomMessageBox messageBox = new CustomMessageBox()
+            {
+                Caption = "Remove from favorites",
+                Message = "Are you sure you want to remove this topic from your favorites?",
+                LeftButtonContent = "yes",
+                RightButtonContent = "no",
+                IsFullScreen = false
+            };
+
+            messageBox.Dismissed += (s1, e1) =>
+            {
+                switch (e1.Result)
+                {
+                    case CustomMessageBoxResult.LeftButton:
+                        CurrentTopic.is_favorited = false;
+                        App.BreakingNewsClient.UnfavoriteTopic(CurrentTopic.id);
+
+                        ToggleFavoriteButton();
+
+                        break;
+                    default:
+                        break;
+                }
+            };
+
+            messageBox.Show();
+        }
+
+        private void Feedback_Click(object sender, EventArgs e)
+        {
+            if (this.prgLoading.Visibility == System.Windows.Visibility.Visible) return;
+
+            EmailComposeTask emailComposeTask = new EmailComposeTask();
+
+            emailComposeTask.To = App.FeedbackEmailAddress;
+            emailComposeTask.Subject = "Breaking News Feedback";
+            emailComposeTask.Body = "Version " + App.ExtendedVersionNumber + " (" + App.PlatformVersionNumber + ")\n\n";
+            emailComposeTask.Show();
+        }
+
+        private void About_Click(object sender, EventArgs e)
+        {
+            if (this.prgLoading.Visibility == System.Windows.Visibility.Visible) return;
+
+            NavigationService.Navigate(new Uri("/YourLastAboutDialog;component/AboutPage.xaml", UriKind.Relative));
         }
     }
 }

@@ -22,16 +22,20 @@ namespace BreakingNews
 
         public static ObservableCollection<Post> LatestPosts { get; set; }
         public static ObservableCollection<Post> PopularPosts { get; set; }
-        public static ObservableCollection<TopicItem> Topics { get; set; }
         public static ObservableCollection<TopicItem> FavoriteTopics { get; set; }
 
         #endregion
 
         private bool isLatestLoaded = false;
         private bool isPopularLoaded = false;
-        private bool isTopicsLoaded = false;
         private bool isFavoriteTopicsLoaded = false;
 
+        ApplicationBarIconButton refresh;
+        ApplicationBarIconButton add;
+        
+        ApplicationBarMenuItem feedback;
+        ApplicationBarMenuItem about;
+        
         public MainPage()
         {
             InitializeComponent();
@@ -40,8 +44,38 @@ namespace BreakingNews
 
             LatestPosts = new ObservableCollection<Post>();
             PopularPosts = new ObservableCollection<Post>();
-            Topics = new ObservableCollection<TopicItem>();
             FavoriteTopics = new ObservableCollection<TopicItem>();
+
+            this.BuildApplicationBar();
+        }
+
+        private void BuildApplicationBar()
+        {
+            refresh = new ApplicationBarIconButton();
+            refresh.IconUri = new Uri("/Resources/Refresh.png", UriKind.RelativeOrAbsolute);
+            refresh.Text = "refresh";
+            refresh.Click += Refresh_Click;
+
+            add = new ApplicationBarIconButton();
+            add.IconUri = new Uri("/Resources/Add.png", UriKind.RelativeOrAbsolute);
+            add.Text = "add";
+            add.Click += Add_Click;
+
+            feedback = new ApplicationBarMenuItem();
+            feedback.Text = "feedback";
+            feedback.Click += Feedback_Click;
+
+            about = new ApplicationBarMenuItem();
+            about.Text = "about";
+            about.Click += About_Click;
+
+            // build application bar
+            ApplicationBar.Buttons.Add(refresh);
+
+            ApplicationBar.MenuItems.Add(feedback);
+            ApplicationBar.MenuItems.Add(about);
+            
+            this.pivLayout.SelectionChanged += Layout_SelectionChanged;
         }
 
         private void App_UnhandledExceptionHandled(object sender, ApplicationUnhandledExceptionEventArgs e)
@@ -63,7 +97,6 @@ namespace BreakingNews
 
                 if (isLatestLoaded == false ||
                     isPopularLoaded == false ||
-                    isTopicsLoaded == false ||
                     isFavoriteTopicsLoaded == false)
                     LoadData(false);
             }
@@ -94,7 +127,6 @@ namespace BreakingNews
 
                         if (isLatestLoaded &&
                             isPopularLoaded &&
-                            isTopicsLoaded &&
                             isFavoriteTopicsLoaded)
                         {
                             ToggleLoadingText();
@@ -120,7 +152,6 @@ namespace BreakingNews
 
                         if (isLatestLoaded &&
                             isPopularLoaded &&
-                            isTopicsLoaded &&
                             isFavoriteTopicsLoaded)
                         {
                             ToggleLoadingText();
@@ -131,32 +162,6 @@ namespace BreakingNews
                     });
                 });
             }
-
-            App.BreakingNewsClient.GetOngoingTopics((result) =>
-            {
-                SmartDispatcher.BeginInvoke(() =>
-                {
-                    Topics.Clear();
-
-                    foreach (TopicItem item in result)
-                    {
-                        Topics.Add(item);
-                    }
-
-                    isTopicsLoaded = true;
-
-                    if (isLatestLoaded &&
-                        isPopularLoaded &&
-                        isTopicsLoaded &&
-                        isFavoriteTopicsLoaded)
-                    {
-                        ToggleLoadingText();
-                        ToggleEmptyText();
-
-                        this.prgLoading.Visibility = System.Windows.Visibility.Collapsed;
-                    }
-                });
-            });
 
             App.BreakingNewsClient.GetFavoriteTopics((result) =>
             {
@@ -173,7 +178,6 @@ namespace BreakingNews
 
                     if (isLatestLoaded &&
                         isPopularLoaded &&
-                        isTopicsLoaded &&
                         isFavoriteTopicsLoaded)
                     {
                         ToggleLoadingText();
@@ -185,16 +189,51 @@ namespace BreakingNews
             });
         }
 
+        private void ToggleLoadingText()
+        {
+            this.txtLatestPostsLoading.Visibility = System.Windows.Visibility.Collapsed;
+            this.txtPopularPostsLoading.Visibility = System.Windows.Visibility.Collapsed;
+            this.txtFavoriteTopicsLoading.Visibility = System.Windows.Visibility.Collapsed;
+
+            this.lstLatestPosts.Visibility = System.Windows.Visibility.Visible;
+            this.lstPopularPosts.Visibility = System.Windows.Visibility.Visible;
+            this.lstFavoriteTopics.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void ToggleEmptyText()
+        {
+            if (LatestPosts.Count == 0)
+                this.txtLatestPostsEmpty.Visibility = System.Windows.Visibility.Visible;
+            else
+                this.txtLatestPostsEmpty.Visibility = System.Windows.Visibility.Collapsed;
+
+            if (PopularPosts.Count == 0)
+                this.txtPopularPostsEmpty.Visibility = System.Windows.Visibility.Visible;
+            else
+                this.txtPopularPostsEmpty.Visibility = System.Windows.Visibility.Collapsed;
+
+            if (FavoriteTopics.Count == 0)
+                this.txtFavoriteTopicsEmpty.Visibility = System.Windows.Visibility.Visible;
+            else
+                this.txtFavoriteTopicsEmpty.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
         private void Refresh_Click(object sender, EventArgs e)
         {
             if (this.prgLoading.Visibility == System.Windows.Visibility.Visible) return;
 
             isLatestLoaded = false;
             isPopularLoaded = false;
-            isTopicsLoaded = false;
             isFavoriteTopicsLoaded = false;
 
             LoadData(false);
+        }
+
+        private void Add_Click(object sender, EventArgs e)
+        {
+            if (this.prgLoading.Visibility == System.Windows.Visibility.Visible) return;
+
+            NavigationService.Navigate(new Uri("/TopicSelectorPage.xaml", UriKind.Relative));
         }
 
         private void Feedback_Click(object sender, EventArgs e)
@@ -216,45 +255,37 @@ namespace BreakingNews
             NavigationService.Navigate(new Uri("/YourLastAboutDialog;component/AboutPage.xaml", UriKind.Relative));
         }
 
-        private void ToggleLoadingText()
-        {
-            this.txtLatestPostsLoading.Visibility = System.Windows.Visibility.Collapsed;
-            this.txtPopularPostsLoading.Visibility = System.Windows.Visibility.Collapsed;
-            this.txtTopicsLoading.Visibility = System.Windows.Visibility.Collapsed;
-            this.txtFavoriteTopicsLoading.Visibility = System.Windows.Visibility.Collapsed;
-
-            this.lstLatestPosts.Visibility = System.Windows.Visibility.Visible;
-            this.lstPopularPosts.Visibility = System.Windows.Visibility.Visible;
-            this.lstTopics.Visibility = System.Windows.Visibility.Visible;
-            this.lstFavoriteTopics.Visibility = System.Windows.Visibility.Visible;
-        }
-
-        private void ToggleEmptyText()
-        {
-            if (LatestPosts.Count == 0)
-                this.txtLatestPostsEmpty.Visibility = System.Windows.Visibility.Visible;
-            else
-                this.txtLatestPostsEmpty.Visibility = System.Windows.Visibility.Collapsed;
-
-            if (PopularPosts.Count == 0)
-                this.txtPopularPostsEmpty.Visibility = System.Windows.Visibility.Visible;
-            else
-                this.txtPopularPostsEmpty.Visibility = System.Windows.Visibility.Collapsed;
-
-            if (Topics.Count == 0)
-                this.txtTopicsEmpty.Visibility = System.Windows.Visibility.Visible;
-            else
-                this.txtTopicsEmpty.Visibility = System.Windows.Visibility.Collapsed;
-
-            if (FavoriteTopics.Count == 0)
-                this.txtFavoriteTopicsEmpty.Visibility = System.Windows.Visibility.Visible;
-            else
-                this.txtFavoriteTopicsEmpty.Visibility = System.Windows.Visibility.Collapsed;
-        }
-
         private void TopicControl_FavoritesChanged(object sender, EventArgs e)
         {
             LoadData(true);
+        }
+
+        private void Layout_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            while (ApplicationBar.Buttons.Count > 0)
+            {
+                ApplicationBar.Buttons.RemoveAt(0);
+            }
+
+            while (ApplicationBar.MenuItems.Count > 0)
+            {
+                ApplicationBar.MenuItems.RemoveAt(0);
+            }
+            
+            if (this.pivLayout.SelectedIndex < 2)
+            {
+                ApplicationBar.Buttons.Add(refresh);
+
+                ApplicationBar.MenuItems.Add(feedback);
+                ApplicationBar.MenuItems.Add(about);
+            }
+            else
+            {
+                ApplicationBar.Buttons.Add(add);
+
+                ApplicationBar.MenuItems.Add(feedback);
+                ApplicationBar.MenuItems.Add(about);
+            }
         }
     }
 }

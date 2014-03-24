@@ -98,18 +98,24 @@
     <Compile Include="Common\MetroGridHelper.cs" />
     <Compile Include="Common\NavigationCommand.cs" />
     <Compile Include="Common\SmartDispatcher.cs" />
-    <Compile Include="PostControl.xaml.cs">
+    <Compile Include="Controls\PostControl.xaml.cs">
       <DependentUpon>PostControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PostItemControl.xaml.cs">
+      <DependentUpon>PostItemControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TopicControl.xaml.cs">
+    <Compile Include="Controls\TopicControl.xaml.cs">
       <DependentUpon>TopicControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="TopicPage.xaml.cs">
       <DependentUpon>TopicPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TopicSelectorPage.xaml.cs">
+      <DependentUpon>TopicSelectorPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -138,7 +144,9 @@
     <Content Include="Content\About\Data.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Resources\Add.png" />
     <Content Include="Resources\Favorite.png" />
+    <Content Include="Resources\Search.png" />
     <Content Include="Resources\Refresh.png" />
     <Content Include="Resources\Share.png" />
     <Content Include="Resources\Unfavorite.png" />
@@ -153,7 +161,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Content>
-    <Page Include="PostControl.xaml">
+    <Page Include="Controls\PostControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -161,11 +169,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TopicControl.xaml">
+    <Page Include="Controls\PostItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TopicControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TopicPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TopicSelectorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

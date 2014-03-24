@@ -134,33 +134,6 @@
                 </Grid>
             </phone:PivotItem>
 
-            <phone:PivotItem Header="topics">
-                <Grid Margin="0,0,0,0">
-                    <ListBox x:Name="lstTopics" ItemsSource="{Binding Topics}" Margin="0,0,0,0" Foreground="Black" Visibility="Collapsed" ScrollViewer.VerticalScrollBarVisibility="Hidden" Style="{StaticResource ListBoxCustomStyle}">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Margin="0,0,0,6" />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Margin="12,0,12,12">
-                                    <uc:TopicControl FavoritesChanged="TopicControl_FavoritesChanged" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-
-                    <TextBlock x:Name="txtTopicsLoading" Visibility="Visible" TextWrapping="Wrap" Margin="12,-6,0,0" Text="Just a moment..." Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFDD3618" />
-                    <TextBlock x:Name="txtTopicsEmpty" Visibility="Collapsed" TextWrapping="Wrap" Margin="12,-6,0,0" Text="Sorry, could not download topics right now." Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFDD3618" />
-                </Grid>
-            </phone:PivotItem>
-
             <phone:PivotItem Header="favorites">
                 <Grid Margin="0,0,0,0">
                     <ListBox x:Name="lstFavoriteTopics" ItemsSource="{Binding FavoriteTopics}" Margin="0,0,0,0" Foreground="Black" Visibility="Collapsed" ScrollViewer.VerticalScrollBarVisibility="Hidden" Style="{StaticResource ListBoxCustomStyle}">
@@ -184,7 +157,7 @@
                     </ListBox>
 
                     <TextBlock x:Name="txtFavoriteTopicsLoading" Visibility="Visible" TextWrapping="Wrap" Margin="12,-6,0,0" Text="Just a moment..." Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFDD3618" />
-                    <TextBlock x:Name="txtFavoriteTopicsEmpty" Visibility="Collapsed" TextWrapping="Wrap" Margin="12,-6,0,0" Text="You don't have any favorite topics to display." Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFDD3618" />
+                    <TextBlock x:Name="txtFavoriteTopicsEmpty" Visibility="Collapsed" TextWrapping="Wrap" Margin="12,-6,0,0" Text="You don't have any favorite topics to display. Would you like to add some?" Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFDD3618" />
                 </Grid>
             </phone:PivotItem>
         </phone:Pivot>
@@ -192,11 +165,6 @@
 
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FFDD3618" ForegroundColor="#FF000000">
-            <shell:ApplicationBarIconButton IconUri="/Resources/Refresh.png" Text="refresh" Click="Refresh_Click" />
-            <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="feedback" Click="Feedback_Click" />
-                <shell:ApplicationBarMenuItem Text="about" Click="About_Click" />
-            </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 

@@ -226,6 +226,42 @@ namespace BreakingNews.API
             }
         }
 
+        public async Task GetTopics(Action<List<TopicItem>> callback, string query)
+        {
+            HttpWebRequest request = HttpWebRequest.Create("http://" + serverAddress + "/api/v1/topic/search/?q=" + query + "&order_by=-item_count&limit=20") as HttpWebRequest;
+            request.Accept = "application/json";
+
+            var response = await request.GetResponseAsync().ConfigureAwait(false);
+
+            Stream stream = response.GetResponseStream();
+            UTF8Encoding encoding = new UTF8Encoding();
+            StreamReader sr = new StreamReader(stream, encoding);
+
+            try
+            {
+                JsonTextReader tr = new JsonTextReader(sr);
+                TopicSearchResponse topicsResponse = new JsonSerializer().Deserialize<TopicSearchResponse>(tr);
+
+                List<TopicItem> data = topicsResponse.objects;
+
+                tr.Close();
+                sr.Dispose();
+
+                stream.Dispose();
+
+                for (int i = 0; i < data.Count; i++)
+                {
+                    data[i] = FormatTopic(data[i]);
+                }
+
+                callback(data);
+            }
+            catch (JsonSerializationException ex)
+            {
+                throw ex;
+            }
+        }
+
         public void MarkPostAsRead(int postId)
         {
             while (PostHistory.Count >= MaxPostHistory)
