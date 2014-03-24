@@ -57,22 +57,29 @@ namespace BreakingNews.API
             UTF8Encoding encoding = new UTF8Encoding();
             StreamReader sr = new StreamReader(stream, encoding);
 
-            JsonTextReader tr = new JsonTextReader(sr);
-            LatestPostsResponse postsResponse = new JsonSerializer().Deserialize<LatestPostsResponse>(tr);
-
-            List<Post> data = postsResponse.objects;
-
-            tr.Close();
-            sr.Dispose();
-
-            stream.Dispose();
-
-            for (int i = 0; i < data.Count; i++)
+            try
             {
-                data[i] = FormatPost(data[i]);
-            }
+                JsonTextReader tr = new JsonTextReader(sr);
+                LatestPostsResponse postsResponse = new JsonSerializer().Deserialize<LatestPostsResponse>(tr);
 
-            callback(data);
+                List<Post> data = postsResponse.objects;
+
+                tr.Close();
+                sr.Dispose();
+
+                stream.Dispose();
+
+                for (int i = 0; i < data.Count; i++)
+                {
+                    data[i] = FormatPost(data[i]);
+                }
+
+                callback(data);
+            }
+            catch (JsonSerializationException ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task GetPopularPosts(Action<List<Post>> callback)
@@ -86,22 +93,29 @@ namespace BreakingNews.API
             UTF8Encoding encoding = new UTF8Encoding();
             StreamReader sr = new StreamReader(stream, encoding);
 
-            JsonTextReader tr = new JsonTextReader(sr);
-            PopularPostsResponse postsResponse = new JsonSerializer().Deserialize<PopularPostsResponse>(tr);
-
-            List<Post> data = postsResponse.items;
-
-            tr.Close();
-            sr.Dispose();
-
-            stream.Dispose();
-            
-            for (int i = 0; i < data.Count; i++)
+            try
             {
-                data[i] = FormatPost(data[i]);
-            }
+                JsonTextReader tr = new JsonTextReader(sr);
+                PopularPostsResponse postsResponse = new JsonSerializer().Deserialize<PopularPostsResponse>(tr);
 
-            callback(data);
+                List<Post> data = postsResponse.items;
+
+                tr.Close();
+                sr.Dispose();
+
+                stream.Dispose();
+
+                for (int i = 0; i < data.Count; i++)
+                {
+                    data[i] = FormatPost(data[i]);
+                }
+
+                callback(data);
+            }
+            catch (JsonSerializationException ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task GetOngoingTopics(Action<List<TopicItem>> callback)
@@ -115,22 +129,29 @@ namespace BreakingNews.API
             UTF8Encoding encoding = new UTF8Encoding();
             StreamReader sr = new StreamReader(stream, encoding);
 
-            JsonTextReader tr = new JsonTextReader(sr);
-            OngoingTopicsResponse topicsResponse = new JsonSerializer().Deserialize<OngoingTopicsResponse>(tr);
-
-            List<TopicItem> data = topicsResponse.objects;
-
-            tr.Close();
-            sr.Dispose();
-
-            stream.Dispose();
-
-            for (int i = 0; i < data.Count; i++)
+            try
             {
-                data[i] = FormatTopic(data[i]);
-            }
+                JsonTextReader tr = new JsonTextReader(sr);
+                OngoingTopicsResponse topicsResponse = new JsonSerializer().Deserialize<OngoingTopicsResponse>(tr);
 
-            callback(data);
+                List<TopicItem> data = topicsResponse.objects;
+
+                tr.Close();
+                sr.Dispose();
+
+                stream.Dispose();
+
+                for (int i = 0; i < data.Count; i++)
+                {
+                    data[i] = FormatTopic(data[i]);
+                }
+
+                callback(data);
+            }
+            catch (JsonSerializationException ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task GetFavoriteTopics(Action<List<TopicItem>> callback)
@@ -149,17 +170,24 @@ namespace BreakingNews.API
             UTF8Encoding encoding = new UTF8Encoding();
             StreamReader sr = new StreamReader(stream, encoding);
 
-            JsonTextReader tr = new JsonTextReader(sr);
-            Topic data = new JsonSerializer().Deserialize<Topic>(tr);
+            try
+            {
+                JsonTextReader tr = new JsonTextReader(sr);
+                Topic data = new JsonSerializer().Deserialize<Topic>(tr);
 
-            tr.Close();
-            sr.Dispose();
+                tr.Close();
+                sr.Dispose();
 
-            stream.Dispose();
+                stream.Dispose();
 
-            data = FormatTopic(data);
+                data = FormatTopic(data);
 
-            callback(data);
+                callback(data);
+            }
+            catch (JsonSerializationException ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task GetTopicPosts(Action<List<Post>> callback, int topicId)
@@ -173,22 +201,29 @@ namespace BreakingNews.API
             UTF8Encoding encoding = new UTF8Encoding();
             StreamReader sr = new StreamReader(stream, encoding);
 
-            JsonTextReader tr = new JsonTextReader(sr);
-            TopicResponse postsResponse = new JsonSerializer().Deserialize<TopicResponse>(tr);
-
-            List<Post> data = postsResponse.objects;
-
-            tr.Close();
-            sr.Dispose();
-
-            stream.Dispose();
-
-            for (int i = 0; i < data.Count; i++)
+            try
             {
-                data[i] = FormatPost(data[i]);
-            }
+                JsonTextReader tr = new JsonTextReader(sr);
+                TopicResponse postsResponse = new JsonSerializer().Deserialize<TopicResponse>(tr);
 
-            callback(data);
+                List<Post> data = postsResponse.objects;
+
+                tr.Close();
+                sr.Dispose();
+
+                stream.Dispose();
+
+                for (int i = 0; i < data.Count; i++)
+                {
+                    data[i] = FormatPost(data[i]);
+                }
+
+                callback(data);
+            }
+            catch (JsonSerializationException ex)
+            {
+                throw ex;
+            }
         }
 
         public void MarkPostAsRead(int postId)
@@ -286,7 +321,7 @@ namespace BreakingNews.API
         private TopicItem FormatTopic(TopicItem data)
         {
             data.name = CleanText(data.name).ToUpper();
-            
+
             bool found = false;
             for (int i = 0; i < FavoriteTopics.Count; i++)
             {

@@ -3,17 +3,24 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480">
 
-    <StackPanel x:Name="LayoutRoot" Background="Transparent" Tap="PostControl_Tap">
-        <TextBlock x:Name="txtTopic" Text="{Binding FriendlyTopic}" TextWrapping="Wrap" Margin="0,0,12,0" Style="{StaticResource PhoneTextNormalStyle}" Foreground="{Binding topic_foreground}" />
-        <Image x:Name="imgMedia" Margin="0,8,0,6" Visibility="Collapsed" />
-        <TextBlock x:Name="txtContent" Text="{Binding content}" TextWrapping="Wrap" Margin="0,0,12,0" Style="{StaticResource PhoneTextTitle3Style}" Foreground="{Binding content_foreground}" />
+    <StackPanel x:Name="LayoutRoot" Background="Transparent">
+        <TextBlock x:Name="txtTopic" Text="{Binding FriendlyTopic}" TextWrapping="Wrap" Margin="0,0,12,0" Style="{StaticResource PhoneTextNormalStyle}" Foreground="{Binding topic_foreground}" Tap="Topic_Tap" />
+        <Image x:Name="imgMedia" Margin="0,8,0,6" Visibility="Collapsed" Tap="PostContent_Tap" Opacity="{Binding media_opacity}" />
+        <TextBlock x:Name="txtContent" Text="{Binding content}" TextWrapping="Wrap" Margin="0,0,12,0" Style="{StaticResource PhoneTextTitle3Style}" Foreground="{Binding content_foreground}" Tap="PostContent_Tap" />
         <TextBlock x:Name="txtDescription" Text="{Binding FriendlyDate}" TextWrapping="Wrap" Margin="0,0,12,0" Style="{StaticResource PhoneTextSubtleStyle}" Foreground="{Binding description_foreground}" />
+
+        <toolkit:ContextMenuService.ContextMenu>
+            <toolkit:ContextMenu>
+                <toolkit:MenuItem Header="share" Foreground="#FF000000" Click="Share_Click" />
+            </toolkit:ContextMenu>
+        </toolkit:ContextMenuService.ContextMenu>
     </StackPanel>
 
 </UserControl>

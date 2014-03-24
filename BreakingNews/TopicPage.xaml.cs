@@ -79,6 +79,21 @@ namespace BreakingNews
                         this.txtName.Text = CurrentTopic.name;
                         this.txtDescription.Text = CurrentTopic.description;
 
+                        if (CurrentTopic.is_favorited)
+                        {
+                            ApplicationBarIconButton target = (ApplicationBarIconButton)this.ApplicationBar.Buttons[1];
+
+                            target.Text = "unfavorite";
+                            target.IconUri = new Uri("/Resources/Unfavorite.png", UriKind.Relative);
+                        }
+                        else
+                        {
+                            ApplicationBarIconButton target = (ApplicationBarIconButton)this.ApplicationBar.Buttons[1];
+
+                            target.Text = "favorite";
+                            target.IconUri = new Uri("/Resources/Favorite.png", UriKind.Relative);
+                        }
+
                         isTopicLoaded = true;
 
                         if (isTopicLoaded &&
@@ -115,6 +130,60 @@ namespace BreakingNews
                         }
                     });
                 }, topicId);
+            }
+        }
+
+        private void Refresh_Click(object sender, EventArgs e)
+        {
+            if (this.prgLoading.Visibility == System.Windows.Visibility.Visible) return;
+
+            isTopicLoaded = false;
+            isTopicPostsLoaded = false;
+
+            LoadData();
+        }
+
+        private void Favorite_Click(object sender, EventArgs e)
+        {
+            ApplicationBarIconButton target = (ApplicationBarIconButton)sender;
+
+            if (target.Text == "favorite")
+            {
+                CurrentTopic.is_favorited = true;
+                App.BreakingNewsClient.FavoriteTopic(CurrentTopic);
+
+                target.Text = "unfavorite";
+                target.IconUri = new Uri("/Resources/Unfavorite.png", UriKind.Relative);
+            }
+            else
+            {
+                CustomMessageBox messageBox = new CustomMessageBox()
+                {
+                    Caption = "Remove from favorites",
+                    Message = "Are you sure you want to remove this topic from your favorites?",
+                    LeftButtonContent = "yes",
+                    RightButtonContent = "no",
+                    IsFullScreen = false
+                };
+
+                messageBox.Dismissed += (s1, e1) =>
+                {
+                    switch (e1.Result)
+                    {
+                        case CustomMessageBoxResult.LeftButton:
+                            CurrentTopic.is_favorited = false;
+                            App.BreakingNewsClient.UnfavoriteTopic(CurrentTopic.id);
+
+                            target.Text = "favorite";
+                            target.IconUri = new Uri("/Resources/Favorite.png", UriKind.Relative);
+
+                            break;
+                        default:
+                            break;
+                    }
+                };
+
+                messageBox.Show();
             }
         }
 

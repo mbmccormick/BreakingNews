@@ -32,12 +32,19 @@ namespace BreakingNews
             {
                 Uri imageSource = new Uri(item.media.url);
                 this.imgMedia.Source = new BitmapImage(imageSource);
-
+                
                 this.imgMedia.Visibility = System.Windows.Visibility.Visible;
             }
         }
 
-        private void PostControl_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void Topic_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Post item = ((FrameworkElement)sender).DataContext as Post;
+
+            App.RootFrame.Navigate(new Uri("/TopicPage.xaml?id=" + item.topics[0].id, UriKind.Relative));
+        }
+
+        private void PostContent_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             Post item = ((FrameworkElement)sender).DataContext as Post;
 
@@ -58,6 +65,21 @@ namespace BreakingNews
 
             App.BreakingNewsClient.MarkPostAsRead(item.id);
             item.is_read = true;
+        }
+
+        private void Share_Click(object sender, RoutedEventArgs e)
+        {
+            Post item = ((FrameworkElement)sender).DataContext as Post;
+
+            ShareLinkTask shareLinkTask = new ShareLinkTask();
+
+            shareLinkTask.Title = item.content;
+            if (item.url.Length > 0)
+                shareLinkTask.LinkUri = new Uri(item.url);
+            else
+                shareLinkTask.LinkUri = new Uri(item.permalink);
+            shareLinkTask.Message = "Check out this article I found on Breaking News for Windows Phone!";
+            shareLinkTask.Show();
         }
     }
 }

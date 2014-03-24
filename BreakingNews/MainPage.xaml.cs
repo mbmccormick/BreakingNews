@@ -65,65 +65,72 @@ namespace BreakingNews
                     isPopularLoaded == false ||
                     isTopicsLoaded == false ||
                     isFavoriteTopicsLoaded == false)
-                    LoadData();
+                    LoadData(false);
+            }
+            else
+            {
+                LoadData(true);
             }
         }
 
-        private void LoadData()
+        private void LoadData(bool isNavigationInitiator)
         {
             this.prgLoading.Visibility = System.Windows.Visibility.Visible;
 
-            App.BreakingNewsClient.GetLatestPosts((result) =>
+            if (isNavigationInitiator == false)
             {
-                SmartDispatcher.BeginInvoke(() =>
+                App.BreakingNewsClient.GetLatestPosts((result) =>
                 {
-                    LatestPosts.Clear();
-
-                    foreach (Post item in result)
+                    SmartDispatcher.BeginInvoke(() =>
                     {
-                        LatestPosts.Add(item);
-                    }
+                        LatestPosts.Clear();
 
-                    isLatestLoaded = true;
+                        foreach (Post item in result)
+                        {
+                            LatestPosts.Add(item);
+                        }
 
-                    if (isLatestLoaded &&
-                        isPopularLoaded &&
-                        isTopicsLoaded &&
-                        isFavoriteTopicsLoaded)
-                    {
-                        ToggleLoadingText();
-                        ToggleEmptyText();
+                        isLatestLoaded = true;
 
-                        this.prgLoading.Visibility = System.Windows.Visibility.Collapsed;
-                    }
+                        if (isLatestLoaded &&
+                            isPopularLoaded &&
+                            isTopicsLoaded &&
+                            isFavoriteTopicsLoaded)
+                        {
+                            ToggleLoadingText();
+                            ToggleEmptyText();
+
+                            this.prgLoading.Visibility = System.Windows.Visibility.Collapsed;
+                        }
+                    });
                 });
-            });
 
-            App.BreakingNewsClient.GetPopularPosts((result) =>
-            {
-                SmartDispatcher.BeginInvoke(() =>
+                App.BreakingNewsClient.GetPopularPosts((result) =>
                 {
-                    PopularPosts.Clear();
-
-                    foreach (Post item in result)
+                    SmartDispatcher.BeginInvoke(() =>
                     {
-                        PopularPosts.Add(item);
-                    }
+                        PopularPosts.Clear();
 
-                    isPopularLoaded = true;
+                        foreach (Post item in result)
+                        {
+                            PopularPosts.Add(item);
+                        }
 
-                    if (isLatestLoaded &&
-                        isPopularLoaded &&
-                        isTopicsLoaded &&
-                        isFavoriteTopicsLoaded)
-                    {
-                        ToggleLoadingText();
-                        ToggleEmptyText();
+                        isPopularLoaded = true;
 
-                        this.prgLoading.Visibility = System.Windows.Visibility.Collapsed;
-                    }
+                        if (isLatestLoaded &&
+                            isPopularLoaded &&
+                            isTopicsLoaded &&
+                            isFavoriteTopicsLoaded)
+                        {
+                            ToggleLoadingText();
+                            ToggleEmptyText();
+
+                            this.prgLoading.Visibility = System.Windows.Visibility.Collapsed;
+                        }
+                    });
                 });
-            });
+            }
 
             App.BreakingNewsClient.GetOngoingTopics((result) =>
             {
@@ -187,7 +194,7 @@ namespace BreakingNews
             isTopicsLoaded = false;
             isFavoriteTopicsLoaded = false;
 
-            LoadData();
+            LoadData(false);
         }
 
         private void Feedback_Click(object sender, EventArgs e)
@@ -245,72 +252,9 @@ namespace BreakingNews
                 this.txtFavoriteTopicsEmpty.Visibility = System.Windows.Visibility.Collapsed;
         }
 
-        private Post MostRecentPostClick
-        {
-            get;
-            set;
-        }
-
-        protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)
-        {
-            if (e.OriginalSource is FrameworkElement)
-            {
-                FrameworkElement frameworkElement = (FrameworkElement)e.OriginalSource;
-                if (frameworkElement.DataContext is Post)
-                {
-                    MostRecentPostClick = (Post)frameworkElement.DataContext;
-                }
-            }
-
-            base.OnMouseLeftButtonDown(e);
-        }
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            MenuItem target = (MenuItem)sender;
-            ContextMenu parent = (ContextMenu)target.Parent;
-
-            if (target.Header.ToString() == "share")
-            {
-                ShareLinkTask shareLinkTask = new ShareLinkTask();
-
-                shareLinkTask.Title = MostRecentPostClick.content;
-                if (MostRecentPostClick.url.Length > 0)
-                    shareLinkTask.LinkUri = new Uri(MostRecentPostClick.url);
-                else
-                    shareLinkTask.LinkUri = new Uri(MostRecentPostClick.permalink);
-                shareLinkTask.Message = "Check out this article I found on Breaking News for Windows Phone!";
-                shareLinkTask.Show();
-            }
-        }
-
         private void TopicControl_FavoritesChanged(object sender, EventArgs e)
         {
-            App.BreakingNewsClient.GetFavoriteTopics((result) =>
-            {
-                SmartDispatcher.BeginInvoke(() =>
-                {
-                    FavoriteTopics.Clear();
-
-                    foreach (TopicItem item in result)
-                    {
-                        FavoriteTopics.Add(item);
-                    }
-
-                    isFavoriteTopicsLoaded = true;
-
-                    if (isLatestLoaded &&
-                        isPopularLoaded &&
-                        isTopicsLoaded &&
-                        isFavoriteTopicsLoaded)
-                    {
-                        ToggleLoadingText();
-                        ToggleEmptyText();
-
-                        this.prgLoading.Visibility = System.Windows.Visibility.Collapsed;
-                    }
-                });
-            });
+            LoadData(true);
         }
     }
 }

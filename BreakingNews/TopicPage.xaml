@@ -84,7 +84,9 @@
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" Mode="Minimized"  BackgroundColor="#FFDD3618" ForegroundColor="#FF000000">
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FFDD3618" ForegroundColor="#FF000000">
+            <shell:ApplicationBarIconButton IconUri="/Resources/Refresh.png" Text="refresh" Click="Refresh_Click" />
+            <shell:ApplicationBarIconButton IconUri="/Resources/Favorite.png" Text="favorite" Click="Favorite_Click" />
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="feedback" Click="Feedback_Click" />
                 <shell:ApplicationBarMenuItem Text="about" Click="About_Click" />

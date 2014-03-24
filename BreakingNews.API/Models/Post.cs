@@ -60,6 +60,7 @@ namespace BreakingNews.API.Models
                 OnPropertyChanged("topic_foreground");
                 OnPropertyChanged("content_foreground");
                 OnPropertyChanged("description_foreground");
+                OnPropertyChanged("media_opacity");
             }
         }
 
@@ -127,6 +128,17 @@ namespace BreakingNews.API.Models
                 //    return new SolidColorBrush(Color.FromArgb(255, 213, 145, 115));
                 //else
                 return new SolidColorBrush(Color.FromArgb(255, 212, 149, 138));
+            }
+        }
+
+        public double media_opacity
+        {
+            get
+            {
+                if (this.is_read == true)
+                    return 0.25;
+                else
+                    return 1.0;
             }
         }
 
