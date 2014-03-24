@@ -27,13 +27,22 @@ namespace BreakingNews
         {
             Post item = this.DataContext as Post;
 
-            if (item.media != null &&
-                item.media.type == "photo")
+            if (item.media != null)
             {
-                Uri imageSource = new Uri(item.media.url);
-                this.imgMedia.Source = new BitmapImage(imageSource);
-                
-                this.imgMedia.Visibility = System.Windows.Visibility.Visible;
+                if (item.media.type == "photo")
+                {
+                    Uri imageSource = new Uri(item.media.url);
+                    this.imgPhoto.Source = new BitmapImage(imageSource);
+
+                    this.imgPhoto.Visibility = System.Windows.Visibility.Visible;
+                }
+                else if (item.media.type == "video")
+                {
+                    Uri imageSource = new Uri(item.media.thumbnail_url);
+                    this.imgVideo.Source = new BitmapImage(imageSource);
+
+                    this.imgVideo.Visibility = System.Windows.Visibility.Visible;
+                }
             }
         }
 

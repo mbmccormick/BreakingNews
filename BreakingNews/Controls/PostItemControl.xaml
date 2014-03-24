@@ -11,7 +11,8 @@
     d:DesignHeight="480" d:DesignWidth="480">
 
     <StackPanel x:Name="LayoutRoot" Background="Transparent">
-        <Image x:Name="imgMedia" Margin="0,8,0,6" Visibility="Collapsed" Tap="PostContent_Tap" Opacity="{Binding media_opacity}" />
+        <Image x:Name="imgPhoto" Margin="0,8,0,6" Visibility="Collapsed" Tap="PostContent_Tap" Opacity="{Binding media_opacity}" />
+        <Image x:Name="imgVideo" Margin="0,8,0,6" Visibility="Collapsed" Tap="PostContent_Tap" Opacity="{Binding media_opacity}" />
         <TextBlock x:Name="txtContent" Text="{Binding content}" TextWrapping="Wrap" Margin="0,0,12,0" Style="{StaticResource PhoneTextTitle3Style}" Foreground="{Binding content_foreground}" Tap="PostContent_Tap" />
         <TextBlock x:Name="txtDescription" Text="{Binding FriendlyDate}" TextWrapping="Wrap" Margin="0,0,12,0" Style="{StaticResource PhoneTextSubtleStyle}" Foreground="{Binding description_foreground}" />
 

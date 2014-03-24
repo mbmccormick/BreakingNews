@@ -161,7 +161,7 @@ namespace BreakingNews.API
 
         public async void GetTopic(Action<Topic> callback, int topicId)
         {
-            HttpWebRequest request = HttpWebRequest.Create("http://" + serverAddress + "/api/v1/topic/" + topicId) as HttpWebRequest;
+            HttpWebRequest request = HttpWebRequest.Create("http://" + serverAddress + "/api/v1/topic/" + topicId + "/") as HttpWebRequest;
             request.Accept = "application/json";
 
             var response = await request.GetResponseAsync().ConfigureAwait(false);
