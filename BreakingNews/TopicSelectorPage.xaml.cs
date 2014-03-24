@@ -173,5 +173,10 @@ namespace BreakingNews
                 });
             }, this.txtSearch.Text);
         }
+
+        private void TopicItemControl_FavoritesChanged(object sender, EventArgs e)
+        {
+            NavigationService.GoBack();
+        }
     }
 }

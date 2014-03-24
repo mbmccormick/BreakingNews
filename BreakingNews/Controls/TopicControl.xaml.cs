@@ -93,5 +93,30 @@ namespace BreakingNews
 
             messageBox.Show();
         }
+
+        private void PinToStart_Click(object sender, RoutedEventArgs e)
+        {
+            TopicItem item = ((FrameworkElement)sender).DataContext as TopicItem;
+
+            ShareLinkTask shareLinkTask = new ShareLinkTask();
+
+            ShellTile secondaryTile = null;
+            secondaryTile = ShellTile.ActiveTiles.FirstOrDefault(t => t.NavigationUri.ToString().Contains("id=" + item.id));
+
+            if (secondaryTile == null)
+            {
+                FlipTileData data = new FlipTileData();
+                data.Title = "Breaking News";
+                data.BackTitle = "Breaking News";
+                data.BackContent = item.name;
+                data.WideBackContent = item.name;
+
+                ShellTile.Create(new Uri("/TopicPage.xaml?id=" + item.id, UriKind.Relative), data, true);
+            }
+            else
+            {
+                MessageBox.Show("Pin to start", "This topic is already pinned to your start screen. If you need to replace it, remove the tile from your start screen and then try again.", MessageBoxButton.OK);
+            }
+        }
     }
 }

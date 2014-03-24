@@ -101,6 +101,9 @@
     <Compile Include="Controls\PostControl.xaml.cs">
       <DependentUpon>PostControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TopicItemControl.xaml.cs">
+      <DependentUpon>TopicItemControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -162,6 +165,10 @@
       <SubType>Designer</SubType>
     </Content>
     <Page Include="Controls\PostControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TopicItemControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
