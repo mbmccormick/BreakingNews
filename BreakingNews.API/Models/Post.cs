@@ -85,7 +85,7 @@ namespace BreakingNews.API.Models
                 else if (this.importance > 2)
                     return new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
                 else
-                    return new SolidColorBrush(Color.FromArgb(255, 195, 195, 195));
+                    return new SolidColorBrush(Color.FromArgb(255, 136, 136, 136));
             }
         }
 
