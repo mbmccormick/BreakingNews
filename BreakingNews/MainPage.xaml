@@ -157,7 +157,7 @@
                     </ListBox>
 
                     <TextBlock x:Name="txtFavoriteTopicsLoading" Visibility="Visible" TextWrapping="Wrap" Margin="12,-6,0,0" Text="Just a moment..." Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFDD3618" />
-                    <TextBlock x:Name="txtFavoriteTopicsEmpty" Visibility="Collapsed" TextWrapping="Wrap" Margin="12,-6,0,0" Text="You don't have any favorite topics to display. Would you like to add some?" Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFDD3618" />
+                    <TextBlock x:Name="txtFavoriteTopicsEmpty" Visibility="Collapsed" TextWrapping="Wrap" Margin="12,-6,0,0" Text="You don't have any favorite topics. Would you like to add some?" Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFDD3618" />
                 </Grid>
             </phone:PivotItem>
         </phone:Pivot>
