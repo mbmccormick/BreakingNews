@@ -25,19 +25,12 @@ namespace BreakingNews.API
     {
         private string serverAddress = "api.breakingnews.com";
 
-        public List<int> PostHistory;
-        public int MaxPostHistory = 250;
-
         public List<TopicItem> FavoriteTopics;
         public int MaxFavoriteTopics = 250;
 
         public ServiceClient(bool debug)
         {
-            PostHistory = IsolatedStorageHelper.GetObject<List<int>>("PostHistory");
             FavoriteTopics = IsolatedStorageHelper.GetObject<List<TopicItem>>("FavoriteTopics");
-
-            if (PostHistory == null)
-                PostHistory = new List<int>();
 
             if (FavoriteTopics == null)
                 FavoriteTopics = new List<TopicItem>();
@@ -262,18 +255,16 @@ namespace BreakingNews.API
             }
         }
 
-        public void MarkPostAsRead(int postId)
-        {
-            while (PostHistory.Count >= MaxPostHistory)
-            {
-                PostHistory.RemoveAt(MaxPostHistory - 1);
-            }
-
-            PostHistory.Insert(0, postId);
-        }
-
         public void FavoriteTopic(Topic data)
         {
+            bool found = false;
+            foreach (TopicItem ti in FavoriteTopics)
+            {
+                if (ti.id == data.id) found = true;
+            }
+
+            if (found == true) return;
+
             while (FavoriteTopics.Count >= MaxFavoriteTopics)
             {
                 FavoriteTopics.RemoveAt(MaxFavoriteTopics - 1);
@@ -291,6 +282,14 @@ namespace BreakingNews.API
 
         public void FavoriteTopic(TopicItem item)
         {
+            bool found = false;
+            foreach (TopicItem ti in FavoriteTopics)
+            {
+                if (ti.id == item.id) found = true;
+            }
+
+            if (found == true) return;
+
             while (FavoriteTopics.Count >= MaxFavoriteTopics)
             {
                 FavoriteTopics.RemoveAt(MaxFavoriteTopics - 1);
@@ -312,15 +311,13 @@ namespace BreakingNews.API
 
         public void SaveData()
         {
-            IsolatedStorageHelper.SaveObject<List<int>>("PostHistory", PostHistory);
             IsolatedStorageHelper.SaveObject<List<TopicItem>>("FavoriteTopics", FavoriteTopics);
         }
 
         private Post FormatPost(Post data)
         {
             data.content = CleanText(data.content);
-            data.is_read = PostHistory.Contains(data.id);
-
+            
             return data;
         }
 

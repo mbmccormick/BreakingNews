@@ -42,28 +42,6 @@ namespace BreakingNews.API.Models
         public string date { get; set; }
         public string short_permalink { get; set; }
 
-        private bool _is_read;
-
-        public bool is_read
-        {
-            get
-            {
-                return _is_read;
-            }
-
-            set
-            {
-                _is_read = value;
-
-                OnPropertyChanged("is_read");
-
-                OnPropertyChanged("topic_foreground");
-                OnPropertyChanged("content_foreground");
-                OnPropertyChanged("description_foreground");
-                OnPropertyChanged("media_opacity");
-            }
-        }
-
         public string FriendlyTopic
         {
             get
@@ -98,47 +76,16 @@ namespace BreakingNews.API.Models
             }
         }
 
-        public SolidColorBrush topic_foreground
-        {
-            get
-            {
-                return new SolidColorBrush(Color.FromArgb(255, 152, 170, 185));
-            }
-        }
-
         public SolidColorBrush content_foreground
         {
             get
             {
-                if (this.is_read == true)
+                if (this.importance > 5)
+                    return new SolidColorBrush(Color.FromArgb(255, 194, 67, 10));
+                else if (this.importance > 2)
+                    return new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
+                else
                     return new SolidColorBrush(Color.FromArgb(255, 195, 195, 195));
-                else
-                    if (this.importance == 5)
-                        return new SolidColorBrush(Color.FromArgb(255, 194, 67, 10));
-                    else
-                        return new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
-            }
-        }
-
-        public SolidColorBrush description_foreground
-        {
-            get
-            {
-                //if (this.is_read == true)
-                //    return new SolidColorBrush(Color.FromArgb(255, 213, 145, 115));
-                //else
-                return new SolidColorBrush(Color.FromArgb(255, 212, 149, 138));
-            }
-        }
-
-        public double media_opacity
-        {
-            get
-            {
-                if (this.is_read == true)
-                    return 0.25;
-                else
-                    return 1.0;
             }
         }
 

@@ -11,11 +11,11 @@
     d:DesignHeight="480" d:DesignWidth="480">
 
     <StackPanel x:Name="LayoutRoot" Background="Transparent">
-        <TextBlock x:Name="txtTopic" Text="{Binding FriendlyTopic}" TextWrapping="Wrap" Margin="0,0,12,0" Style="{StaticResource PhoneTextNormalStyle}" Foreground="{Binding topic_foreground}" Tap="Topic_Tap" />
-        <Image x:Name="imgPhoto" Margin="0,8,0,6" Visibility="Collapsed" Tap="PostContent_Tap" Opacity="{Binding media_opacity}" />
-        <Image x:Name="imgVideo" Margin="0,8,0,6" Visibility="Collapsed" Tap="PostContent_Tap" Opacity="{Binding media_opacity}" />
+        <TextBlock x:Name="txtTopic" Text="{Binding FriendlyTopic}" TextWrapping="Wrap" Margin="0,0,12,0" Style="{StaticResource PhoneTextNormalStyle}" Foreground="#FF98AAB9" Tap="Topic_Tap" />
+        <Image x:Name="imgPhoto" Margin="0,8,0,6" Visibility="Collapsed" Tap="PostContent_Tap" />
+        <Image x:Name="imgVideo" Margin="0,8,0,6" Visibility="Collapsed" Tap="PostContent_Tap" />
         <TextBlock x:Name="txtContent" Text="{Binding content}" TextWrapping="Wrap" Margin="0,0,12,0" Style="{StaticResource PhoneTextTitle3Style}" Foreground="{Binding content_foreground}" Tap="PostContent_Tap" />
-        <TextBlock x:Name="txtDescription" Text="{Binding FriendlyDate}" TextWrapping="Wrap" Margin="0,0,12,0" Style="{StaticResource PhoneTextSubtleStyle}" Foreground="{Binding description_foreground}" />
+        <TextBlock x:Name="txtDescription" Text="{Binding FriendlyDate}" TextWrapping="Wrap" Margin="0,0,12,0" Style="{StaticResource PhoneTextSubtleStyle}" Foreground="#FFD4958A" />
 
         <toolkit:ContextMenuService.ContextMenu>
             <toolkit:ContextMenu>
