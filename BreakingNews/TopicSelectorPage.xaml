@@ -72,7 +72,7 @@
             <phone:LongListSelector x:Name="lstTopics" ItemsSource="{Binding Topics}" Margin="0,0,0,0" Foreground="Black" Visibility="Collapsed" Style="{StaticResource LongListSelectorCustomStyle}">
                 <phone:LongListSelector.ItemTemplate>
                     <DataTemplate>
-                        <uc:TopicItemControl Margin="0,0,0,12" FavoritesChanged="TopicItemControl_FavoritesChanged" />
+                        <uc:TopicItemControl Margin="0,0,0,12" FollowsChanged="TopicItemControl_FollowsChanged" />
                     </DataTemplate>
                 </phone:LongListSelector.ItemTemplate>
             </phone:LongListSelector>

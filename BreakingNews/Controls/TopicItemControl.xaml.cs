@@ -14,7 +14,7 @@ namespace BreakingNews
 {
     public partial class TopicItemControl : UserControl
     {
-        public event EventHandler<EventArgs> FavoritesChanged;
+        public event EventHandler<EventArgs> FollowsChanged;
 
         public TopicItemControl()
         {
@@ -31,11 +31,11 @@ namespace BreakingNews
         {
             TopicItem item = ((FrameworkElement)sender).DataContext as TopicItem;
 
-            item.is_favorited = true;
-            App.BreakingNewsClient.FavoriteTopic(item);
+            item.is_following = true;
+            App.BreakingNewsClient.FollowTopic(item);
 
-            if (FavoritesChanged != null)
-                FavoritesChanged(sender, e);
+            if (FollowsChanged != null)
+                FollowsChanged(sender, e);
         }
     }
 }

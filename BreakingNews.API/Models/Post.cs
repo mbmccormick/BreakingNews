@@ -82,7 +82,7 @@ namespace BreakingNews.API.Models
             {
                 if (this.importance > 4)
                     return new SolidColorBrush(Color.FromArgb(255, 194, 67, 10));
-                else if (this.importance > 2)
+                else if (this.importance > 1)
                     return new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
                 else
                     return new SolidColorBrush(Color.FromArgb(255, 136, 136, 136));
@@ -93,10 +93,10 @@ namespace BreakingNews.API.Models
         {
             get
             {
-                if (this.importance > 2)
+                if (this.importance > 1)
                     return 1.0;
                 else
-                    return 0.5;
+                    return 0.7;
             }
         }
 

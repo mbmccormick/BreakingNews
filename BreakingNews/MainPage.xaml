@@ -134,9 +134,9 @@
                 </Grid>
             </phone:PivotItem>
 
-            <phone:PivotItem Header="favorites">
+            <phone:PivotItem Header="following">
                 <Grid Margin="0,0,0,0">
-                    <ListBox x:Name="lstFavoriteTopics" ItemsSource="{Binding FavoriteTopics}" Margin="0,0,0,0" Foreground="Black" Visibility="Collapsed" ScrollViewer.VerticalScrollBarVisibility="Hidden" Style="{StaticResource ListBoxCustomStyle}">
+                    <ListBox x:Name="lstFollowedTopics" ItemsSource="{Binding FollowedTopics}" Margin="0,0,0,0" Foreground="Black" Visibility="Collapsed" ScrollViewer.VerticalScrollBarVisibility="Hidden" Style="{StaticResource ListBoxCustomStyle}">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Margin="0,0,0,6" />
@@ -150,14 +150,14 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="12,0,12,12">
-                                    <uc:TopicControl FavoritesChanged="TopicControl_FavoritesChanged" />
+                                    <uc:TopicControl FollowsChanged="TopicControl_FollowsChanged" />
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
 
-                    <TextBlock x:Name="txtFavoriteTopicsLoading" Visibility="Visible" TextWrapping="Wrap" Margin="12,-6,0,0" Text="Just a moment..." Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFDD3618" />
-                    <TextBlock x:Name="txtFavoriteTopicsEmpty" Visibility="Collapsed" TextWrapping="Wrap" Margin="12,-6,0,0" Text="You don't have any favorite topics. Would you like to add some?" Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFDD3618" />
+                    <TextBlock x:Name="txtFollowedTopicsLoading" Visibility="Visible" TextWrapping="Wrap" Margin="12,-6,0,0" Text="Just a moment..." Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFDD3618" />
+                    <TextBlock x:Name="txtFollowedTopicsEmpty" Visibility="Collapsed" TextWrapping="Wrap" Margin="12,-6,0,0" Text="You aren't following any topics. Would you like to add some?" Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFDD3618" />
                 </Grid>
             </phone:PivotItem>
         </phone:Pivot>

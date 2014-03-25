@@ -25,15 +25,15 @@ namespace BreakingNews.API
     {
         private string serverAddress = "api.breakingnews.com";
 
-        public List<TopicItem> FavoriteTopics;
-        public int MaxFavoriteTopics = 250;
+        public List<TopicItem> FollowedTopics;
+        public int MaxFollowedTopics = 250;
 
         public ServiceClient(bool debug)
         {
-            FavoriteTopics = IsolatedStorageHelper.GetObject<List<TopicItem>>("FavoriteTopics");
+            FollowedTopics = IsolatedStorageHelper.GetObject<List<TopicItem>>("FollowedTopics");
 
-            if (FavoriteTopics == null)
-                FavoriteTopics = new List<TopicItem>();
+            if (FollowedTopics == null)
+                FollowedTopics = new List<TopicItem>();
 
             if (debug == true)
                 serverAddress = "api-breakingnews-com-pqib6nr22m80.runscope.net";
@@ -147,9 +147,9 @@ namespace BreakingNews.API
             }
         }
 
-        public async Task GetFavoriteTopics(Action<List<TopicItem>> callback)
+        public async Task GetFollowedTopics(Action<List<TopicItem>> callback)
         {
-            callback(FavoriteTopics);
+            callback(FollowedTopics);
         }
 
         public async void GetTopic(Action<Topic> callback, int topicId)
@@ -255,63 +255,63 @@ namespace BreakingNews.API
             }
         }
 
-        public void FavoriteTopic(Topic data)
+        public void FollowTopic(Topic data)
         {
             bool found = false;
-            foreach (TopicItem ti in FavoriteTopics)
+            foreach (TopicItem ti in FollowedTopics)
             {
                 if (ti.id == data.id) found = true;
             }
 
             if (found == true) return;
 
-            while (FavoriteTopics.Count >= MaxFavoriteTopics)
+            while (FollowedTopics.Count >= MaxFollowedTopics)
             {
-                FavoriteTopics.RemoveAt(MaxFavoriteTopics - 1);
+                FollowedTopics.RemoveAt(MaxFollowedTopics - 1);
             }
 
             TopicItem item = new TopicItem()
             {
                 id = data.id,
                 name = data.name,
-                is_favorited = data.is_favorited
+                is_following = data.is_following
             };
 
-            FavoriteTopics.Insert(0, item);
+            FollowedTopics.Insert(0, item);
         }
 
-        public void FavoriteTopic(TopicItem item)
+        public void FollowTopic(TopicItem item)
         {
             bool found = false;
-            foreach (TopicItem ti in FavoriteTopics)
+            foreach (TopicItem ti in FollowedTopics)
             {
                 if (ti.id == item.id) found = true;
             }
 
             if (found == true) return;
 
-            while (FavoriteTopics.Count >= MaxFavoriteTopics)
+            while (FollowedTopics.Count >= MaxFollowedTopics)
             {
-                FavoriteTopics.RemoveAt(MaxFavoriteTopics - 1);
+                FollowedTopics.RemoveAt(MaxFollowedTopics - 1);
             }
 
-            FavoriteTopics.Insert(0, item);
+            FollowedTopics.Insert(0, item);
         }
 
-        public void UnfavoriteTopic(int topicId)
+        public void UnfollowTopic(int topicId)
         {
             int i = 0;
-            for (i = 0; i < FavoriteTopics.Count; i++)
+            for (i = 0; i < FollowedTopics.Count; i++)
             {
-                if (FavoriteTopics[i].id == topicId) break;
+                if (FollowedTopics[i].id == topicId) break;
             }
 
-            FavoriteTopics.RemoveAt(i);
+            FollowedTopics.RemoveAt(i);
         }
 
         public void SaveData()
         {
-            IsolatedStorageHelper.SaveObject<List<TopicItem>>("FavoriteTopics", FavoriteTopics);
+            IsolatedStorageHelper.SaveObject<List<TopicItem>>("FollowedTopics", FollowedTopics);
         }
 
         private Post FormatPost(Post data)
@@ -337,16 +337,16 @@ namespace BreakingNews.API
             }
 
             bool found = false;
-            for (int i = 0; i < FavoriteTopics.Count; i++)
+            for (int i = 0; i < FollowedTopics.Count; i++)
             {
-                if (FavoriteTopics[i].id == data.id)
+                if (FollowedTopics[i].id == data.id)
                 {
                     found = true;
                     break;
                 }
             }
 
-            data.is_favorited = found;
+            data.is_following = found;
 
             return data;
         }
@@ -356,16 +356,16 @@ namespace BreakingNews.API
             data.name = CleanText(data.name).ToUpper();
 
             bool found = false;
-            for (int i = 0; i < FavoriteTopics.Count; i++)
+            for (int i = 0; i < FollowedTopics.Count; i++)
             {
-                if (FavoriteTopics[i].id == data.id)
+                if (FollowedTopics[i].id == data.id)
                 {
                     found = true;
                     break;
                 }
             }
 
-            data.is_favorited = found;
+            data.is_following = found;
 
             return data;
         }

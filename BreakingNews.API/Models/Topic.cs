@@ -45,20 +45,20 @@ namespace BreakingNews.API.Models
         public string short_permalink { get; set; }
         public bool? primary { get; set; }
 
-        private bool _is_favorited;
+        private bool _is_following;
 
-        public bool is_favorited
+        public bool is_following
         {
             get
             {
-                return _is_favorited;
+                return _is_following;
             }
 
             set
             {
-                _is_favorited = value;
+                _is_following = value;
 
-                OnPropertyChanged("is_favorited");
+                OnPropertyChanged("is_following");
             }
         }
 

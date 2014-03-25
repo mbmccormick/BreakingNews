@@ -28,8 +28,8 @@ namespace BreakingNews
 
         ApplicationBarIconButton refresh;
 
-        ApplicationBarMenuItem favorite;
-        ApplicationBarMenuItem unfavorite;
+        ApplicationBarMenuItem follow;
+        ApplicationBarMenuItem unfollow;
         ApplicationBarMenuItem feedback;
         ApplicationBarMenuItem about;
 
@@ -52,13 +52,13 @@ namespace BreakingNews
             refresh.Text = "refresh";
             refresh.Click += Refresh_Click;
 
-            favorite = new ApplicationBarMenuItem();
-            favorite.Text = "add to favorites";
-            favorite.Click += Favorite_Click;
+            follow = new ApplicationBarMenuItem();
+            follow.Text = "follow this topic";
+            follow.Click += Follow_Click;
 
-            unfavorite = new ApplicationBarMenuItem();
-            unfavorite.Text = "remove from favorites";
-            unfavorite.Click += Unfavorite_Click;
+            unfollow = new ApplicationBarMenuItem();
+            unfollow.Text = "unfollow this topic";
+            unfollow.Click += Unfollow_Click;
 
             feedback = new ApplicationBarMenuItem();
             feedback.Text = "feedback";
@@ -71,7 +71,7 @@ namespace BreakingNews
             // build application bar
             ApplicationBar.Buttons.Add(refresh);
 
-            ApplicationBar.MenuItems.Add(favorite);
+            ApplicationBar.MenuItems.Add(follow);
             ApplicationBar.MenuItems.Add(feedback);
             ApplicationBar.MenuItems.Add(about);
         }
@@ -119,7 +119,7 @@ namespace BreakingNews
                         this.txtName.Text = CurrentTopic.name;
                         this.txtDescription.Text = CurrentTopic.description;
 
-                        ToggleFavoriteButton();
+                        ToggleFollowButton();
 
                         isTopicLoaded = true;
 
@@ -183,7 +183,7 @@ namespace BreakingNews
             });
         }
 
-        private void ToggleFavoriteButton()
+        private void ToggleFollowButton()
         {
             while (ApplicationBar.Buttons.Count > 0)
             {
@@ -195,11 +195,11 @@ namespace BreakingNews
                 ApplicationBar.MenuItems.RemoveAt(0);
             }
 
-            if (CurrentTopic.is_favorited == true)
+            if (CurrentTopic.is_following == true)
             {
                 ApplicationBar.Buttons.Add(refresh);
 
-                ApplicationBar.MenuItems.Add(unfavorite);
+                ApplicationBar.MenuItems.Add(unfollow);
                 ApplicationBar.MenuItems.Add(feedback);
                 ApplicationBar.MenuItems.Add(about);
             }
@@ -207,7 +207,7 @@ namespace BreakingNews
             {
                 ApplicationBar.Buttons.Add(refresh);
 
-                ApplicationBar.MenuItems.Add(favorite);
+                ApplicationBar.MenuItems.Add(follow);
                 ApplicationBar.MenuItems.Add(feedback);
                 ApplicationBar.MenuItems.Add(about);
             }
@@ -223,20 +223,20 @@ namespace BreakingNews
             LoadData();
         }
 
-        private void Favorite_Click(object sender, EventArgs e)
+        private void Follow_Click(object sender, EventArgs e)
         {
-            CurrentTopic.is_favorited = true;
-            App.BreakingNewsClient.FavoriteTopic(CurrentTopic);
+            CurrentTopic.is_following = true;
+            App.BreakingNewsClient.FollowTopic(CurrentTopic);
 
-            ToggleFavoriteButton();
+            ToggleFollowButton();
         }
 
-        private void Unfavorite_Click(object sender, EventArgs e)
+        private void Unfollow_Click(object sender, EventArgs e)
         {
             CustomMessageBox messageBox = new CustomMessageBox()
             {
-                Caption = "Remove from favorites",
-                Message = "Are you sure you want to remove this topic from your favorites?",
+                Caption = "Unfollow topic",
+                Message = "Are you sure you want to unfollow this topic?",
                 LeftButtonContent = "yes",
                 RightButtonContent = "no",
                 IsFullScreen = false
@@ -247,10 +247,10 @@ namespace BreakingNews
                 switch (e1.Result)
                 {
                     case CustomMessageBoxResult.LeftButton:
-                        CurrentTopic.is_favorited = false;
-                        App.BreakingNewsClient.UnfavoriteTopic(CurrentTopic.id);
+                        CurrentTopic.is_following = false;
+                        App.BreakingNewsClient.UnfollowTopic(CurrentTopic.id);
 
-                        ToggleFavoriteButton();
+                        ToggleFollowButton();
 
                         break;
                     default:

@@ -174,7 +174,7 @@ namespace BreakingNews
             }, this.txtSearch.Text);
         }
 
-        private void TopicItemControl_FavoritesChanged(object sender, EventArgs e)
+        private void TopicItemControl_FollowsChanged(object sender, EventArgs e)
         {
             NavigationService.GoBack();
         }

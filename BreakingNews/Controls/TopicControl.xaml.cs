@@ -14,7 +14,7 @@ namespace BreakingNews
 {
     public partial class TopicControl : UserControl
     {
-        public event EventHandler<EventArgs> FavoritesChanged;
+        public event EventHandler<EventArgs> FollowsChanged;
 
         public TopicControl()
         {
@@ -27,15 +27,15 @@ namespace BreakingNews
         {
             TopicItem item = this.DataContext as TopicItem;
 
-            if (item.is_favorited)
+            if (item.is_following)
             {
-                this.vbxFavorite.Visibility = System.Windows.Visibility.Collapsed;
-                this.vbxUnfavorite.Visibility = System.Windows.Visibility.Visible;
+                this.vbxFollow.Visibility = System.Windows.Visibility.Collapsed;
+                this.vbxUnfollow.Visibility = System.Windows.Visibility.Visible;
             }
             else
             {
-                this.vbxFavorite.Visibility = System.Windows.Visibility.Visible;
-                this.vbxUnfavorite.Visibility = System.Windows.Visibility.Collapsed;
+                this.vbxFollow.Visibility = System.Windows.Visibility.Visible;
+                this.vbxUnfollow.Visibility = System.Windows.Visibility.Collapsed;
             }
         }
 
@@ -46,27 +46,27 @@ namespace BreakingNews
             App.RootFrame.Navigate(new Uri("/TopicPage.xaml?id=" + item.id, UriKind.Relative));
         }
 
-        private void Favorite_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void Follow_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             TopicItem item = ((FrameworkElement)sender).DataContext as TopicItem;
 
-            item.is_favorited = true;
-            App.BreakingNewsClient.FavoriteTopic(item);
+            item.is_following = true;
+            App.BreakingNewsClient.FollowTopic(item);
 
             TopicControl_Loaded(sender, null);
 
-            if (FavoritesChanged != null)
-                FavoritesChanged(sender, e);
+            if (FollowsChanged != null)
+                FollowsChanged(sender, e);
         }
 
-        private void Unfavorite_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void Unfollow_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             TopicItem item = ((FrameworkElement)sender).DataContext as TopicItem;
 
             CustomMessageBox messageBox = new CustomMessageBox()
                 {
-                    Caption = "Remove from favorites",
-                    Message = "Are you sure you want to remove this topic from your favorites?",
+                    Caption = "Unfollow topic",
+                    Message = "Are you sure you want to unfollow this topic?",
                     LeftButtonContent = "yes",
                     RightButtonContent = "no",
                     IsFullScreen = false
@@ -77,13 +77,13 @@ namespace BreakingNews
                 switch (e1.Result)
                 {
                     case CustomMessageBoxResult.LeftButton:
-                        item.is_favorited = false;
-                        App.BreakingNewsClient.UnfavoriteTopic(item.id);
+                        item.is_following = false;
+                        App.BreakingNewsClient.UnfollowTopic(item.id);
 
                         TopicControl_Loaded(sender, null);
 
-                        if (FavoritesChanged != null)
-                            FavoritesChanged(sender, e);
+                        if (FollowsChanged != null)
+                            FollowsChanged(sender, e);
 
                         break;
                     default:
