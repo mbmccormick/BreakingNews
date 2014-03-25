@@ -80,7 +80,7 @@ namespace BreakingNews.API.Models
         {
             get
             {
-                if (this.importance > 5)
+                if (this.importance > 4)
                     return new SolidColorBrush(Color.FromArgb(255, 194, 67, 10));
                 else if (this.importance > 2)
                     return new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
