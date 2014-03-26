@@ -41,7 +41,7 @@ namespace BreakingNews.Common
             string imagePath = "/Shared/ShellContent/default.png";
 
             FlipTileTemplateWide imageWide = new FlipTileTemplateWide();
-            string imageWidePath = "/Shared/ShellContent/defaultwide.png";
+            string imageWidePath = "/Shared/ShellContent/defaultWide.png";
 
             image.RenderLiveTileImage(imagePath, data.name);
             tile.BackgroundImage = new Uri("isostore:" + imagePath, UriKind.Absolute);

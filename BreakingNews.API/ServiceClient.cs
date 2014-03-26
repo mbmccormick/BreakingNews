@@ -287,6 +287,16 @@ namespace BreakingNews.API
             }
         }
 
+        public async Task GetLiveTilePost(Action<Post> callback, int topicId)
+        {
+            GetTopicPosts((result) =>
+            {
+                Post data = result[0];
+
+                callback(data);
+            }, topicId);
+        }
+
         public void FollowTopic(Topic data)
         {
             bool found = false;

@@ -5,19 +5,20 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{AAE0FA76-0430-4E3B-8246-8565AEB0972F}</ProjectGuid>
+    <ProjectGuid>{6F766477-EC30-4509-82BA-5FE57EEA0A4D}</ProjectGuid>
     <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BreakingNews.Imaging</RootNamespace>
-    <AssemblyName>BreakingNews.Imaging</AssemblyName>
+    <RootNamespace>BreakingNews.Background</RootNamespace>
+    <AssemblyName>BreakingNews.Background</AssemblyName>
     <TargetFrameworkIdentifier>WindowsPhone</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
     <SilverlightApplication>false</SilverlightApplication>
     <ValidateXaml>true</ValidateXaml>
-    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
+    <BackgroundAgentType>AgentLibrary</BackgroundAgentType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -83,41 +84,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Common\ToolStackCRCLib.cs" />
-    <Compile Include="Common\ToolStackPNGWriterLib.cs" />
-    <Compile Include="Common\ToolStackPNGWriterWBext.cs" />
-    <Compile Include="FlipTileTemplateBack.xaml.cs">
-      <DependentUpon>FlipTileTemplateBack.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="FlipTileTemplate.xaml.cs">
-      <DependentUpon>FlipTileTemplate.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="FlipTileTemplateWideBack.xaml.cs">
-      <DependentUpon>FlipTileTemplateWideBack.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="FlipTileTemplateWide.xaml.cs">
-      <DependentUpon>FlipTileTemplateWide.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="App.cs" />
+    <Compile Include="Common\LittleWatson.cs" />
+    <Compile Include="Common\LiveTileManager.cs" />
+    <Compile Include="ScheduledAgent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="FlipTileTemplateBack.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="FlipTileTemplate.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="FlipTileTemplateWideBack.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="FlipTileTemplateWide.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <ProjectReference Include="..\BreakingNews.API\BreakingNews.API.csproj">
+      <Project>{917063A1-7827-4A9F-A7B6-BC0D625817CE}</Project>
+      <Name>BreakingNews.API</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BreakingNews.Imaging\BreakingNews.Imaging.csproj">
+      <Project>{AAE0FA76-0430-4E3B-8246-8565AEB0972F}</Project>
+      <Name>BreakingNews.Imaging</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <ProjectExtensions />

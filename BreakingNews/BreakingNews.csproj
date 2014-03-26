@@ -98,6 +98,7 @@
     <Compile Include="Common\LiveTileManager.cs" />
     <Compile Include="Common\MetroGridHelper.cs" />
     <Compile Include="Common\NavigationCommand.cs" />
+    <Compile Include="Common\NotificationsManager.cs" />
     <Compile Include="Common\SmartDispatcher.cs" />
     <Compile Include="Controls\PostControl.xaml.cs">
       <DependentUpon>PostControl.xaml</DependentUpon>
@@ -208,6 +209,10 @@
     <ProjectReference Include="..\BreakingNews.API\BreakingNews.API.csproj">
       <Project>{917063A1-7827-4A9F-A7B6-BC0D625817CE}</Project>
       <Name>BreakingNews.API</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BreakingNews.Background\BreakingNews.Background.csproj">
+      <Project>{6F766477-EC30-4509-82BA-5FE57EEA0A4D}</Project>
+      <Name>BreakingNews.Background</Name>
     </ProjectReference>
     <ProjectReference Include="..\BreakingNews.Imaging\BreakingNews.Imaging.csproj">
       <Project>{AAE0FA76-0430-4E3B-8246-8565AEB0972F}</Project>
