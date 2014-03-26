@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using BreakingNews.API.Models;
 using Microsoft.Phone.Tasks;
+using BreakingNews.Common;
 
 namespace BreakingNews
 {
@@ -106,10 +107,7 @@ namespace BreakingNews
             if (secondaryTile == null)
             {
                 FlipTileData data = new FlipTileData();
-                data.Title = "Breaking News";
-                data.BackTitle = "Breaking News";
-                data.BackContent = item.name;
-                data.WideBackContent = item.name;
+                data = LiveTileManager.RenderLiveTile(item);
 
                 ShellTile.Create(new Uri("/TopicPage.xaml?id=" + item.id, UriKind.Relative), data, true);
             }

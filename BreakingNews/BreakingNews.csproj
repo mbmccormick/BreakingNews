@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="Common\IsolatedStorageHelper.cs" />
     <Compile Include="Common\LittleWatson.cs" />
+    <Compile Include="Common\LiveTileManager.cs" />
     <Compile Include="Common\MetroGridHelper.cs" />
     <Compile Include="Common\NavigationCommand.cs" />
     <Compile Include="Common\SmartDispatcher.cs" />
@@ -207,6 +208,10 @@
     <ProjectReference Include="..\BreakingNews.API\BreakingNews.API.csproj">
       <Project>{917063A1-7827-4A9F-A7B6-BC0D625817CE}</Project>
       <Name>BreakingNews.API</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BreakingNews.Imaging\BreakingNews.Imaging.csproj">
+      <Project>{AAE0FA76-0430-4E3B-8246-8565AEB0972F}</Project>
+      <Name>BreakingNews.Imaging</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
