@@ -65,25 +65,36 @@ namespace BreakingNews.Background
             {
                 if (tile.NavigationUri.ToString() == "/") // application tile
                 {
-                    // FlipTileData data = LiveTileManager.RenderApplicationLiveTile();
-
-                    // tile.Update(data);
-
-                    notifyCompleteLock--;
-                    if (notifyCompleteLock == 0)
+                    App.BreakingNewsClient.GetLiveTilePosts((result) =>
                     {
-                        if (System.Diagnostics.Debugger.IsAttached)
-                            ScheduledActionService.LaunchForTest("BackgroundWorker", new TimeSpan(0, 0, 1, 0)); // every minute
+                        Deployment.Current.Dispatcher.BeginInvoke(delegate
+                        {
+                            Post content = result[0];
 
-                        NotifyComplete();
-                    }
+                            FlipTileData data = LiveTileManager.RenderApplicationLiveTile(content);
+                            data.Count = result.Count;
+
+                            tile.Update(data);
+
+                            notifyCompleteLock--;
+                            if (notifyCompleteLock == 0)
+                            {
+                                if (System.Diagnostics.Debugger.IsAttached)
+                                    ScheduledActionService.LaunchForTest("BackgroundWorker", new TimeSpan(0, 0, 1, 0)); // every minute
+
+                                App.BreakingNewsClient.SaveData();
+
+                                NotifyComplete();
+                            }
+                        });
+                    });
                 }
                 else
                 {
                     string id = tile.NavigationUri.ToString().Split('=')[1];
                     int topicId = Convert.ToInt32(id);
 
-                    App.BreakingNewsClient.GetTopicPosts((result) =>
+                    App.BreakingNewsClient.GetLiveTileTopicPosts((result) =>
                     {
                         Deployment.Current.Dispatcher.BeginInvoke(delegate
                         {
@@ -99,6 +110,8 @@ namespace BreakingNews.Background
                             {
                                 if (System.Diagnostics.Debugger.IsAttached)
                                     ScheduledActionService.LaunchForTest("BackgroundWorker", new TimeSpan(0, 0, 1, 0)); // every minute
+
+                                App.BreakingNewsClient.SaveData();
 
                                 NotifyComplete();
                             }

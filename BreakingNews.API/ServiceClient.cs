@@ -32,12 +32,19 @@ namespace BreakingNews.API
         public string NextPopularPosts = null;
         public string NextTopicPosts = null;
 
+        public DateTime? LastRequestTime;
+
         public ServiceClient(bool debug)
         {
             FollowedTopics = IsolatedStorageHelper.GetObject<List<TopicItem>>("FollowedTopics");
 
             if (FollowedTopics == null)
                 FollowedTopics = new List<TopicItem>();
+
+            LastRequestTime = IsolatedStorageHelper.GetObject<DateTime?>("LastRequestTime");
+
+            if (LastRequestTime == null)
+                LastRequestTime = DateTime.UtcNow;
 
             if (debug == true)
                 serverAddress = "api-breakingnews-com-pqib6nr22m80.runscope.net";
@@ -56,6 +63,7 @@ namespace BreakingNews.API
             request.Accept = "application/json";
 
             var response = await request.GetResponseAsync().ConfigureAwait(false);
+            LastRequestTime = DateTime.UtcNow;
 
             Stream stream = response.GetResponseStream();
             UTF8Encoding encoding = new UTF8Encoding();
@@ -101,6 +109,7 @@ namespace BreakingNews.API
             request.Accept = "application/json";
 
             var response = await request.GetResponseAsync().ConfigureAwait(false);
+            LastRequestTime = DateTime.UtcNow;
 
             Stream stream = response.GetResponseStream();
             UTF8Encoding encoding = new UTF8Encoding();
@@ -140,6 +149,7 @@ namespace BreakingNews.API
             request.Accept = "application/json";
 
             var response = await request.GetResponseAsync().ConfigureAwait(false);
+            LastRequestTime = DateTime.UtcNow;
 
             Stream stream = response.GetResponseStream();
             UTF8Encoding encoding = new UTF8Encoding();
@@ -175,12 +185,13 @@ namespace BreakingNews.API
             callback(FollowedTopics);
         }
 
-        public async void GetTopic(Action<Topic> callback, int topicId)
+        public async Task GetTopic(Action<Topic> callback, int topicId)
         {
             HttpWebRequest request = HttpWebRequest.Create("http://" + serverAddress + "/api/v1/topic/" + topicId + "/") as HttpWebRequest;
             request.Accept = "application/json";
 
             var response = await request.GetResponseAsync().ConfigureAwait(false);
+            LastRequestTime = DateTime.UtcNow;
 
             Stream stream = response.GetResponseStream();
             UTF8Encoding encoding = new UTF8Encoding();
@@ -219,6 +230,7 @@ namespace BreakingNews.API
             request.Accept = "application/json";
 
             var response = await request.GetResponseAsync().ConfigureAwait(false);
+            LastRequestTime = DateTime.UtcNow;
 
             Stream stream = response.GetResponseStream();
             UTF8Encoding encoding = new UTF8Encoding();
@@ -257,6 +269,7 @@ namespace BreakingNews.API
             request.Accept = "application/json";
 
             var response = await request.GetResponseAsync().ConfigureAwait(false);
+            LastRequestTime = DateTime.UtcNow;
 
             Stream stream = response.GetResponseStream();
             UTF8Encoding encoding = new UTF8Encoding();
@@ -285,6 +298,20 @@ namespace BreakingNews.API
             {
                 throw ex;
             }
+        }
+
+        public async Task GetLiveTilePosts(Action<List<Post>> callback)
+        {
+            NextTopicPosts = "/api/v1/item/?importance__in=1,2&date__gt=" + LastRequestTime.Value.ToString("o") + "+00:00";
+
+            GetNextTopicPosts(callback);
+        }
+
+        public async Task GetLiveTileTopicPosts(Action<List<Post>> callback, int topicId)
+        {
+            NextTopicPosts = "/api/v1/item/?topics=" + topicId + "&importance__in=1,2&date__gt=" + LastRequestTime.Value.ToString("o") + "+00:00";
+
+            GetNextTopicPosts(callback);
         }
 
         public void FollowTopic(Topic data)
@@ -344,6 +371,7 @@ namespace BreakingNews.API
         public void SaveData()
         {
             IsolatedStorageHelper.SaveObject<List<TopicItem>>("FollowedTopics", FollowedTopics);
+            IsolatedStorageHelper.SaveObject<DateTime?>("LastRequestTime", LastRequestTime);
         }
 
         private Post FormatPost(Post data)

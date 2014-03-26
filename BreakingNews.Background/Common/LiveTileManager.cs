@@ -10,9 +10,25 @@ namespace BreakingNews.Background.Common
 {
     public class LiveTileManager
     {
-        public static FlipTileData RenderApplicationLiveTile()
+        public static FlipTileData RenderApplicationLiveTile(Post data)
         {
-            throw new NotImplementedException();
+            FlipTileData tile = new FlipTileData();
+
+            tile.Count = 0;
+
+            FlipTileTemplateBack image = new FlipTileTemplateBack();
+            string imagePath = "/Shared/ShellContent/defaultBack.png";
+
+            FlipTileTemplateWideBack imageWide = new FlipTileTemplateWideBack();
+            string imageWidePath = "/Shared/ShellContent/defaultWideBack.png";
+
+            image.RenderLiveTileImage(imagePath, data.content, data.FriendlyImage);
+            tile.BackBackgroundImage = new Uri("isostore:" + imagePath, UriKind.Absolute);
+
+            imageWide.RenderLiveTileImage(imageWidePath, data.content, data.FriendlyImage);
+            tile.WideBackBackgroundImage = new Uri("isostore:" + imageWidePath, UriKind.Absolute);
+
+            return tile;
         }
 
         public static FlipTileData RenderLiveTile(Post data)
