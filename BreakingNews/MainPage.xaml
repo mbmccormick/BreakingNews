@@ -42,7 +42,7 @@
 
             <phone:PivotItem Header="popular">
                 <Grid Margin="0,0,0,0">
-                    <phone:LongListSelector x:Name="lstPopularPosts" ItemsSource="{Binding PopularPosts}" Margin="0,0,0,0" Foreground="Black" Visibility="Collapsed" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    <phone:LongListSelector x:Name="lstPopularPosts" ItemsSource="{Binding PopularPosts}" Margin="0,0,0,0" Foreground="Black" Visibility="Collapsed" ScrollViewer.VerticalScrollBarVisibility="Hidden" ItemRealized="LongListSelector_ItemRealized" ItemUnrealized="LongListSelector_ItemUnrealized">
                         <phone:LongListSelector.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel>
