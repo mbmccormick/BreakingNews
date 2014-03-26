@@ -302,9 +302,9 @@ namespace BreakingNews.API
 
         public async Task GetLiveTilePosts(Action<List<Post>> callback)
         {
-            NextTopicPosts = "/api/v1/item/?importance__in=1,2&date__gt=" + LastRequestTime.Value.ToString("o") + "+00:00";
+            NextLatestPosts = "/api/v1/item/?importance__in=1,2&date__gt=" + LastRequestTime.Value.ToString("o") + "+00:00";
 
-            GetNextTopicPosts(callback);
+            GetNextLatestPosts(callback);
         }
 
         public async Task GetLiveTileTopicPosts(Action<List<Post>> callback, int topicId)
