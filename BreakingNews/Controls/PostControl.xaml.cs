@@ -19,31 +19,6 @@ namespace BreakingNews
         public PostControl()
         {
             InitializeComponent();
-
-            this.Loaded += PostControl_Loaded;
-        }
-
-        private void PostControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            Post item = this.DataContext as Post;
-
-            if (item.media != null)
-            {
-                if (item.media.type == "photo")
-                {
-                    Uri imageSource = new Uri(item.media.url);
-                    this.imgPhoto.Source = new BitmapImage(imageSource);
-
-                    this.imgPhoto.Visibility = System.Windows.Visibility.Visible;
-                }
-                else if (item.media.type == "video")
-                {
-                    Uri imageSource = new Uri(item.media.thumbnail_url);
-                    this.imgVideo.Source = new BitmapImage(imageSource);
-
-                    this.imgVideo.Visibility = System.Windows.Visibility.Visible;
-                }
-            }
         }
 
         private void Topic_Tap(object sender, System.Windows.Input.GestureEventArgs e)

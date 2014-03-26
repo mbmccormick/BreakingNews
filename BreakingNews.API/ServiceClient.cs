@@ -28,6 +28,10 @@ namespace BreakingNews.API
         public List<TopicItem> FollowedTopics;
         public int MaxFollowedTopics = 250;
 
+        public string NextLatestPosts = null;
+        public string NextPopularPosts = null;
+        public string NextTopicPosts = null;
+
         public ServiceClient(bool debug)
         {
             FollowedTopics = IsolatedStorageHelper.GetObject<List<TopicItem>>("FollowedTopics");
@@ -41,7 +45,14 @@ namespace BreakingNews.API
 
         public async Task GetLatestPosts(Action<List<Post>> callback)
         {
-            HttpWebRequest request = HttpWebRequest.Create("http://" + serverAddress + "/api/v1/item/") as HttpWebRequest;
+            NextLatestPosts = "/api/v1/item/";
+
+            GetNextLatestPosts(callback);
+        }
+
+        public async Task GetNextLatestPosts(Action<List<Post>> callback)
+        {
+            HttpWebRequest request = HttpWebRequest.Create("http://" + serverAddress + NextLatestPosts) as HttpWebRequest;
             request.Accept = "application/json";
 
             var response = await request.GetResponseAsync().ConfigureAwait(false);
@@ -67,6 +78,8 @@ namespace BreakingNews.API
                     data[i] = FormatPost(data[i]);
                 }
 
+                NextLatestPosts = postsResponse.meta.next;
+
                 callback(data);
             }
             catch (JsonSerializationException ex)
@@ -77,7 +90,14 @@ namespace BreakingNews.API
 
         public async Task GetPopularPosts(Action<List<Post>> callback)
         {
-            HttpWebRequest request = HttpWebRequest.Create("http://" + serverAddress + "/api/v1/popular/1/") as HttpWebRequest;
+            NextPopularPosts = "/api/v1/popular/1/";
+
+            GetNextPopularPosts(callback);
+        }
+
+        public async Task GetNextPopularPosts(Action<List<Post>> callback)
+        {
+            HttpWebRequest request = HttpWebRequest.Create("http://" + serverAddress + NextPopularPosts) as HttpWebRequest;
             request.Accept = "application/json";
 
             var response = await request.GetResponseAsync().ConfigureAwait(false);
@@ -102,6 +122,9 @@ namespace BreakingNews.API
                 {
                     data[i] = FormatPost(data[i]);
                 }
+
+                int index = Convert.ToInt32(NextPopularPosts.Split('/')[4]) + 1;
+                NextPopularPosts = "/api/v1/popular/" + index + "/";
 
                 callback(data);
             }
@@ -185,7 +208,14 @@ namespace BreakingNews.API
 
         public async Task GetTopicPosts(Action<List<Post>> callback, int topicId)
         {
-            HttpWebRequest request = HttpWebRequest.Create("http://" + serverAddress + "/api/v1/item/?topics=" + topicId) as HttpWebRequest;
+            NextTopicPosts = "/api/v1/item/?topics=" + topicId;
+
+            GetNextTopicPosts(callback);
+        }
+
+        public async Task GetNextTopicPosts(Action<List<Post>> callback)
+        {
+            HttpWebRequest request = HttpWebRequest.Create("http://" + serverAddress + NextTopicPosts) as HttpWebRequest;
             request.Accept = "application/json";
 
             var response = await request.GetResponseAsync().ConfigureAwait(false);
@@ -210,6 +240,8 @@ namespace BreakingNews.API
                 {
                     data[i] = FormatPost(data[i]);
                 }
+
+                NextTopicPosts = postsResponse.meta.next;
 
                 callback(data);
             }

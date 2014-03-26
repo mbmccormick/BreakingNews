@@ -279,5 +279,43 @@ namespace BreakingNews
 
             NavigationService.Navigate(new Uri("/YourLastAboutDialog;component/AboutPage.xaml", UriKind.Relative));
         }
+
+        private int _offsetKnob = 5;
+
+        private void LongListSelector_ItemRealized(object sender, ItemRealizationEventArgs e)
+        {
+            if (this.prgLoading.Visibility == System.Windows.Visibility.Visible) return;
+
+            LongListSelector target = (LongListSelector)sender;
+
+            if (target.ItemsSource != null &&
+                target.ItemsSource.Count >= _offsetKnob)
+            {
+                if (e.ItemKind == LongListSelectorItemKind.Item)
+                {
+                    if ((e.Container.Content as Post).Equals(target.ItemsSource[target.ItemsSource.Count - _offsetKnob]))
+                    {
+                        this.prgLoading.Visibility = System.Windows.Visibility.Visible;
+
+                        App.BreakingNewsClient.GetNextTopicPosts((result) =>
+                        {
+                            SmartDispatcher.BeginInvoke(() =>
+                            {
+                                foreach (Post item in result)
+                                {
+                                    TopicPosts.Add(item);
+                                }
+
+                                this.prgLoading.Visibility = System.Windows.Visibility.Collapsed;
+                            });
+                        });
+                    }
+                }
+            }
+        }
+
+        private void LongListSelector_ItemUnrealized(object sender, ItemRealizationEventArgs e)
+        {
+        }
     }
 }

@@ -5,7 +5,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace BreakingNews.API.Models
 {
@@ -73,6 +75,39 @@ namespace BreakingNews.API.Models
                     return "Posted " + Convert.ToInt32(minutes) + " minutes ago";
                 else
                     return "Posted just now";
+            }
+        }
+
+        public BitmapImage FriendlyImage
+        {
+            get
+            {
+                if (media != null)
+                {
+                    if (media.type == "photo")
+                    {
+                        return new BitmapImage(new Uri(media.url));
+                    }
+                    else if (media.type == "video")
+                    {
+                        return new BitmapImage(new Uri(media.thumbnail_url));
+                    }
+                }
+
+                return null;
+            }
+        }
+
+        public Visibility FriendlyImageVisibility
+        {
+            get
+            {
+                if (media != null)
+                {
+                    return Visibility.Visible;
+                }
+
+                return Visibility.Collapsed;
             }
         }
 
