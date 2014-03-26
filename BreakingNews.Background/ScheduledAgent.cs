@@ -28,7 +28,14 @@ namespace BreakingNews.Background
 
         private void ScheduledAgent_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
-            LittleWatson.ReportException(e.ExceptionObject, null);
+            if (e.ExceptionObject is OutOfMemoryException)
+            {
+                // ignore these exceptions
+            }
+            else
+            {
+                LittleWatson.ReportException(e.ExceptionObject, null);
+            }
 
             e.Handled = true;
 
@@ -36,6 +43,9 @@ namespace BreakingNews.Background
             {
                 System.Diagnostics.Debugger.Break();
             }
+
+            if (System.Diagnostics.Debugger.IsAttached)
+                ScheduledActionService.LaunchForTest("BackgroundWorker", new TimeSpan(0, 0, 1, 0)); // every minute
 
             NotifyComplete();
         }
@@ -49,7 +59,10 @@ namespace BreakingNews.Background
             foreach (ShellTile tile in ShellTile.ActiveTiles)
             {
                 notifyCompleteLock++;
+            }
 
+            foreach (ShellTile tile in ShellTile.ActiveTiles)
+            {
                 if (tile.NavigationUri.ToString() == "/") // application tile
                 {
                     // FlipTileData data = LiveTileManager.RenderApplicationLiveTile();
@@ -57,21 +70,39 @@ namespace BreakingNews.Background
                     // tile.Update(data);
 
                     notifyCompleteLock--;
-                    if (notifyCompleteLock == 0) NotifyComplete();
+                    if (notifyCompleteLock == 0)
+                    {
+                        if (System.Diagnostics.Debugger.IsAttached)
+                            ScheduledActionService.LaunchForTest("BackgroundWorker", new TimeSpan(0, 0, 1, 0)); // every minute
+
+                        NotifyComplete();
+                    }
                 }
                 else
                 {
                     string id = tile.NavigationUri.ToString().Split('=')[1];
                     int topicId = Convert.ToInt32(id);
 
-                    App.BreakingNewsClient.GetLiveTilePost((result) =>
+                    App.BreakingNewsClient.GetTopicPosts((result) =>
                     {
-                        FlipTileData data = LiveTileManager.RenderLiveTile(result);
+                        Deployment.Current.Dispatcher.BeginInvoke(delegate
+                        {
+                            Post content = result[0];
 
-                        tile.Update(data);
+                            FlipTileData data = LiveTileManager.RenderLiveTile(content);
+                            data.Count = result.Count;
 
-                        notifyCompleteLock--;
-                        if (notifyCompleteLock == 0) NotifyComplete();
+                            tile.Update(data);
+
+                            notifyCompleteLock--;
+                            if (notifyCompleteLock == 0)
+                            {
+                                if (System.Diagnostics.Debugger.IsAttached)
+                                    ScheduledActionService.LaunchForTest("BackgroundWorker", new TimeSpan(0, 0, 1, 0)); // every minute
+
+                                NotifyComplete();
+                            }
+                        });
                     }, topicId);
                 }
             }
