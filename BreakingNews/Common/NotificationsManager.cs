@@ -29,8 +29,8 @@ namespace BreakingNews.Common
                 {
                     FlipTileData data = new FlipTileData();
                     data.Count = 0;
-                    data.BackBackgroundImage = null;
-                    data.WideBackBackgroundImage = null;
+                    data.BackBackgroundImage = new Uri("appdata:background.png");
+                    data.WideBackBackgroundImage = new Uri("appdata:background.png");
                         
                     tile.Update(data);
                 });
