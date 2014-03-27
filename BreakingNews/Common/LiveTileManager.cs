@@ -12,7 +12,15 @@ namespace BreakingNews.Common
     {
         public static FlipTileData RenderApplicationLiveTile()
         {
-            throw new NotImplementedException();
+            FlipTileData tile = new FlipTileData();
+
+            tile.BackgroundImage = new Uri("/Assets/Tiles/FlipCycleTileMedium.png", UriKind.Relative);
+            tile.SmallBackgroundImage = new Uri("/Assets/Tiles/FlipCycleTileSmall.png", UriKind.Relative);
+
+            tile.Title = "Breaking News";
+            tile.Count = 0;
+
+            return tile;
         }
 
         public static FlipTileData RenderLiveTile(Topic data)

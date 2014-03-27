@@ -113,7 +113,7 @@ namespace BreakingNews
             }
             else
             {
-                MessageBox.Show("Pin to start", "This topic is already pinned to your start screen. If you need to replace it, remove the tile from your start screen and then try again.", MessageBoxButton.OK);
+                MessageBox.Show("This topic is already pinned to your start screen. If you need to replace it, remove the tile from your start screen and then try again.", "Pin to start", MessageBoxButton.OK);
             }
         }
     }

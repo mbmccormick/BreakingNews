@@ -69,9 +69,7 @@ namespace BreakingNews.Background
                     {
                         Deployment.Current.Dispatcher.BeginInvoke(delegate
                         {
-                            Post content = result[0];
-
-                            FlipTileData data = LiveTileManager.RenderApplicationLiveTile(content);
+                            FlipTileData data = LiveTileManager.RenderApplicationLiveTile(result.Count > 0 ? result[0] : null);
                             data.Count = result.Count;
 
                             tile.Update(data);
@@ -98,9 +96,7 @@ namespace BreakingNews.Background
                     {
                         Deployment.Current.Dispatcher.BeginInvoke(delegate
                         {
-                            Post content = result[0];
-
-                            FlipTileData data = LiveTileManager.RenderLiveTile(content);
+                            FlipTileData data = LiveTileManager.RenderApplicationLiveTile(result.Count > 0 ? result[0] : null);
                             data.Count = result.Count;
 
                             tile.Update(data);

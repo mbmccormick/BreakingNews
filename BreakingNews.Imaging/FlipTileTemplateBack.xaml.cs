@@ -14,10 +14,13 @@ namespace BreakingNews.Imaging
             InitializeComponent();
         }
 
-        public void RenderLiveTileImage(string filename, string content, BitmapImage background)
+        public void RenderLiveTileImage(string filename, string content, BitmapImage background, bool isApplicationTile)
         {
             this.txtContent.Text = content;
             this.imgBackground.Source = background;
+
+            if (isApplicationTile)
+                this.LayoutRoot.Background = new SolidColorBrush(Color.FromArgb(255, 221, 54, 24));
 
             this.UpdateLayout();
             this.Measure(new Size(336, 336));
