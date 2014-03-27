@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Resources;
 using System.Windows;
-using System.Windows.Markup;
+using System.Windows.Media;
 using System.Windows.Navigation;
+using BreakingNews.API;
+using BreakingNews.Common;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using BreakingNews.Common;
-using System.Collections;
-using System.Windows.Media;
-using BreakingNews.API;
-using Microsoft.Phone.Tasks;
-using System.Net;
 
 namespace BreakingNews
 {
@@ -55,6 +50,8 @@ namespace BreakingNews
             InitializePhoneApplication();
 
             BreakingNewsClient = new ServiceClient(Debugger.IsAttached);
+
+            BreakingNewsClient.LastApplicationLaunchTime = DateTime.UtcNow;
 
             Resources.Remove("PhoneAccentColor");
             Resources.Add("PhoneAccentColor", Color.FromArgb(255, 221, 54, 24));

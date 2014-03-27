@@ -97,7 +97,6 @@
     <Compile Include="Common\LittleWatson.cs" />
     <Compile Include="Common\LiveTileManager.cs" />
     <Compile Include="Common\MetroGridHelper.cs" />
-    <Compile Include="Common\NavigationCommand.cs" />
     <Compile Include="Common\NotificationsManager.cs" />
     <Compile Include="Common\SmartDispatcher.cs" />
     <Compile Include="Controls\PostControl.xaml.cs">

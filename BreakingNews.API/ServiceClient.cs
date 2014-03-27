@@ -1,23 +1,13 @@
-﻿using BreakingNews.API.Common;
-using BreakingNews.API.Models;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
+using BreakingNews.API.Common;
+using BreakingNews.API.Models;
+using Newtonsoft.Json;
 
 namespace BreakingNews.API
 {
@@ -32,7 +22,7 @@ namespace BreakingNews.API
         public string NextPopularPosts = null;
         public string NextTopicPosts = null;
 
-        public DateTime? LastRequestTime;
+        public DateTime? LastApplicationLaunchTime;
 
         public ServiceClient(bool debug)
         {
@@ -41,10 +31,10 @@ namespace BreakingNews.API
             if (FollowedTopics == null)
                 FollowedTopics = new List<TopicItem>();
 
-            LastRequestTime = IsolatedStorageHelper.GetObject<DateTime?>("LastRequestTime");
+            LastApplicationLaunchTime = IsolatedStorageHelper.GetObject<DateTime?>("LastApplicationLaunchTime");
 
-            if (LastRequestTime == null)
-                LastRequestTime = DateTime.UtcNow;
+            if (LastApplicationLaunchTime == null)
+                LastApplicationLaunchTime = DateTime.UtcNow;
 
             if (debug == true)
                 serverAddress = "api-breakingnews-com-pqib6nr22m80.runscope.net";
@@ -63,8 +53,7 @@ namespace BreakingNews.API
             request.Accept = "application/json";
 
             var response = await request.GetResponseAsync().ConfigureAwait(false);
-            LastRequestTime = DateTime.UtcNow;
-
+            
             Stream stream = response.GetResponseStream();
             UTF8Encoding encoding = new UTF8Encoding();
             StreamReader sr = new StreamReader(stream, encoding);
@@ -109,8 +98,7 @@ namespace BreakingNews.API
             request.Accept = "application/json";
 
             var response = await request.GetResponseAsync().ConfigureAwait(false);
-            LastRequestTime = DateTime.UtcNow;
-
+            
             Stream stream = response.GetResponseStream();
             UTF8Encoding encoding = new UTF8Encoding();
             StreamReader sr = new StreamReader(stream, encoding);
@@ -149,8 +137,7 @@ namespace BreakingNews.API
             request.Accept = "application/json";
 
             var response = await request.GetResponseAsync().ConfigureAwait(false);
-            LastRequestTime = DateTime.UtcNow;
-
+            
             Stream stream = response.GetResponseStream();
             UTF8Encoding encoding = new UTF8Encoding();
             StreamReader sr = new StreamReader(stream, encoding);
@@ -191,8 +178,7 @@ namespace BreakingNews.API
             request.Accept = "application/json";
 
             var response = await request.GetResponseAsync().ConfigureAwait(false);
-            LastRequestTime = DateTime.UtcNow;
-
+            
             Stream stream = response.GetResponseStream();
             UTF8Encoding encoding = new UTF8Encoding();
             StreamReader sr = new StreamReader(stream, encoding);
@@ -230,8 +216,7 @@ namespace BreakingNews.API
             request.Accept = "application/json";
 
             var response = await request.GetResponseAsync().ConfigureAwait(false);
-            LastRequestTime = DateTime.UtcNow;
-
+            
             Stream stream = response.GetResponseStream();
             UTF8Encoding encoding = new UTF8Encoding();
             StreamReader sr = new StreamReader(stream, encoding);
@@ -269,8 +254,7 @@ namespace BreakingNews.API
             request.Accept = "application/json";
 
             var response = await request.GetResponseAsync().ConfigureAwait(false);
-            LastRequestTime = DateTime.UtcNow;
-
+            
             Stream stream = response.GetResponseStream();
             UTF8Encoding encoding = new UTF8Encoding();
             StreamReader sr = new StreamReader(stream, encoding);
@@ -302,14 +286,14 @@ namespace BreakingNews.API
 
         public async Task GetLiveTilePosts(Action<List<Post>> callback)
         {
-            NextLatestPosts = "/api/v1/item/?importance__in=1,2&date__gt=" + LastRequestTime.Value.ToString("o");
+            NextLatestPosts = "/api/v1/item/?importance__in=1,2&date__gt=" + LastApplicationLaunchTime.Value.ToString("o");
 
             GetNextLatestPosts(callback);
         }
 
         public async Task GetLiveTileTopicPosts(Action<List<Post>> callback, int topicId)
         {
-            NextTopicPosts = "/api/v1/item/?topics=" + topicId + "&importance__in=1,2&date__gt=" + LastRequestTime.Value.ToString("o");
+            NextTopicPosts = "/api/v1/item/?topics=" + topicId + "&importance__in=1,2&date__gt=" + LastApplicationLaunchTime.Value.ToString("o");
 
             GetNextTopicPosts(callback);
         }
@@ -371,7 +355,7 @@ namespace BreakingNews.API
         public void SaveData()
         {
             IsolatedStorageHelper.SaveObject<List<TopicItem>>("FollowedTopics", FollowedTopics);
-            IsolatedStorageHelper.SaveObject<DateTime?>("LastRequestTime", LastRequestTime);
+            IsolatedStorageHelper.SaveObject<DateTime?>("LastApplicationLaunchTime", LastApplicationLaunchTime);
         }
 
         private Post FormatPost(Post data)

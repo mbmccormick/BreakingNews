@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using BreakingNews.API.Models;
+using BreakingNews.Common;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using BreakingNews.API;
-using BreakingNews.API.Models;
-using System.Collections.ObjectModel;
-using BreakingNews.Common;
 using Microsoft.Phone.Tasks;
-using System.Windows.Media;
 
 namespace BreakingNews
 {
@@ -32,10 +27,10 @@ namespace BreakingNews
 
         ApplicationBarIconButton refresh;
         ApplicationBarIconButton add;
-        
+
         ApplicationBarMenuItem feedback;
         ApplicationBarMenuItem about;
-        
+
         public MainPage()
         {
             InitializeComponent();
@@ -74,7 +69,7 @@ namespace BreakingNews
 
             ApplicationBar.MenuItems.Add(feedback);
             ApplicationBar.MenuItems.Add(about);
-            
+
             this.pivLayout.SelectionChanged += Layout_SelectionChanged;
         }
 
@@ -98,7 +93,12 @@ namespace BreakingNews
                 if (isLatestLoaded == false ||
                     isPopularLoaded == false ||
                     isFollowedTopicsLoaded == false)
+                {
+                    NotificationsManager.SetupNotifications();
+                    NotificationsManager.ResetLiveTiles();
+
                     LoadData(false);
+                }
             }
             else
             {
@@ -109,8 +109,6 @@ namespace BreakingNews
         private void LoadData(bool isNavigationInitiator)
         {
             this.prgLoading.Visibility = System.Windows.Visibility.Visible;
-
-            NotificationsManager.SetupNotifications();
 
             if (isNavigationInitiator == false)
             {
@@ -273,7 +271,7 @@ namespace BreakingNews
             {
                 ApplicationBar.MenuItems.RemoveAt(0);
             }
-            
+
             if (this.pivLayout.SelectedIndex < 2)
             {
                 ApplicationBar.Buttons.Add(refresh);
