@@ -62,13 +62,13 @@ namespace BreakingNews
             TopicItem item = ((FrameworkElement)sender).DataContext as TopicItem;
 
             CustomMessageBox messageBox = new CustomMessageBox()
-                {
-                    Caption = "Unfollow topic",
-                    Message = "Are you sure you want to unfollow this topic?",
-                    LeftButtonContent = "yes",
-                    RightButtonContent = "no",
-                    IsFullScreen = false
-                };
+            {
+                Caption = "Unfollow topic",
+                Message = "Are you sure you want to unfollow this topic?",
+                LeftButtonContent = "yes",
+                RightButtonContent = "no",
+                IsFullScreen = false
+            };
 
             messageBox.Dismissed += (s1, e1) =>
             {

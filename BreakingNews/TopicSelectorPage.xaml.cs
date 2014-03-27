@@ -122,12 +122,7 @@ namespace BreakingNews
         {
             if (this.prgLoading.Visibility == System.Windows.Visibility.Visible) return;
 
-            EmailComposeTask emailComposeTask = new EmailComposeTask();
-
-            emailComposeTask.To = App.FeedbackEmailAddress;
-            emailComposeTask.Subject = "Breaking News Feedback";
-            emailComposeTask.Body = "Version " + App.ExtendedVersionNumber + " (" + App.PlatformVersionNumber + ")\n\n";
-            emailComposeTask.Show();
+            FeedbackHelper.Default.Feedback();
         }
 
         private void About_Click(object sender, EventArgs e)

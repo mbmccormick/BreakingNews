@@ -93,6 +93,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\FeedbackHelper.cs" />
     <Compile Include="Common\IsolatedStorageHelper.cs" />
     <Compile Include="Common\LittleWatson.cs" />
     <Compile Include="Common\LiveTileManager.cs" />
