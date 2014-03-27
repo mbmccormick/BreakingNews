@@ -86,14 +86,8 @@
     <Compile Include="Common\ToolStackCRCLib.cs" />
     <Compile Include="Common\ToolStackPNGWriterLib.cs" />
     <Compile Include="Common\ToolStackPNGWriterWBext.cs" />
-    <Compile Include="FlipTileTemplateBack.xaml.cs">
-      <DependentUpon>FlipTileTemplateBack.xaml</DependentUpon>
-    </Compile>
     <Compile Include="FlipTileTemplate.xaml.cs">
       <DependentUpon>FlipTileTemplate.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="FlipTileTemplateWideBack.xaml.cs">
-      <DependentUpon>FlipTileTemplateWideBack.xaml</DependentUpon>
     </Compile>
     <Compile Include="FlipTileTemplateWide.xaml.cs">
       <DependentUpon>FlipTileTemplateWide.xaml</DependentUpon>
@@ -101,15 +95,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="FlipTileTemplateBack.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="FlipTileTemplate.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="FlipTileTemplateWideBack.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

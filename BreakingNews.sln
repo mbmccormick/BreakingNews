@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BreakingNews.API", "Breakin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BreakingNews.Imaging", "BreakingNews.Imaging\BreakingNews.Imaging.csproj", "{AAE0FA76-0430-4E3B-8246-8565AEB0972F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BreakingNews.Background", "BreakingNews.Background\BreakingNews.Background.csproj", "{6F766477-EC30-4509-82BA-5FE57EEA0A4D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,24 +85,6 @@ Global
 		{AAE0FA76-0430-4E3B-8246-8565AEB0972F}.ReleaseAzure|ARM.Build.0 = Release|ARM
 		{AAE0FA76-0430-4E3B-8246-8565AEB0972F}.ReleaseAzure|x86.ActiveCfg = Release|x86
 		{AAE0FA76-0430-4E3B-8246-8565AEB0972F}.ReleaseAzure|x86.Build.0 = Release|x86
-		{6F766477-EC30-4509-82BA-5FE57EEA0A4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6F766477-EC30-4509-82BA-5FE57EEA0A4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6F766477-EC30-4509-82BA-5FE57EEA0A4D}.Debug|ARM.ActiveCfg = Debug|ARM
-		{6F766477-EC30-4509-82BA-5FE57EEA0A4D}.Debug|ARM.Build.0 = Debug|ARM
-		{6F766477-EC30-4509-82BA-5FE57EEA0A4D}.Debug|x86.ActiveCfg = Debug|x86
-		{6F766477-EC30-4509-82BA-5FE57EEA0A4D}.Debug|x86.Build.0 = Debug|x86
-		{6F766477-EC30-4509-82BA-5FE57EEA0A4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6F766477-EC30-4509-82BA-5FE57EEA0A4D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6F766477-EC30-4509-82BA-5FE57EEA0A4D}.Release|ARM.ActiveCfg = Release|ARM
-		{6F766477-EC30-4509-82BA-5FE57EEA0A4D}.Release|ARM.Build.0 = Release|ARM
-		{6F766477-EC30-4509-82BA-5FE57EEA0A4D}.Release|x86.ActiveCfg = Release|x86
-		{6F766477-EC30-4509-82BA-5FE57EEA0A4D}.Release|x86.Build.0 = Release|x86
-		{6F766477-EC30-4509-82BA-5FE57EEA0A4D}.ReleaseAzure|Any CPU.ActiveCfg = Release|Any CPU
-		{6F766477-EC30-4509-82BA-5FE57EEA0A4D}.ReleaseAzure|Any CPU.Build.0 = Release|Any CPU
-		{6F766477-EC30-4509-82BA-5FE57EEA0A4D}.ReleaseAzure|ARM.ActiveCfg = Release|ARM
-		{6F766477-EC30-4509-82BA-5FE57EEA0A4D}.ReleaseAzure|ARM.Build.0 = Release|ARM
-		{6F766477-EC30-4509-82BA-5FE57EEA0A4D}.ReleaseAzure|x86.ActiveCfg = Release|x86
-		{6F766477-EC30-4509-82BA-5FE57EEA0A4D}.ReleaseAzure|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

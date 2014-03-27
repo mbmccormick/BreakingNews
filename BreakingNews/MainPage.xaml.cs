@@ -110,8 +110,6 @@ namespace BreakingNews
         {
             this.prgLoading.Visibility = System.Windows.Visibility.Visible;
 
-            NotificationsManager.SetupNotifications();
-
             if (isNavigationInitiator == false)
             {
                 App.BreakingNewsClient.GetLatestPosts((result) =>

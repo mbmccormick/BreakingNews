@@ -300,20 +300,6 @@ namespace BreakingNews.API
             }
         }
 
-        public async Task GetLiveTilePosts(Action<List<Post>> callback)
-        {
-            NextLatestPosts = "/api/v1/item/?importance__in=1,2&date__gt=" + LastRequestTime.Value.ToString("o");
-
-            GetNextLatestPosts(callback);
-        }
-
-        public async Task GetLiveTileTopicPosts(Action<List<Post>> callback, int topicId)
-        {
-            NextTopicPosts = "/api/v1/item/?topics=" + topicId + "&importance__in=1,2&date__gt=" + LastRequestTime.Value.ToString("o");
-
-            GetNextTopicPosts(callback);
-        }
-
         public void FollowTopic(Topic data)
         {
             bool found = false;

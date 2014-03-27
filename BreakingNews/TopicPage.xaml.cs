@@ -103,8 +103,6 @@ namespace BreakingNews
 
         private void LoadData()
         {
-            NotificationsManager.SetupNotifications();
-
             string id;
             if (NavigationContext.QueryString.TryGetValue("id", out id))
             {
