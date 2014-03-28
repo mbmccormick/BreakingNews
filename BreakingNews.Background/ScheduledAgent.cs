@@ -1,12 +1,10 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Windows;
-using Microsoft.Phone.Scheduler;
 using BreakingNews.API;
-using Microsoft.Phone.Shell;
 using BreakingNews.Background.Common;
-using System;
-using BreakingNews.API.Models;
-using System.Threading;
+using Microsoft.Phone.Scheduler;
+using Microsoft.Phone.Shell;
 
 namespace BreakingNews.Background
 {

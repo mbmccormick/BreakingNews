@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Navigation;
+using BreakingNews.API.Models;
+using BreakingNews.Common;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using BreakingNews.API.Models;
-using System.Collections.ObjectModel;
-using BreakingNews.Common;
 using Microsoft.Phone.Tasks;
 
 namespace BreakingNews
@@ -97,6 +93,9 @@ namespace BreakingNews
             if (isTopicLoaded == false ||
                 isTopicPostsLoaded == false)
             {
+                NotificationsManager.SetupNotifications();
+                NotificationsManager.ResetLiveTiles();
+
                 LoadData();
             }
         }
@@ -265,12 +264,7 @@ namespace BreakingNews
         {
             if (this.prgLoading.Visibility == System.Windows.Visibility.Visible) return;
 
-            EmailComposeTask emailComposeTask = new EmailComposeTask();
-
-            emailComposeTask.To = App.FeedbackEmailAddress;
-            emailComposeTask.Subject = "Breaking News Feedback";
-            emailComposeTask.Body = "Version " + App.ExtendedVersionNumber + " (" + App.PlatformVersionNumber + ")\n\n";
-            emailComposeTask.Show();
+            FeedbackHelper.Default.Feedback();
         }
 
         private void About_Click(object sender, EventArgs e)

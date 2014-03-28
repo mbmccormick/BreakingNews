@@ -1,20 +1,25 @@
 ﻿using System.IO.IsolatedStorage;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace BreakingNews.Imaging
 {
-    public partial class FlipTileTemplate : UserControl
+    public partial class FlipTileTemplateBack : UserControl
     {
-        public FlipTileTemplate()
+        public FlipTileTemplateBack()
         {
             InitializeComponent();
         }
 
-        public void RenderLiveTileImage(string filename, string content)
+        public void RenderLiveTileImage(string filename, string content, BitmapImage background, bool isApplicationTile)
         {
             this.txtContent.Text = content;
+            this.imgBackground.Source = background;
+
+            if (isApplicationTile)
+                this.LayoutRoot.Background = new SolidColorBrush(Color.FromArgb(255, 221, 54, 24));
 
             this.UpdateLayout();
             this.Measure(new Size(336, 336));

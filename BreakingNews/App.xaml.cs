@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Resources;
 using System.Windows;
-using System.Windows.Markup;
+using System.Windows.Media;
 using System.Windows.Navigation;
+using BreakingNews.API;
+using BreakingNews.Common;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using BreakingNews.Common;
-using System.Collections;
-using System.Windows.Media;
-using BreakingNews.API;
-using Microsoft.Phone.Tasks;
-using System.Net;
 
 namespace BreakingNews
 {
@@ -22,25 +17,6 @@ namespace BreakingNews
 
         public static event EventHandler<ApplicationUnhandledExceptionEventArgs> UnhandledExceptionHandled;
         
-        public static string ExtendedVersionNumber
-        {
-            get
-            {
-                string assembly = System.Reflection.Assembly.GetExecutingAssembly().FullName;
-                string[] version = assembly.Split('=')[1].Split(',')[0].Split('.');
-
-                return version[0] + "." + version[1] + "." + version[2];
-            }
-        }
-
-        public static string PlatformVersionNumber
-        {
-            get
-            {
-                return System.Environment.OSVersion.Version.ToString(3);
-            }
-        }
-
         public static PhoneApplicationFrame RootFrame { get; private set; }
 
         public App()
@@ -55,6 +31,8 @@ namespace BreakingNews
             InitializePhoneApplication();
 
             BreakingNewsClient = new ServiceClient(Debugger.IsAttached);
+
+            BreakingNewsClient.LastApplicationLaunchTime = DateTime.UtcNow;
 
             Resources.Remove("PhoneAccentColor");
             Resources.Add("PhoneAccentColor", Color.FromArgb(255, 221, 54, 24));

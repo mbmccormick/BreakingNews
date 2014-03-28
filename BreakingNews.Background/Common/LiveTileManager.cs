@@ -1,10 +1,7 @@
-﻿using Microsoft.Phone.Shell;
-using BreakingNews.Imaging;
-using System;
-using System.Collections.Generic;
-using System.Device.Location;
-using System.Linq;
+﻿using System;
 using BreakingNews.API.Models;
+using BreakingNews.Imaging;
+using Microsoft.Phone.Shell;
 
 namespace BreakingNews.Background.Common
 {

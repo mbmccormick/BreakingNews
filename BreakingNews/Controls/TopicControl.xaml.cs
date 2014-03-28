@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
+using BreakingNews.API.Models;
+using BreakingNews.Common;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using BreakingNews.API.Models;
 using Microsoft.Phone.Tasks;
-using BreakingNews.Common;
 
 namespace BreakingNews
 {
@@ -65,13 +62,13 @@ namespace BreakingNews
             TopicItem item = ((FrameworkElement)sender).DataContext as TopicItem;
 
             CustomMessageBox messageBox = new CustomMessageBox()
-                {
-                    Caption = "Unfollow topic",
-                    Message = "Are you sure you want to unfollow this topic?",
-                    LeftButtonContent = "yes",
-                    RightButtonContent = "no",
-                    IsFullScreen = false
-                };
+            {
+                Caption = "Unfollow topic",
+                Message = "Are you sure you want to unfollow this topic?",
+                LeftButtonContent = "yes",
+                RightButtonContent = "no",
+                IsFullScreen = false
+            };
 
             messageBox.Dismissed += (s1, e1) =>
             {
@@ -106,8 +103,7 @@ namespace BreakingNews
 
             if (secondaryTile == null)
             {
-                FlipTileData data = new FlipTileData();
-                data = LiveTileManager.RenderLiveTile(item);
+                FlipTileData data = LiveTileManager.RenderLiveTile(item);
 
                 ShellTile.Create(new Uri("/TopicPage.xaml?id=" + item.id, UriKind.Relative), data, true);
             }

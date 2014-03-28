@@ -11,13 +11,6 @@
  * Version 1.0 - Released Feburary 22, 2012
 */
 
-using System;
-using System.Globalization;
-using System.IO;
-using System.IO.IsolatedStorage;
-using System.Windows.Shapes;
-using System.Windows.Media;
-using ToolStackCRCLib;
 using ToolStackPNGWriterLib;
 
 namespace System.Windows.Media.Imaging
