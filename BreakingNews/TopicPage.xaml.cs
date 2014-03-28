@@ -90,6 +90,15 @@ namespace BreakingNews
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
+            if (e.IsNavigationInitiator == false)
+            {
+                LittleWatson.CheckForPreviousException(true);
+
+                TrialManager.CheckLicense();
+
+                FeedbackHelper.PromptForRating();
+            }
+            
             if (isTopicLoaded == false ||
                 isTopicPostsLoaded == false)
             {

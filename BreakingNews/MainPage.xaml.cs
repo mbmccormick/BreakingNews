@@ -90,6 +90,8 @@ namespace BreakingNews
             {
                 LittleWatson.CheckForPreviousException(true);
 
+                TrialManager.CheckLicense();
+
                 if (isLatestLoaded == false ||
                     isPopularLoaded == false ||
                     isFollowedTopicsLoaded == false)

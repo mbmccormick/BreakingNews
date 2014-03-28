@@ -100,6 +100,7 @@
     <Compile Include="Common\MetroGridHelper.cs" />
     <Compile Include="Common\NotificationsManager.cs" />
     <Compile Include="Common\SmartDispatcher.cs" />
+    <Compile Include="Common\TrialManager.cs" />
     <Compile Include="Controls\PostControl.xaml.cs">
       <DependentUpon>PostControl.xaml</DependentUpon>
     </Compile>
