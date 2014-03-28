@@ -377,7 +377,7 @@ namespace BreakingNews.API
 
             if (data.description.Length <= 0)
             {
-                data.description = "There is no other information available for this topic at the moment.";
+                data.description = "There is no summary available for this topic at the moment.";
             }
 
             bool found = false;
