@@ -94,7 +94,7 @@ namespace BreakingNews.Background
                     {
                         Deployment.Current.Dispatcher.BeginInvoke(delegate
                         {
-                            FlipTileData data = LiveTileManager.RenderApplicationLiveTile(result.Count > 0 ? result[0] : null);
+                            FlipTileData data = LiveTileManager.RenderLiveTile(result.Count > 0 ? result[0] : null);
                             data.Count = result.Count;
 
                             tile.Update(data);
