@@ -246,6 +246,11 @@ namespace BreakingNews.Common
 
         public void Feedback()
         {
+            Feedback("[Your feedback here]");
+        }
+
+        public void Feedback(string contents)
+        {
             string version = string.Empty;
 
             var appManifestResourceInfo = Application.GetResourceStream(new Uri("WMAppManifest.xml", UriKind.Relative));
@@ -276,7 +281,7 @@ namespace BreakingNews.Common
             }
 
             // Body text including hardware, firmware and software info
-            string body = string.Format("[Your feedback here]\n\n---------------------------------\nDevice Name: {0}\n\nDevice Manufacturer: {1}\nDevice Firmware Version: {2}\nDevice Hardware Version: {3}\nApplication Version: {4}\n---------------------------------\n\n\nNote: This e-mail exchange is governed by {5}’s Terms and conditions and Privacy guidelines. Find more details via the About section of the application.",
+            string body = string.Format(contents + "\n\n---------------------------------\nDevice Name: {0}\n\nDevice Manufacturer: {1}\nDevice Firmware Version: {2}\nDevice Hardware Version: {3}\nApplication Version: {4}\n---------------------------------\n\n\nNote: This e-mail exchange is governed by {5}’s Terms and conditions and Privacy guidelines. Find more details via the About section of the application.",
                  DeviceStatus.DeviceName,
                  DeviceStatus.DeviceManufacturer,
                  DeviceStatus.DeviceFirmwareVersion,

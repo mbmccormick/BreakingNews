@@ -70,14 +70,9 @@ namespace BreakingNews.Common
                         switch (e1.Result)
                         {
                             case CustomMessageBoxResult.LeftButton:
-                                EmailComposeTask email = new EmailComposeTask();
-                                email.To = App.FeedbackEmailAddress;
-                                email.Subject = "Breaking News Error Report";
-                                email.Body = "Version " + App.ExtendedVersionNumber + " (" + App.PlatformVersionNumber + ")\n" + contents;
+                                FeedbackHelper.Default.Feedback(contents);
 
                                 SafeDeleteFile(IsolatedStorageFile.GetUserStoreForApplication());
-
-                                email.Show();
 
                                 break;
                             default:
