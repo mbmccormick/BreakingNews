@@ -281,7 +281,7 @@ namespace BreakingNews.Common
             }
 
             // Body text including hardware, firmware and software info
-            string body = string.Format(contents + "\n\n---------------------------------\nDevice Name: {0}\n\nDevice Manufacturer: {1}\nDevice Firmware Version: {2}\nDevice Hardware Version: {3}\nApplication Version: {4}\n---------------------------------\n\n\nNote: This e-mail exchange is governed by {5}’s Terms and conditions and Privacy guidelines. Find more details via the About section of the application.",
+            string body = string.Format(contents + "\n\n---------------------------------\nDevice Name: {0}\nDevice Manufacturer: {1}\nDevice Firmware Version: {2}\nDevice Hardware Version: {3}\nApplication Version: {4}\n---------------------------------\n\nNote: This e-mail exchange is governed by {5}’s privacy policy. You can find more details on the About page in the application.",
                  DeviceStatus.DeviceName,
                  DeviceStatus.DeviceManufacturer,
                  DeviceStatus.DeviceFirmwareVersion,
@@ -319,7 +319,7 @@ namespace BreakingNews.Common
 
         public static void ShowRating()
         {
-            CustomMessageBox messageBox1 = new CustomMessageBox()
+            CustomMessageBox messageBox = new CustomMessageBox()
             {
                 Caption = "Rate Breaking News",
                 Message = "It looks like you are enjoying Breaking News. Would you like to give it a rating on the Windows Phone Store?",
@@ -328,7 +328,7 @@ namespace BreakingNews.Common
                 IsFullScreen = false
             };
 
-            messageBox1.Dismissed += (s1, e1) =>
+            messageBox.Dismissed += (s1, e1) =>
             {
                 switch (e1.Result)
                 {
@@ -344,7 +344,7 @@ namespace BreakingNews.Common
                 }
             };
 
-            messageBox1.Show();
+            messageBox.Show();
         }
 
         public static void ShowFeedback()
@@ -356,7 +356,7 @@ namespace BreakingNews.Common
                 CustomMessageBox messageBox = new CustomMessageBox()
                 {
                     Caption = "Feedback",
-                    Message = "Tell me about your experience or suggest how I can make it even better. Would you like to give feedback for Breaking News?",
+                    Message = "Sorry to hear you didn't want to give Breaking News a rating on the Store. Would you like to send some feedback on how things could be better?",
                     LeftButtonContent = "give feedback",
                     RightButtonContent = "no thanks",
                     IsFullScreen = false
