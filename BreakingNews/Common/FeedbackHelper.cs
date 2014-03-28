@@ -246,10 +246,10 @@ namespace BreakingNews.Common
 
         public void Feedback()
         {
-            Feedback("[Your feedback here]");
+            Feedback("[Your feedback here]", false);
         }
 
-        public void Feedback(string contents)
+        public void Feedback(string contents, bool error)
         {
             string version = string.Empty;
 
@@ -292,7 +292,7 @@ namespace BreakingNews.Common
             // Email task
             var email = new EmailComposeTask();
             email.To = App.FeedbackEmailAddress;
-            email.Subject = "Breaking News Feedback";
+            email.Subject = error ? "Breaking News Error Report" : "Breaking News Feedback";
             email.Body = body;
 
             email.Show();

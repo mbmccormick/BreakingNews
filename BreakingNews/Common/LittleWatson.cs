@@ -70,7 +70,7 @@ namespace BreakingNews.Common
                         switch (e1.Result)
                         {
                             case CustomMessageBoxResult.LeftButton:
-                                FeedbackHelper.Default.Feedback(contents);
+                                FeedbackHelper.Default.Feedback(contents, true);
 
                                 SafeDeleteFile(IsolatedStorageFile.GetUserStoreForApplication());
 
