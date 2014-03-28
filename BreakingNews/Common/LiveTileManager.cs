@@ -43,10 +43,10 @@ namespace BreakingNews.Common
             tile.Count = 0;
 
             FlipTileTemplate image = new FlipTileTemplate();
-            string imagePath = "/Shared/ShellContent/default.png";
+            string imagePath = "/Shared/ShellContent/default" + data.id + ".png";
 
             FlipTileTemplateWide imageWide = new FlipTileTemplateWide();
-            string imageWidePath = "/Shared/ShellContent/defaultWide.png";
+            string imageWidePath = "/Shared/ShellContent/defaultWide" + data.id + ".png";
 
             image.RenderLiveTileImage(imagePath, data.name);
             tile.BackgroundImage = new Uri("isostore:" + imagePath, UriKind.Absolute);

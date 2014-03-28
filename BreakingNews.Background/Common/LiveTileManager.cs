@@ -18,10 +18,10 @@ namespace BreakingNews.Background.Common
             if (data != null)
             {
                 FlipTileTemplateBack image = new FlipTileTemplateBack();
-                string imagePath = "/Shared/ShellContent/defaultBack.png";
+                string imagePath = "/Shared/ShellContent/defaultBack" + data.id + ".png";
 
                 FlipTileTemplateWideBack imageWide = new FlipTileTemplateWideBack();
-                string imageWidePath = "/Shared/ShellContent/defaultWideBack.png";
+                string imageWidePath = "/Shared/ShellContent/defaultWideBack" + data.id + ".png";
 
                 image.RenderLiveTileImage(imagePath, data.content, data.FriendlyImage, true);
                 tile.BackBackgroundImage = new Uri("isostore:" + imagePath, UriKind.Absolute);
@@ -44,10 +44,10 @@ namespace BreakingNews.Background.Common
             if (data != null)
             {
                 FlipTileTemplateBack image = new FlipTileTemplateBack();
-                string imagePath = "/Shared/ShellContent/defaultBack.png";
+                string imagePath = "/Shared/ShellContent/defaultBack" + data.id + ".png";
 
                 FlipTileTemplateWideBack imageWide = new FlipTileTemplateWideBack();
-                string imageWidePath = "/Shared/ShellContent/defaultWideBack.png";
+                string imageWidePath = "/Shared/ShellContent/defaultWideBack" + data.id + ".png";
 
                 image.RenderLiveTileImage(imagePath, data.content, data.FriendlyImage, false);
                 tile.BackBackgroundImage = new Uri("isostore:" + imagePath, UriKind.Absolute);
