@@ -328,11 +328,6 @@ namespace BreakingNews.API
             data.name = CleanText(data.name).ToUpper();
             data.description = CleanText(data.description);
 
-            if (data.description.Length > 140)
-            {
-                data.description = data.description.Substring(0, 140) + "...";
-            }
-
             if (data.description.Length <= 0)
             {
                 data.description = "There is no summary available for this topic at the moment.";
@@ -382,13 +377,15 @@ namespace BreakingNews.API
             data = data.Replace("&euro;&ldquo;", "-");
             data = data.Replace("&euro;&tilde;", "'");
             data = data.Replace("&euro;", "...");
-            data = data.Replace("__BR__", "\n\n");
             data = data.Replace("\\", "");
             data = data.Replace("<p>", "");
             data = data.Replace("</p>", "");
             data = data.Replace("<strong>", "");
             data = data.Replace("</strong>", "");
             data = Regex.Replace(data, "<\\/?a[^<>]*>", "");
+            data = Regex.Replace(data, "\r", "");
+            data = Regex.Replace(data, "\n", " ");
+            data = Regex.Replace(data, "  ", " ");
             data = data.Trim();
 
             return data;

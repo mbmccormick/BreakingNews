@@ -283,6 +283,19 @@ namespace BreakingNews
             NavigationService.Navigate(new Uri("/YourLastAboutDialog;component/AboutPage.xaml", UriKind.Relative));
         }
 
+        private void Description_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (this.txtDescription.Text.Length == 140)
+            {
+                this.txtDescription.Text = CurrentTopic.description;
+            }
+            else if (this.txtDescription.Text.Length > 137)
+            {
+                this.txtDescription.Text = this.txtDescription.Text.Substring(0, 137).Trim() + "...";
+                this.txtDescription.Text.Replace("....", "...");
+            } 
+        }
+
         private int _offsetKnob = 5;
 
         private void LongListSelector_ItemRealized(object sender, ItemRealizationEventArgs e)

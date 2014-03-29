@@ -29,7 +29,7 @@
             <TextBlock Text="BREAKING NEWS" Style="{StaticResource PhoneTextNormalStyle}" FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Foreground="Black" />
             <TextBlock x:Name="txtLoading" Margin="12,12,0,0" Visibility="Visible" TextWrapping="Wrap" Text="Just a moment..." Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFDD3618" />
             <TextBlock Name="txtName" Margin="12,12,24,12" Style="{StaticResource PhoneTextTitle2Style}" Foreground="#FF98AAB9" TextWrapping="Wrap" Visibility="Collapsed" />
-            <TextBlock Name="txtDescription" Margin="12,0,24,0" Style="{StaticResource PhoneTextSubtleStyle}" Foreground="#FF828282" TextWrapping="Wrap" Visibility="Collapsed" />
+            <TextBlock Name="txtDescription" Margin="12,0,24,0" Style="{StaticResource PhoneTextSubtleStyle}" Foreground="#FF828282" TextWrapping="Wrap" Visibility="Collapsed" Tap="Description_Tap" />
         </StackPanel>
 
         <ProgressBar Name="prgLoading" Foreground="#FFDD3618" IsIndeterminate="True" Margin="0,0,0,0" VerticalAlignment="Top" />
