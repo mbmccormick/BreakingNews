@@ -19,13 +19,49 @@
     toolkit:TiltEffect.IsTiltEnabled="True"
     DataContext="{Binding RelativeSource={RelativeSource Self}}">
 
+    <phone:PhoneApplicationPage.Resources>
+        <Style x:Key="LongListSelectorCustomStyle" TargetType="phone:LongListSelector">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="phone:LongListSelector">
+                        <Grid Background="{TemplateBinding Background}" d:DesignWidth="480" d:DesignHeight="800">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="ScrollStates">
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition GeneratedDuration="00:00:00.5"/>
+                                    </VisualStateGroup.Transitions>
+                                    <VisualState x:Name="Scrolling">
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="VerticalScrollBar"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="NotScrolling"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid Margin="{TemplateBinding Padding}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <ViewportControl x:Name="ViewportControl" HorizontalContentAlignment="Stretch" VerticalAlignment="Top" />
+                                <ScrollBar x:Name="VerticalScrollBar" Background="#7FDD3618" Grid.Column="1" Margin="4,0,4,0" Opacity="0" Orientation="Vertical"/>
+                            </Grid>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </phone:PhoneApplicationPage.Resources>
+
     <Grid x:Name="LayoutRoot" Background="#FFF6F6EF">
         <ProgressBar Name="prgLoading" Foreground="#FFDD3618" IsIndeterminate="True" Margin="0,0,0,0" VerticalAlignment="Top" />
 
         <phone:Pivot Name="pivLayout" Title="BREAKING NEWS" Foreground="Black">
             <phone:PivotItem Header="latest">
                 <Grid Margin="0,0,0,0">
-                    <phone:LongListSelector x:Name="lstLatestPosts" ItemsSource="{Binding LatestPosts}" Margin="0,0,0,0" Foreground="Black" Visibility="Collapsed" ScrollViewer.VerticalScrollBarVisibility="Hidden" ItemRealized="LongListSelector_ItemRealized" ItemUnrealized="LongListSelector_ItemUnrealized">
+                    <phone:LongListSelector x:Name="lstLatestPosts" ItemsSource="{Binding LatestPosts}" Margin="0,0,0,0" Foreground="Black" Visibility="Collapsed" ScrollViewer.VerticalScrollBarVisibility="Hidden" Style="{StaticResource LongListSelectorCustomStyle}" ItemRealized="LongListSelector_ItemRealized" ItemUnrealized="LongListSelector_ItemUnrealized">
                         <phone:LongListSelector.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel>
@@ -42,7 +78,7 @@
 
             <phone:PivotItem Header="popular">
                 <Grid Margin="0,0,0,0">
-                    <phone:LongListSelector x:Name="lstPopularPosts" ItemsSource="{Binding PopularPosts}" Margin="0,0,0,0" Foreground="Black" Visibility="Collapsed" ScrollViewer.VerticalScrollBarVisibility="Hidden" ItemRealized="LongListSelector_ItemRealized" ItemUnrealized="LongListSelector_ItemUnrealized">
+                    <phone:LongListSelector x:Name="lstPopularPosts" ItemsSource="{Binding PopularPosts}" Margin="0,0,0,0" Foreground="Black" Visibility="Collapsed" ScrollViewer.VerticalScrollBarVisibility="Hidden" Style="{StaticResource LongListSelectorCustomStyle}" ItemRealized="LongListSelector_ItemRealized" ItemUnrealized="LongListSelector_ItemUnrealized">
                         <phone:LongListSelector.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel>
@@ -59,7 +95,7 @@
 
             <phone:PivotItem Header="following">
                 <Grid Margin="0,0,0,0">
-                    <phone:LongListSelector x:Name="lstFollowedTopics" ItemsSource="{Binding FollowedTopics}" Margin="0,0,0,0" Foreground="Black" Visibility="Collapsed" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    <phone:LongListSelector x:Name="lstFollowedTopics" ItemsSource="{Binding FollowedTopics}" Margin="0,0,0,0" Foreground="Black" Visibility="Collapsed" ScrollViewer.VerticalScrollBarVisibility="Hidden" Style="{StaticResource LongListSelectorCustomStyle}">
                         <phone:LongListSelector.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="12,0,12,12">
