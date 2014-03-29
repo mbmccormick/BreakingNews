@@ -120,17 +120,6 @@ namespace BreakingNews.API.Models
             }
         }
 
-        public double media_opacity
-        {
-            get
-            {
-                if (this.importance > 1)
-                    return 1.0;
-                else
-                    return 0.7;
-            }
-        }
-
         protected void OnPropertyChanged(string name)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
