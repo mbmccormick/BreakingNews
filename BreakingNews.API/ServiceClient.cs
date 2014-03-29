@@ -44,7 +44,7 @@ namespace BreakingNews.API
         {
             NextLatestPosts = "/api/v1/item/";
 
-            GetNextLatestPosts(callback);
+            await GetNextLatestPosts(callback);
         }
 
         public async Task GetNextLatestPosts(Action<List<Post>> callback)
@@ -179,7 +179,7 @@ namespace BreakingNews.API
         {
             NextTopicPosts = "/api/v1/item/?topics=" + topicId;
 
-            GetNextTopicPosts(callback);
+            await GetNextTopicPosts(callback);
         }
 
         public async Task GetNextTopicPosts(Action<List<Post>> callback)
@@ -246,14 +246,14 @@ namespace BreakingNews.API
         {
             NextLatestPosts = "/api/v1/item/?importance__in=5&date__gt=" + LastApplicationLaunchTime.Value.ToString("o");
 
-            GetNextLatestPosts(callback);
+            await GetNextLatestPosts(callback);
         }
 
         public async Task GetLiveTileTopicPosts(Action<List<Post>> callback, int topicId)
         {
             NextTopicPosts = "/api/v1/item/?topics=" + topicId + "&date__gt=" + LastApplicationLaunchTime.Value.ToString("o");
 
-            GetNextTopicPosts(callback);
+            await GetNextTopicPosts(callback);
         }
 
         public void FollowTopic(Topic data)
