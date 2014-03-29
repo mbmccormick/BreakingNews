@@ -151,11 +151,12 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Resources\Add.png" />
+    <Content Include="Resources\Unfavorite.png" />
     <Content Include="Resources\Favorite.png" />
     <Content Include="Resources\Search.png" />
     <Content Include="Resources\Refresh.png" />
     <Content Include="Resources\Share.png" />
-    <Content Include="Resources\Unfavorite.png" />
+    <Content Include="Resources\Mute.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
