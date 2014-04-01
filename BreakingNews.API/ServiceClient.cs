@@ -87,6 +87,12 @@ namespace BreakingNews.API
 
         public async Task GetNextPopularPosts(Action<List<Post>> callback)
         {
+            if (NextPopularPosts == "/api/v1/popular/2/")
+            {
+                callback(new List<Post>());
+                return;
+            }
+
             HttpWebRequest request = HttpWebRequest.Create("http://" + serverAddress + NextPopularPosts) as HttpWebRequest;
             request.Accept = "application/json";
 
