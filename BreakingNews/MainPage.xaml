@@ -95,11 +95,11 @@
 
             <phone:PivotItem Header="following" Margin="12,28,0,0">
                 <Grid Margin="0,0,0,0">
-                    <phone:LongListSelector x:Name="lstFollowedTopics" ItemsSource="{Binding FollowedTopics}" Margin="0,0,0,0" Foreground="Black" Visibility="Collapsed" ScrollViewer.VerticalScrollBarVisibility="Hidden" Style="{StaticResource LongListSelectorCustomStyle}">
+                    <phone:LongListSelector x:Name="lstFollowedTopics" ItemsSource="{Binding FollowedTopics}" Margin="0,7,11,0" Foreground="Black" Visibility="Collapsed" ScrollViewer.VerticalScrollBarVisibility="Hidden" Style="{StaticResource LongListSelectorCustomStyle}">
                         <phone:LongListSelector.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Margin="12,0,12,24">
-                                    <uc:TopicControl FollowsChanged="TopicControl_FollowsChanged" />
+                                <StackPanel>
+                                    <uc:TopicControl Margin="12,0,12,12" FollowsChanged="TopicControl_FollowsChanged" />
                                 </StackPanel>
                             </DataTemplate>
                         </phone:LongListSelector.ItemTemplate>
