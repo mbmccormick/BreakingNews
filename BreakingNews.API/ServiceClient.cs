@@ -264,19 +264,6 @@ namespace BreakingNews.API
 
         public void FollowTopic(Topic data)
         {
-            bool found = false;
-            foreach (TopicItem ti in FollowedTopics)
-            {
-                if (ti.id == data.id) found = true;
-            }
-
-            if (found == true) return;
-
-            while (FollowedTopics.Count >= MaxFollowedTopics)
-            {
-                FollowedTopics.RemoveAt(MaxFollowedTopics - 1);
-            }
-
             TopicItem item = new TopicItem()
             {
                 id = data.id,
@@ -284,7 +271,7 @@ namespace BreakingNews.API
                 is_following = data.is_following
             };
 
-            FollowedTopics.Insert(0, item);
+            FollowTopic(item);
         }
 
         public void FollowTopic(TopicItem item)
