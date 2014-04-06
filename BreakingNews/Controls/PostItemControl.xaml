@@ -21,5 +21,4 @@
             </toolkit:ContextMenu>
         </toolkit:ContextMenuService.ContextMenu>
     </StackPanel>
-
 </UserControl>

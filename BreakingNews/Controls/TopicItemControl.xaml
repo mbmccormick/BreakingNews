@@ -18,5 +18,4 @@
 
         <TextBlock x:Name="txtName" Grid.Column="0" Text="{Binding name}" TextWrapping="Wrap" Margin="12,12,12,12" Style="{StaticResource PhoneTextTitle3Style}" Foreground="#FF000000" Tap="Topic_Tap" />
     </Grid>
-
 </UserControl>
