@@ -24,20 +24,10 @@ namespace BreakingNews
         {
             Post item = ((FrameworkElement)sender).DataContext as Post;
 
-            if (item.url.Length > 0)
-            {
-                WebBrowserTask webBrowserTask = new WebBrowserTask();
-                webBrowserTask.Uri = new Uri(item.url);
+            WebBrowserTask webBrowserTask = new WebBrowserTask();
+            webBrowserTask.Uri = item.FriendlyUrl;
 
-                webBrowserTask.Show();
-            }
-            else
-            {
-                WebBrowserTask webBrowserTask = new WebBrowserTask();
-                webBrowserTask.Uri = new Uri(item.permalink);
-
-                webBrowserTask.Show();
-            }
+            webBrowserTask.Show();
         }
 
         private void Share_Click(object sender, RoutedEventArgs e)
@@ -45,13 +35,10 @@ namespace BreakingNews
             Post item = ((FrameworkElement)sender).DataContext as Post;
 
             ShareLinkTask shareLinkTask = new ShareLinkTask();
-
             shareLinkTask.Title = item.content;
-            if (item.url.Length > 0)
-                shareLinkTask.LinkUri = new Uri(item.url);
-            else
-                shareLinkTask.LinkUri = new Uri(item.permalink);
+            shareLinkTask.LinkUri = item.FriendlyUrl;
             shareLinkTask.Message = "Check out this article I found on Breaking News for Windows Phone!";
+            
             shareLinkTask.Show();
         }
     }

@@ -107,6 +107,17 @@ namespace BreakingNews.API.Models
             }
         }
 
+        public Uri FriendlyUrl
+        {
+            get
+            {
+                if (url.Length > 0)
+                    return new Uri(url);
+                else
+                    return new Uri(permalink);
+            }
+        }
+
         public SolidColorBrush content_foreground
         {
             get

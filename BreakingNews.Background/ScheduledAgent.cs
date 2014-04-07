@@ -72,6 +72,16 @@ namespace BreakingNews.Background
 
                             tile.Update(data);
 
+                            foreach (var item in result)
+                            {
+                                ShellToast toast = new ShellToast();
+                                toast.Title = "Breaking News";
+                                toast.Content = item.content;
+                                toast.NavigationUri = item.FriendlyUrl;
+
+                                toast.Show();
+                            }
+
                             notifyCompleteLock--;
                             if (notifyCompleteLock == 0)
                             {
