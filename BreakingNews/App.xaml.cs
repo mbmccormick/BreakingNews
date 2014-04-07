@@ -45,9 +45,9 @@ namespace BreakingNews
             //((SolidColorBrush)Resources["PhoneForegroundBrush"]).Color = Color.FromArgb(255, 130, 130, 130);
 
             Resources.Remove("PhoneBackgroundColor");
-            Resources.Add("PhoneBackgroundColor", Color.FromArgb(255, 246, 246, 239));
+            Resources.Add("PhoneBackgroundColor", Color.FromArgb(255, 255, 255, 255));
 
-            ((SolidColorBrush)Resources["PhoneBackgroundBrush"]).Color = Color.FromArgb(255, 246, 246, 239);
+            ((SolidColorBrush)Resources["PhoneBackgroundBrush"]).Color = Color.FromArgb(255, 255, 255, 255);
 
             if (System.Diagnostics.Debugger.IsAttached)
                 MetroGridHelper.IsVisible = true;
