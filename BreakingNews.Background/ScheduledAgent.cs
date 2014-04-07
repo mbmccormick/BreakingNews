@@ -77,8 +77,7 @@ namespace BreakingNews.Background
                                 ShellToast toast = new ShellToast();
                                 toast.Title = "Breaking News";
                                 toast.Content = item.content;
-                                toast.NavigationUri = item.FriendlyUrl;
-
+                                
                                 toast.Show();
                             }
 
