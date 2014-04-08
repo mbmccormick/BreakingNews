@@ -59,7 +59,7 @@
     <Style x:Key="AboutPivotStyle"
            TargetType="controls:Pivot">
         <Setter Property="Background"
-                Value="#FFF6F6EF" />
+                Value="#FF000000" />
         <Setter Property="Foreground"
                 Value="#FF000000" />
         <Setter Property="HeaderTemplate">
