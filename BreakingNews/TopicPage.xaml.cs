@@ -109,7 +109,7 @@ namespace BreakingNews
             }
         }
 
-        private void LoadData()
+        private async void LoadData()
         {
             string id;
             if (NavigationContext.QueryString.TryGetValue("id", out id))
@@ -118,7 +118,7 @@ namespace BreakingNews
 
                 int topicId = Convert.ToInt32(id);
 
-                App.BreakingNewsClient.GetTopic((result) =>
+                await App.BreakingNewsClient.GetTopic((result) =>
                 {
                     SmartDispatcher.BeginInvoke(() =>
                     {
@@ -142,7 +142,7 @@ namespace BreakingNews
                     });
                 }, topicId);
 
-                App.BreakingNewsClient.GetTopicPosts((result) =>
+                await App.BreakingNewsClient.GetTopicPosts((result) =>
                 {
                     SmartDispatcher.BeginInvoke(() =>
                     {

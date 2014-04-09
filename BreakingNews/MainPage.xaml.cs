@@ -110,13 +110,13 @@ namespace BreakingNews
             }
         }
 
-        private void LoadData(bool isNavigationInitiator)
+        private async void LoadData(bool isNavigationInitiator)
         {
             this.prgLoading.Visibility = System.Windows.Visibility.Visible;
 
             if (isNavigationInitiator == false)
             {
-                App.BreakingNewsClient.GetLatestPosts((result) =>
+                await App.BreakingNewsClient.GetLatestPosts((result) =>
                 {
                     SmartDispatcher.BeginInvoke(() =>
                     {
@@ -141,7 +141,7 @@ namespace BreakingNews
                     });
                 });
 
-                App.BreakingNewsClient.GetPopularPosts((result) =>
+                await App.BreakingNewsClient.GetPopularPosts((result) =>
                 {
                     SmartDispatcher.BeginInvoke(() =>
                     {
@@ -167,7 +167,7 @@ namespace BreakingNews
                 });
             }
 
-            App.BreakingNewsClient.GetFollowedTopics((result) =>
+            await App.BreakingNewsClient.GetFollowedTopics((result) =>
             {
                 SmartDispatcher.BeginInvoke(() =>
                 {

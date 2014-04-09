@@ -69,11 +69,11 @@ namespace BreakingNews
             }
         }
 
-        private void LoadData()
+        private async void LoadData()
         {
             this.prgLoading.Visibility = System.Windows.Visibility.Visible;
 
-            App.BreakingNewsClient.GetOngoingTopics((result) =>
+            await App.BreakingNewsClient.GetOngoingTopics((result) =>
             {
                 SmartDispatcher.BeginInvoke(() =>
                 {
