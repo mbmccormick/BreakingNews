@@ -64,6 +64,9 @@
     </Item>
     <Item Title="what's new?"
           Type="text">
+      Version 1.1
+      This release includes the ability to receive background toast notifications for breaking news stories. This version also includes several user interface tweaks and bug fixes.
+
       Version 1.0
       This is the initial release of Breaking News for Windows Phone. This version includes the ability to fetch the Latest, Popular, and user-defined Topic posts from BreakingNews.com and visit the links in Internet Explorer.
     </Item>
