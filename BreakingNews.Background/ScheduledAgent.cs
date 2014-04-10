@@ -68,17 +68,22 @@ namespace BreakingNews.Background
                         Deployment.Current.Dispatcher.BeginInvoke(delegate
                         {
                             FlipTileData data = LiveTileManager.RenderApplicationLiveTile(result.Count > 0 ? result[0] : null);
-                            data.Count += result.Count;
+                            data.Count = result.Count;
 
                             tile.Update(data);
 
                             foreach (var item in result)
                             {
-                                ShellToast toast = new ShellToast();
-                                toast.Title = "Breaking News";
-                                toast.Content = item.content;
-                                
-                                toast.Show();
+                                if (App.BreakingNewsClient.NotifiedPosts.Contains(item.id) == false)
+                                {
+                                    ShellToast toast = new ShellToast();
+                                    toast.Title = "Breaking News";
+                                    toast.Content = item.content;
+
+                                    toast.Show();
+
+                                    App.BreakingNewsClient.MarkPostAsNotified(item.id);
+                                }
                             }
 
                             notifyCompleteLock--;
@@ -87,7 +92,6 @@ namespace BreakingNews.Background
                                 if (System.Diagnostics.Debugger.IsAttached)
                                     ScheduledActionService.LaunchForTest("BackgroundWorker", new TimeSpan(0, 0, 1, 0)); // every minute
 
-                                App.BreakingNewsClient.LastApplicationLaunchTime = DateTime.UtcNow;
                                 App.BreakingNewsClient.SaveData();
 
                                 NotifyComplete();
@@ -105,7 +109,7 @@ namespace BreakingNews.Background
                         Deployment.Current.Dispatcher.BeginInvoke(delegate
                         {
                             FlipTileData data = LiveTileManager.RenderLiveTile(result.Count > 0 ? result[0] : null);
-                            data.Count += result.Count;
+                            data.Count = result.Count;
 
                             tile.Update(data);
 
@@ -115,7 +119,6 @@ namespace BreakingNews.Background
                                 if (System.Diagnostics.Debugger.IsAttached)
                                     ScheduledActionService.LaunchForTest("BackgroundWorker", new TimeSpan(0, 0, 1, 0)); // every minute
 
-                                App.BreakingNewsClient.LastApplicationLaunchTime = DateTime.UtcNow;
                                 App.BreakingNewsClient.SaveData();
 
                                 NotifyComplete();

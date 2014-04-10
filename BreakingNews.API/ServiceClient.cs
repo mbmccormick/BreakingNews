@@ -18,6 +18,9 @@ namespace BreakingNews.API
         public List<TopicItem> FollowedTopics;
         public int MaxFollowedTopics = 250;
 
+        public List<int> NotifiedPosts;
+        public int MaxNotifiedPosts = 20;
+
         public string NextLatestPosts = null;
         public string NextPopularPosts = null;
         public string NextTopicPosts = null;
@@ -30,6 +33,11 @@ namespace BreakingNews.API
 
             if (FollowedTopics == null)
                 FollowedTopics = new List<TopicItem>();
+
+            NotifiedPosts = IsolatedStorageHelper.GetObject<List<int>>("NotifiedPosts");
+
+            if (NotifiedPosts == null)
+                NotifiedPosts = new List<int>();
 
             LastApplicationLaunchTime = IsolatedStorageHelper.GetObject<DateTime?>("LastApplicationLaunchTime");
 
@@ -303,9 +311,22 @@ namespace BreakingNews.API
             FollowedTopics.RemoveAt(i);
         }
 
+        public void MarkPostAsNotified(int postId)
+        {
+            if (NotifiedPosts.Contains(postId)) return;
+
+            while (NotifiedPosts.Count >= MaxNotifiedPosts)
+            {
+                NotifiedPosts.RemoveAt(MaxNotifiedPosts - 1);
+            }
+
+            NotifiedPosts.Insert(0, postId);
+        }
+
         public void SaveData()
         {
             IsolatedStorageHelper.SaveObject<List<TopicItem>>("FollowedTopics", FollowedTopics);
+            IsolatedStorageHelper.SaveObject<List<int>>("NotifiedPosts", NotifiedPosts);
             IsolatedStorageHelper.SaveObject<DateTime?>("LastApplicationLaunchTime", LastApplicationLaunchTime);
         }
 

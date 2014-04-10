@@ -11,6 +11,10 @@ namespace BreakingNews.Background.Common
         {
             FlipTileData tile = new FlipTileData();
 
+            tile.Count = 0;
+            tile.BackBackgroundImage = new Uri("appdata:background.png");
+            tile.WideBackBackgroundImage = new Uri("appdata:background.png");
+
             if (data != null)
             {
                 FlipTileTemplateBack image = new FlipTileTemplateBack();
@@ -32,6 +36,10 @@ namespace BreakingNews.Background.Common
         public static FlipTileData RenderLiveTile(Post data)
         {
             FlipTileData tile = new FlipTileData();
+
+            tile.Count = 0;
+            tile.BackBackgroundImage = new Uri("appdata:background.png");
+            tile.WideBackBackgroundImage = new Uri("appdata:background.png");
 
             if (data != null)
             {
