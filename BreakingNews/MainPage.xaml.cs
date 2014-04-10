@@ -86,6 +86,17 @@ namespace BreakingNews
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
+            string NavigationUri;
+            if (NavigationContext.QueryString.TryGetValue("NavigationUri", out NavigationUri))
+            {
+                WebBrowserTask webBrowserTask = new WebBrowserTask();
+                webBrowserTask.Uri = new Uri(NavigationUri);
+
+                webBrowserTask.Show();
+
+                App.Current.Terminate();
+            }
+
             if (e.IsNavigationInitiator == false)
             {
                 LittleWatson.CheckForPreviousException(true);

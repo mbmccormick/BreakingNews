@@ -48,7 +48,7 @@ namespace BreakingNews.Background
             NotifyComplete();
         }
 
-        protected override void OnInvoke(ScheduledTask task)
+        protected async override void OnInvoke(ScheduledTask task)
         {
             App.BreakingNewsClient = new ServiceClient(Debugger.IsAttached);
 
@@ -63,7 +63,7 @@ namespace BreakingNews.Background
             {
                 if (tile.NavigationUri.ToString() == "/") // application tile
                 {
-                    App.BreakingNewsClient.GetLiveTilePosts((result) =>
+                    await App.BreakingNewsClient.GetLiveTilePosts((result) =>
                     {
                         Deployment.Current.Dispatcher.BeginInvoke(delegate
                         {
@@ -79,6 +79,7 @@ namespace BreakingNews.Background
                                     ShellToast toast = new ShellToast();
                                     toast.Title = "Breaking News";
                                     toast.Content = item.content;
+                                    toast.NavigationUri = new Uri("/MainPage.xaml?NavigationUri=" + item.FriendlyUrl.ToString(), UriKind.Relative);
 
                                     toast.Show();
 
@@ -104,7 +105,7 @@ namespace BreakingNews.Background
                     string id = tile.NavigationUri.ToString().Split('=')[1];
                     int topicId = Convert.ToInt32(id);
 
-                    App.BreakingNewsClient.GetLiveTileTopicPosts((result) =>
+                    await App.BreakingNewsClient.GetLiveTileTopicPosts((result) =>
                     {
                         Deployment.Current.Dispatcher.BeginInvoke(delegate
                         {
