@@ -48,16 +48,45 @@ namespace BreakingNews.Background
             NotifyComplete();
         }
 
+        int notifyCompleteLock = 0;
+
         protected async override void OnInvoke(ScheduledTask task)
         {
             App.BreakingNewsClient = new ServiceClient(Debugger.IsAttached);
 
-            int notifyCompleteLock = 0;
+            notifyCompleteLock = 0;
 
             foreach (ShellTile tile in ShellTile.ActiveTiles)
             {
                 notifyCompleteLock++;
             }
+
+            notifyCompleteLock++;
+
+            await App.BreakingNewsClient.GetLiveTilePosts((result) =>
+            {
+                Deployment.Current.Dispatcher.BeginInvoke(delegate
+                {
+                    foreach (var item in result)
+                    {
+                        DateTime postDate = new DateTime();
+                        DateTime.TryParse(item.date, out postDate);
+
+                        if ((DateTime.UtcNow - postDate).TotalMinutes <= 30)
+                        {
+                            ShellToast toast = new ShellToast();
+                            toast.Title = "Breaking News";
+                            toast.Content = item.push_content;
+                            toast.NavigationUri = new Uri("/MainPage.xaml?NavigationUri=" + item.FriendlyUrl.ToString(), UriKind.Relative);
+
+                            toast.Show();
+                        }
+                    }
+
+                    notifyCompleteLock--;
+                    SafeNotifyComplete();
+                });
+            });
 
             foreach (ShellTile tile in ShellTile.ActiveTiles)
             {
@@ -72,31 +101,8 @@ namespace BreakingNews.Background
 
                             tile.Update(data);
 
-                            foreach (var item in result)
-                            {
-                                if (App.BreakingNewsClient.NotifiedPosts.Contains(item.id) == false)
-                                {
-                                    ShellToast toast = new ShellToast();
-                                    toast.Title = "Breaking News";
-                                    toast.Content = item.content;
-                                    toast.NavigationUri = new Uri("/MainPage.xaml?NavigationUri=" + item.FriendlyUrl.ToString(), UriKind.Relative);
-
-                                    toast.Show();
-
-                                    App.BreakingNewsClient.MarkPostAsNotified(item.id);
-                                }
-                            }
-
                             notifyCompleteLock--;
-                            if (notifyCompleteLock == 0)
-                            {
-                                if (System.Diagnostics.Debugger.IsAttached)
-                                    ScheduledActionService.LaunchForTest("BackgroundWorker", new TimeSpan(0, 0, 1, 0)); // every minute
-
-                                App.BreakingNewsClient.SaveData();
-
-                                NotifyComplete();
-                            }
+                            SafeNotifyComplete();
                         });
                     });
                 }
@@ -115,18 +121,26 @@ namespace BreakingNews.Background
                             tile.Update(data);
 
                             notifyCompleteLock--;
-                            if (notifyCompleteLock == 0)
-                            {
-                                if (System.Diagnostics.Debugger.IsAttached)
-                                    ScheduledActionService.LaunchForTest("BackgroundWorker", new TimeSpan(0, 0, 1, 0)); // every minute
-
-                                App.BreakingNewsClient.SaveData();
-
-                                NotifyComplete();
-                            }
+                            SafeNotifyComplete();
                         });
                     }, topicId);
                 }
+            }
+
+            SafeNotifyComplete();
+        }
+
+        private void SafeNotifyComplete()
+        {
+            if (notifyCompleteLock == 0)
+            {
+                if (System.Diagnostics.Debugger.IsAttached)
+                    ScheduledActionService.LaunchForTest("BackgroundWorker", new TimeSpan(0, 0, 1, 0)); // every minute
+
+                if (App.BreakingNewsClient != null)
+                    App.BreakingNewsClient.SaveData();
+
+                NotifyComplete();
             }
         }
     }
