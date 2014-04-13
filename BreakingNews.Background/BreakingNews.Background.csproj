@@ -85,6 +85,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="Common\IsolatedStorageHelper.cs" />
     <Compile Include="Common\LittleWatson.cs" />
     <Compile Include="Common\LiveTileManager.cs" />
     <Compile Include="ScheduledAgent.cs" />

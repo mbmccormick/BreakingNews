@@ -12,6 +12,8 @@ namespace BreakingNews.Background
     {
         private static volatile bool _classInitialized;
 
+        private DateTime? LastBackgroundExecutionTime;
+
         public ScheduledAgent()
         {
             if (!_classInitialized)
@@ -54,6 +56,11 @@ namespace BreakingNews.Background
         {
             App.BreakingNewsClient = new ServiceClient(Debugger.IsAttached);
 
+            LastBackgroundExecutionTime = IsolatedStorageHelper.GetObject<DateTime?>("LastBackgroundExecutionTime");
+
+            if (LastBackgroundExecutionTime == null)
+                LastBackgroundExecutionTime = DateTime.UtcNow;
+
             notifyCompleteLock = 0;
 
             foreach (ShellTile tile in ShellTile.ActiveTiles)
@@ -72,7 +79,8 @@ namespace BreakingNews.Background
                         DateTime postDate = new DateTime();
                         DateTime.TryParse(item.date, out postDate);
 
-                        if ((DateTime.UtcNow - postDate).TotalMinutes <= 30)
+                        if (postDate >= LastBackgroundExecutionTime &&
+                            (DateTime.UtcNow - postDate).TotalMinutes <= 30)
                         {
                             ShellToast toast = new ShellToast();
                             toast.Title = "Breaking News";
@@ -139,6 +147,9 @@ namespace BreakingNews.Background
 
                 if (App.BreakingNewsClient != null)
                     App.BreakingNewsClient.SaveData();
+
+                LastBackgroundExecutionTime = DateTime.UtcNow;
+                IsolatedStorageHelper.SaveObject<DateTime?>("LastBackgroundExecutionTime", LastBackgroundExecutionTime);
 
                 NotifyComplete();
             }
