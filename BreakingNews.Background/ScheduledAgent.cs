@@ -12,7 +12,7 @@ namespace BreakingNews.Background
     {
         private static volatile bool _classInitialized;
 
-        private DateTime? LastBackgroundExecutionTime;
+        public DateTime? LastBackgroundExecutionTime;
 
         public ScheduledAgent()
         {
@@ -70,7 +70,7 @@ namespace BreakingNews.Background
 
             notifyCompleteLock++;
 
-            await App.BreakingNewsClient.GetLiveTilePosts((result) =>
+            await App.BreakingNewsClient.GetLiveTilePostsBackground((result) =>
             {
                 Deployment.Current.Dispatcher.BeginInvoke(delegate
                 {
@@ -79,8 +79,8 @@ namespace BreakingNews.Background
                         DateTime postDate = new DateTime();
                         DateTime.TryParse(item.date, out postDate);
 
-                        if (postDate >= LastBackgroundExecutionTime &&
-                            (DateTime.UtcNow - postDate).TotalMinutes <= 30)
+                        // only show notifications which were posted in the last 90 minutes
+                        if (postDate >= DateTime.UtcNow.AddMinutes(-90))
                         {
                             ShellToast toast = new ShellToast();
                             toast.Title = "Breaking News";
@@ -144,13 +144,9 @@ namespace BreakingNews.Background
             {
                 if (System.Diagnostics.Debugger.IsAttached)
                     ScheduledActionService.LaunchForTest("BackgroundWorker", new TimeSpan(0, 0, 1, 0)); // every minute
-
-                if (App.BreakingNewsClient != null)
-                    App.BreakingNewsClient.SaveData();
-
-                LastBackgroundExecutionTime = DateTime.UtcNow;
-                IsolatedStorageHelper.SaveObject<DateTime?>("LastBackgroundExecutionTime", LastBackgroundExecutionTime);
-
+                
+                IsolatedStorageHelper.SaveObject<DateTime?>("LastBackgroundExecutionTime", DateTime.UtcNow);
+                
                 NotifyComplete();
             }
         }
