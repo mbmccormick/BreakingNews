@@ -23,7 +23,6 @@ namespace BreakingNews.API
         public string NextTopicPosts = null;
 
         public DateTime? LastApplicationLaunchTime;
-        public readonly DateTime? LastBackgroundExecutionTime;
 
         public ServiceClient(bool debug)
         {
@@ -36,11 +35,6 @@ namespace BreakingNews.API
 
             if (LastApplicationLaunchTime == null)
                 LastApplicationLaunchTime = DateTime.UtcNow;
-
-            LastBackgroundExecutionTime = IsolatedStorageHelper.GetObject<DateTime?>("LastBackgroundExecutionTime");
-
-            if (LastBackgroundExecutionTime == null)
-                LastBackgroundExecutionTime = DateTime.UtcNow;
 
             if (debug == true)
                 serverAddress = "api-breakingnews-com-pqib6nr22m80.runscope.net";
@@ -261,9 +255,9 @@ namespace BreakingNews.API
             await GetNextLatestPosts(callback);
         }
 
-        public async Task GetLiveTilePostsBackground(Action<List<Post>> callback)
+        public async Task GetLiveTilePostsBackground(Action<List<Post>> callback, DateTime lastExecutionTime)
         {
-            NextLatestPosts = "/api/v1/item/?importance__in=5&date__gt=" + LastBackgroundExecutionTime.Value.ToString("o");
+            NextLatestPosts = "/api/v1/item/?importance__in=5&date__gt=" + lastExecutionTime.ToString("o");
 
             await GetNextLatestPosts(callback);
         }

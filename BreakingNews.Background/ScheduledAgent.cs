@@ -94,7 +94,7 @@ namespace BreakingNews.Background
                     notifyCompleteLock--;
                     SafeNotifyComplete();
                 });
-            });
+            }, LastBackgroundExecutionTime.Value);
 
             foreach (ShellTile tile in ShellTile.ActiveTiles)
             {
