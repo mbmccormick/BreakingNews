@@ -12,7 +12,7 @@ namespace BreakingNews.Background
     {
         private static volatile bool _classInitialized;
 
-        public DateTime? LastBackgroundExecutionTime;
+        public DateTime LastBackgroundExecutionTime;
 
         public ScheduledAgent()
         {
@@ -56,9 +56,9 @@ namespace BreakingNews.Background
         {
             App.BreakingNewsClient = new ServiceClient(Debugger.IsAttached);
 
-            LastBackgroundExecutionTime = IsolatedStorageHelper.GetObject<DateTime?>("LastBackgroundExecutionTime");
+            LastBackgroundExecutionTime = IsolatedStorageHelper.GetObject<DateTime>("LastBackgroundExecutionTime");
 
-            if (LastBackgroundExecutionTime == null)
+            if (LastBackgroundExecutionTime == DateTime.MinValue)
                 LastBackgroundExecutionTime = DateTime.UtcNow;
 
             notifyCompleteLock = 0;
@@ -94,7 +94,7 @@ namespace BreakingNews.Background
                     notifyCompleteLock--;
                     SafeNotifyComplete();
                 });
-            }, LastBackgroundExecutionTime.Value);
+            }, LastBackgroundExecutionTime);
 
             foreach (ShellTile tile in ShellTile.ActiveTiles)
             {
@@ -142,7 +142,7 @@ namespace BreakingNews.Background
         {
             if (notifyCompleteLock == 0)
             {
-                IsolatedStorageHelper.SaveObject<DateTime?>("LastBackgroundExecutionTime", DateTime.UtcNow);
+                IsolatedStorageHelper.SaveObject<DateTime>("LastBackgroundExecutionTime", DateTime.UtcNow);
                 
                 if (System.Diagnostics.Debugger.IsAttached)
                     ScheduledActionService.LaunchForTest("BackgroundWorker", new TimeSpan(0, 0, 1, 0)); // every minute

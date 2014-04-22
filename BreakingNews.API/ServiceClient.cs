@@ -22,7 +22,7 @@ namespace BreakingNews.API
         public string NextPopularPosts = null;
         public string NextTopicPosts = null;
 
-        public DateTime? LastApplicationLaunchTime;
+        public DateTime LastApplicationLaunchTime;
 
         public ServiceClient(bool debug)
         {
@@ -31,9 +31,9 @@ namespace BreakingNews.API
             if (FollowedTopics == null)
                 FollowedTopics = new List<TopicItem>();
 
-            LastApplicationLaunchTime = IsolatedStorageHelper.GetObject<DateTime?>("LastApplicationLaunchTime");
+            LastApplicationLaunchTime = IsolatedStorageHelper.GetObject<DateTime>("LastApplicationLaunchTime");
 
-            if (LastApplicationLaunchTime == null)
+            if (LastApplicationLaunchTime == DateTime.MinValue)
                 LastApplicationLaunchTime = DateTime.UtcNow;
 
             if (debug == true)
@@ -250,7 +250,7 @@ namespace BreakingNews.API
 
         public async Task GetLiveTilePosts(Action<List<Post>> callback)
         {
-            NextLatestPosts = "/api/v1/item/?importance__in=5&date__gt=" + LastApplicationLaunchTime.Value.ToString("o");
+            NextLatestPosts = "/api/v1/item/?importance__in=5&date__gt=" + LastApplicationLaunchTime.ToString("o");
 
             await GetNextLatestPosts(callback);
         }
@@ -264,7 +264,7 @@ namespace BreakingNews.API
 
         public async Task GetLiveTileTopicPosts(Action<List<Post>> callback, int topicId)
         {
-            NextTopicPosts = "/api/v1/item/?topics=" + topicId + "&date__gt=" + LastApplicationLaunchTime.Value.ToString("o");
+            NextTopicPosts = "/api/v1/item/?topics=" + topicId + "&date__gt=" + LastApplicationLaunchTime.ToString("o");
 
             await GetNextTopicPosts(callback);
         }
@@ -313,7 +313,7 @@ namespace BreakingNews.API
         public void SaveData()
         {
             IsolatedStorageHelper.SaveObject<List<TopicItem>>("FollowedTopics", FollowedTopics);
-            IsolatedStorageHelper.SaveObject<DateTime?>("LastApplicationLaunchTime", LastApplicationLaunchTime);
+            IsolatedStorageHelper.SaveObject<DateTime>("LastApplicationLaunchTime", LastApplicationLaunchTime);
         }
 
         private Post FormatPost(Post data)
