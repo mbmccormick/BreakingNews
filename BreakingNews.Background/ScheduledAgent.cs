@@ -142,10 +142,10 @@ namespace BreakingNews.Background
         {
             if (notifyCompleteLock == 0)
             {
+                IsolatedStorageHelper.SaveObject<DateTime?>("LastBackgroundExecutionTime", DateTime.UtcNow);
+                
                 if (System.Diagnostics.Debugger.IsAttached)
                     ScheduledActionService.LaunchForTest("BackgroundWorker", new TimeSpan(0, 0, 1, 0)); // every minute
-                
-                IsolatedStorageHelper.SaveObject<DateTime?>("LastBackgroundExecutionTime", DateTime.UtcNow);
                 
                 NotifyComplete();
             }
