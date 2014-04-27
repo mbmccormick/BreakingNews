@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Net;
 using System.Windows;
 using BreakingNews.API;
 using BreakingNews.Background.Common;
@@ -28,7 +29,11 @@ namespace BreakingNews.Background
 
         private void ScheduledAgent_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
-            if (e.ExceptionObject is OutOfMemoryException)
+            if (e.ExceptionObject is WebException)
+            {
+                // ignore these exceptions
+            } 
+            else if (e.ExceptionObject is OutOfMemoryException)
             {
                 // ignore these exceptions
             }
