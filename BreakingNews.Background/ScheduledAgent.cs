@@ -75,7 +75,7 @@ namespace BreakingNews.Background
 
             notifyCompleteLock++;
 
-            await App.BreakingNewsClient.GetLiveTilePostsBackground((result) =>
+            await App.BreakingNewsClient.GetLiveTilePosts((result) =>
             {
                 Deployment.Current.Dispatcher.BeginInvoke(delegate
                 {
@@ -84,8 +84,9 @@ namespace BreakingNews.Background
                         DateTime postDate = new DateTime();
                         DateTime.TryParse(item.date, out postDate);
 
-                        // only show notifications which were posted in the last 90 minutes
-                        if (postDate >= DateTime.UtcNow.AddMinutes(-90))
+                        // only show new and recent notifications
+                        if (postDate >= LastBackgroundExecutionTime &&
+                            postDate >= DateTime.UtcNow.AddMinutes(-60))
                         {
                             ShellToast toast = new ShellToast();
                             toast.Title = "Breaking News";
@@ -99,7 +100,7 @@ namespace BreakingNews.Background
                     notifyCompleteLock--;
                     SafeNotifyComplete();
                 });
-            }, LastBackgroundExecutionTime);
+            });
 
             foreach (ShellTile tile in ShellTile.ActiveTiles)
             {
