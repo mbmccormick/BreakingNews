@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Windows;
 using BreakingNews.API;
+using BreakingNews.API.Models;
 using BreakingNews.Background.Common;
 using Microsoft.Phone.Scheduler;
 using Microsoft.Phone.Shell;
@@ -13,7 +15,8 @@ namespace BreakingNews.Background
     {
         private static volatile bool _classInitialized;
 
-        public DateTime LastBackgroundExecutionTime;
+        public List<int> NotifiedPosts;
+        public int MaxNotifiedPosts = 250;
 
         public ScheduledAgent()
         {
@@ -61,10 +64,10 @@ namespace BreakingNews.Background
         {
             App.BreakingNewsClient = new ServiceClient(Debugger.IsAttached);
 
-            LastBackgroundExecutionTime = IsolatedStorageHelper.GetObject<DateTime>("LastBackgroundExecutionTime");
+            NotifiedPosts = IsolatedStorageHelper.GetObject<List<int>>("NotifiedPosts");
 
-            if (LastBackgroundExecutionTime == DateTime.MinValue)
-                LastBackgroundExecutionTime = DateTime.UtcNow;
+            if (NotifiedPosts == null)
+                NotifiedPosts = new List<int>();
 
             notifyCompleteLock = 0;
 
@@ -81,12 +84,8 @@ namespace BreakingNews.Background
                 {
                     foreach (var item in result)
                     {
-                        DateTime postDate = new DateTime();
-                        DateTime.TryParse(item.date, out postDate);
-
-                        // only show new and recent notifications
-                        if (postDate >= LastBackgroundExecutionTime &&
-                            postDate >= DateTime.UtcNow.AddMinutes(-60))
+                        // only show new notifications
+                        if (NotifiedPosts.Contains(item.id) == false)
                         {
                             ShellToast toast = new ShellToast();
                             toast.Title = "Breaking News";
@@ -94,6 +93,8 @@ namespace BreakingNews.Background
                             toast.NavigationUri = new Uri("/MainPage.xaml?NavigationUri=" + item.FriendlyUrl.ToString(), UriKind.Relative);
 
                             toast.Show();
+
+                            MarkPostAsNotified(item);
                         }
                     }
 
@@ -144,11 +145,29 @@ namespace BreakingNews.Background
             SafeNotifyComplete();
         }
 
+        public void MarkPostAsNotified(Post item)
+        {
+            bool found = false;
+            foreach (int pi in NotifiedPosts)
+            {
+                if (pi == item.id) found = true;
+            }
+
+            if (found == true) return;
+
+            while (NotifiedPosts.Count >= MaxNotifiedPosts)
+            {
+                NotifiedPosts.RemoveAt(MaxNotifiedPosts - 1);
+            }
+
+            NotifiedPosts.Insert(0, item.id);
+        }
+
         private void SafeNotifyComplete()
         {
             if (notifyCompleteLock == 0)
             {
-                IsolatedStorageHelper.SaveObject<DateTime>("LastBackgroundExecutionTime", DateTime.UtcNow);
+                IsolatedStorageHelper.SaveObject<List<int>>("NotifiedPosts", NotifiedPosts);
                 
                 if (System.Diagnostics.Debugger.IsAttached)
                     ScheduledActionService.LaunchForTest("BackgroundWorker", new TimeSpan(0, 0, 1, 0)); // every minute
