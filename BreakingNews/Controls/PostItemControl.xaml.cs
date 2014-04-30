@@ -24,10 +24,17 @@ namespace BreakingNews
         {
             Post item = ((FrameworkElement)sender).DataContext as Post;
 
-            WebBrowserTask webBrowserTask = new WebBrowserTask();
-            webBrowserTask.Uri = item.FriendlyUrl;
+            if (sender == this.imgMedia)
+            {
+                App.RootFrame.Navigate(new Uri("/PhotoViewerPage.xaml?id=" + item.id, UriKind.Relative));
+            }
+            else
+            {
+                WebBrowserTask webBrowserTask = new WebBrowserTask();
+                webBrowserTask.Uri = item.FriendlyUrl;
 
-            webBrowserTask.Show();
+                webBrowserTask.Show();
+            }
         }
 
         private void Share_Click(object sender, RoutedEventArgs e)

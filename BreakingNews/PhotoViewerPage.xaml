@@ -1,0 +1,33 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="BreakingNews.PhotoViewerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:uc="clr-namespace:BreakingNews"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Background="#FF000000"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
+    shell:SystemTray.IsVisible="False"
+    toolkit:TiltEffect.IsTiltEnabled="True"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}">
+
+    <Grid x:Name="LayoutRoot" Background="#FF000000">
+        <ProgressBar x:Name="prgLoading" Foreground="#FFDD3618" IsIndeterminate="True" Margin="0,0,0,0" VerticalAlignment="Top" />
+
+        <TextBlock x:Name="txtLoading" Margin="24,24,24,0" Visibility="Visible" TextWrapping="Wrap" Text="Just a moment..." Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFFFFFFF" />
+        <Image x:Name="imgMedia" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" Tap="ImageContent_Tap" />
+        <StackPanel x:Name="stkCaption" Margin="24,12,24,24" VerticalAlignment="Bottom" HorizontalAlignment="Left" Tap="PostContent_Tap">
+            <TextBlock x:Name="txtContent" TextWrapping="Wrap" Margin="0,0,0,6" Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFFFFFFF" Visibility="Collapsed" />
+            <TextBlock x:Name="txtDescription" TextWrapping="Wrap" Margin="0,0,0,0" Style="{StaticResource PhoneTextSubtleStyle}" Foreground="#FFCCCCCC" Visibility="Collapsed" />
+        </StackPanel>
+        
+        <TextBlock x:Name="txtEmpty" Margin="24,24,24,0" Visibility="Collapsed" TextWrapping="Wrap" Text="This photo is unavailable." Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFFFFFFF" />
+    </Grid>
+
+</phone:PhoneApplicationPage>

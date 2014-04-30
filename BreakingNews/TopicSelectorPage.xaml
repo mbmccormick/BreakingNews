@@ -12,7 +12,7 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Background="#FFFFFFFF"
-    SupportedOrientations="Portrait"  Orientation="Portrait"
+    SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True"
     shell:SystemTray.BackgroundColor="#FFDD3618"
     shell:SystemTray.ForegroundColor="#FF000000"
@@ -66,7 +66,7 @@
             <toolkit:PhoneTextBox x:Name="txtSearch" Hint="Search" ActionIcon="/Resources/Search.png" BorderBrush="#FFDD3618" TextChanged="Search_TextChanged" Margin="0,0,12,0" />
         </StackPanel>
 
-        <ProgressBar Name="prgLoading" Foreground="#FFDD3618" IsIndeterminate="True" Margin="0,0,0,0" VerticalAlignment="Top" />
+        <ProgressBar x:Name="prgLoading" Foreground="#FFDD3618" IsIndeterminate="True" Margin="0,0,0,0" VerticalAlignment="Top" />
 
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="24,2,12,0">
             <phone:LongListSelector x:Name="lstTopics" ItemsSource="{Binding Topics}" Margin="0,0,0,0" Foreground="Black" Visibility="Collapsed" ScrollViewer.VerticalScrollBarVisibility="Hidden" Style="{StaticResource LongListSelectorCustomStyle}">

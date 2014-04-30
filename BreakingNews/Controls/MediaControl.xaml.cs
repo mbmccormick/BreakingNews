@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using BreakingNews.API.Models;
 using Microsoft.Phone.Tasks;
@@ -16,10 +17,7 @@ namespace BreakingNews
         {
             Post item = ((FrameworkElement)sender).DataContext as Post;
 
-            WebBrowserTask webBrowserTask = new WebBrowserTask();
-            webBrowserTask.Uri = item.FriendlyUrl;
-
-            webBrowserTask.Show();
+            App.RootFrame.Navigate(new Uri("/PhotoViewerPage.xaml?id=" + item.id, UriKind.Relative));
         }
     }
 }

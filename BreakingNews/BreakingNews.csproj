@@ -116,6 +116,9 @@
     <Compile Include="Controls\PostItemControl.xaml.cs">
       <DependentUpon>PostItemControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PhotoViewerPage.xaml.cs">
+      <DependentUpon>PhotoViewerPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controls\TopicControl.xaml.cs">
       <DependentUpon>TopicControl.xaml</DependentUpon>
@@ -194,6 +197,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\TopicControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PhotoViewerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -277,16 +277,33 @@ namespace BreakingNews.API
             callback(data);
         }
 
+        public async Task GetPost(Action<Post> callback, int postId)
+        {
+            HttpWebRequest request = HttpWebRequest.Create("http://" + serverAddress + "/api/v1/item/" + postId + "/") as HttpWebRequest;
+            request.Accept = "application/json";
+
+            var response = await request.GetResponseAsync().ConfigureAwait(false);
+
+            Stream stream = response.GetResponseStream();
+            UTF8Encoding encoding = new UTF8Encoding();
+            StreamReader sr = new StreamReader(stream, encoding);
+
+            JsonTextReader tr = new JsonTextReader(sr);
+            Post data = new JsonSerializer().Deserialize<Post>(tr);
+
+            tr.Close();
+            sr.Dispose();
+
+            stream.Dispose();
+
+            data = FormatPost(data);
+
+            callback(data);
+        }
+
         public async Task GetLiveTilePosts(Action<List<Post>> callback)
         {
             NextLatestPosts = "/api/v1/item/?importance__in=5&date__gt=" + LastApplicationLaunchTime.ToString("o");
-
-            await GetNextLatestPosts(callback);
-        }
-
-        public async Task GetLiveTilePostsBackground(Action<List<Post>> callback, DateTime lastExecutionTime)
-        {
-            NextLatestPosts = "/api/v1/item/?importance__in=5&date__gt=" + lastExecutionTime.ToString("o");
 
             await GetNextLatestPosts(callback);
         }

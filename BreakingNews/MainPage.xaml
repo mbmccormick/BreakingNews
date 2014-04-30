@@ -12,7 +12,7 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Background="#FFFFFFFF"
-    SupportedOrientations="Portrait"  Orientation="Portrait"
+    SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True"
     shell:SystemTray.BackgroundColor="#FFDD3618"
     shell:SystemTray.ForegroundColor="#FF000000"
@@ -56,9 +56,9 @@
     </phone:PhoneApplicationPage.Resources>
 
     <Grid x:Name="LayoutRoot" Background="#FFFFFFFF">
-        <ProgressBar Name="prgLoading" Foreground="#FFDD3618" IsIndeterminate="True" Margin="0,0,0,0" VerticalAlignment="Top" />
+        <ProgressBar x:Name="prgLoading" Foreground="#FFDD3618" IsIndeterminate="True" Margin="0,0,0,0" VerticalAlignment="Top" />
 
-        <phone:Pivot Name="pivLayout" Title="BREAKING NEWS" Foreground="Black">
+        <phone:Pivot x:Name="pivLayout" Title="BREAKING NEWS" Foreground="Black">
             <phone:PivotItem Header="latest">
                 <Grid Margin="0,0,0,0">
                     <phone:LongListSelector x:Name="lstLatestPosts" ItemsSource="{Binding LatestPosts}" Margin="0,0,0,0" Foreground="Black" Visibility="Collapsed" ScrollViewer.VerticalScrollBarVisibility="Hidden" Style="{StaticResource LongListSelectorCustomStyle}" ItemRealized="LongListSelector_ItemRealized" ItemUnrealized="LongListSelector_ItemUnrealized">
