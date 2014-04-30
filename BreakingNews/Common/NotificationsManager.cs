@@ -8,13 +8,24 @@ namespace BreakingNews.Common
     {
         public static void SetupNotifications()
         {
-            if (ScheduledActionService.Find("BackgroundWorker") == null)
+            // remove background worker, if necessary
+            if (ScheduledActionService.Find("BackgroundWorker") != null)
             {
-                PeriodicTask task = new PeriodicTask("BackgroundWorker");
-                task.Description = "Handles the live tile updates and notifications for Breaking News.";
-
-                ScheduledActionService.Add(task);
+                try
+                {
+                    ScheduledActionService.Remove("BackgroundWorker");
+                }
+                catch (Exception)
+                {
+                    // do nothing
+                }
             }
+
+            // create background worker
+            PeriodicTask task = new PeriodicTask("BackgroundWorker");
+            task.Description = "Handles the live tile updates and notifications for Breaking News.";
+
+            ScheduledActionService.Add(task);
 
             // increase background worder interval for debug mode
             if (System.Diagnostics.Debugger.IsAttached)
@@ -31,7 +42,7 @@ namespace BreakingNews.Common
                     data.Count = 0;
                     data.BackBackgroundImage = new Uri("appdata:background.png");
                     data.WideBackBackgroundImage = new Uri("appdata:background.png");
-                        
+
                     tile.Update(data);
                 });
             }
