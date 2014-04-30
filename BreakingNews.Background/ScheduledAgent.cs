@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO.IsolatedStorage;
 using System.Net;
 using System.Windows;
 using BreakingNews.API;
@@ -161,13 +162,15 @@ namespace BreakingNews.Background
             }
 
             NotifiedPosts.Insert(0, item.id);
+
+            IsolatedStorageHelper.SaveObject<List<int>>("NotifiedPosts", NotifiedPosts);
         }
 
         private void SafeNotifyComplete()
         {
             if (notifyCompleteLock == 0)
             {
-                IsolatedStorageHelper.SaveObject<List<int>>("NotifiedPosts", NotifiedPosts);
+                IsolatedStorageSettings.ApplicationSettings.Save();
                 
                 if (System.Diagnostics.Debugger.IsAttached)
                     ScheduledActionService.LaunchForTest("BackgroundWorker", new TimeSpan(0, 0, 1, 0)); // every minute
