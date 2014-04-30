@@ -107,6 +107,36 @@ namespace BreakingNews.API.Models
             }
         }
 
+        public Visibility FriendlyVideoVisibility
+        {
+            get
+            {
+                if (media != null &&
+                    media.type == "video" &&
+                    topics[0].livevideo.Length == 0)
+                {
+                    return Visibility.Visible;
+                }
+
+                return Visibility.Collapsed;
+            }
+        }
+
+        public Visibility FriendlyLiveVideoVisibility
+        {
+            get
+            {
+                if (media != null &&
+                    media.type == "video" &&
+                    topics[0].livevideo.Length > 0)
+                {
+                    return Visibility.Visible;
+                }
+
+                return Visibility.Collapsed;
+            }
+        }
+
         public Uri FriendlyUrl
         {
             get

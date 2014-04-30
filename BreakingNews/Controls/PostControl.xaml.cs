@@ -8,6 +8,20 @@ namespace BreakingNews
 {
     public partial class PostControl : UserControl
     {
+        private bool _HideTopic;
+        public bool HideTopic
+        {
+            get
+            {
+                return _HideTopic;
+            }
+            set
+            {
+                this.txtTopic.Visibility = value ? Visibility.Collapsed : Visibility.Visible;
+                _HideTopic = value;
+            }
+        }
+
         public PostControl()
         {
             InitializeComponent();
@@ -24,7 +38,8 @@ namespace BreakingNews
         {
             Post item = ((FrameworkElement)sender).DataContext as Post;
 
-            if (sender == this.imgMedia)
+            if (sender == this.imgMedia &&
+                item.media.type == "photo")
             {
                 App.RootFrame.Navigate(new Uri("/PhotoViewerPage.xaml?id=" + item.id, UriKind.Relative));
             }

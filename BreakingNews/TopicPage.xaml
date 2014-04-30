@@ -74,7 +74,7 @@
             <phone:LongListSelector x:Name="lstPosts" ItemsSource="{Binding TopicPosts}" Margin="0,0,0,0" Foreground="Black" Visibility="Collapsed" ScrollViewer.VerticalScrollBarVisibility="Hidden" Style="{StaticResource LongListSelectorCustomStyle}" ItemRealized="LongListSelector_ItemRealized" ItemUnrealized="LongListSelector_ItemUnrealized">
                 <phone:LongListSelector.ItemTemplate>
                     <DataTemplate>
-                        <uc:PostItemControl Margin="0,0,0,24" />
+                        <uc:PostControl Margin="0,0,0,24" HideTopic="True" />
                     </DataTemplate>
                 </phone:LongListSelector.ItemTemplate>
             </phone:LongListSelector>
