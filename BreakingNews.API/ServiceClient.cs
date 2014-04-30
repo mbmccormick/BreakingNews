@@ -123,6 +123,35 @@ namespace BreakingNews.API
             callback(data);
         }
 
+        public async Task GetPopularPhotos(Action<List<Post>> callback)
+        {
+            HttpWebRequest request = HttpWebRequest.Create("http://" + serverAddress + "/api/v1/popular/1/") as HttpWebRequest;
+            request.Accept = "application/json";
+
+            var response = await request.GetResponseAsync().ConfigureAwait(false);
+
+            Stream stream = response.GetResponseStream();
+            UTF8Encoding encoding = new UTF8Encoding();
+            StreamReader sr = new StreamReader(stream, encoding);
+
+            JsonTextReader tr = new JsonTextReader(sr);
+            PopularPostsResponse postsResponse = new JsonSerializer().Deserialize<PopularPostsResponse>(tr);
+
+            List<Post> data = postsResponse.media;
+
+            tr.Close();
+            sr.Dispose();
+
+            stream.Dispose();
+
+            for (int i = 0; i < data.Count; i++)
+            {
+                data[i] = FormatPost(data[i]);
+            }
+
+            callback(data);
+        }
+
         public async Task GetOngoingTopics(Action<List<TopicItem>> callback)
         {
             HttpWebRequest request = HttpWebRequest.Create("http://" + serverAddress + "/api/v1/topic/hot/?kind__in=arc&limit=10") as HttpWebRequest;

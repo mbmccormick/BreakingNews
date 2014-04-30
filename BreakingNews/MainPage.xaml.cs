@@ -17,12 +17,14 @@ namespace BreakingNews
 
         public static ObservableCollection<Post> LatestPosts { get; set; }
         public static ObservableCollection<Post> PopularPosts { get; set; }
+        public static ObservableCollection<Post> PopularPhotos { get; set; }
         public static ObservableCollection<TopicItem> FollowedTopics { get; set; }
 
         #endregion
 
         private bool isLatestLoaded = false;
         private bool isPopularLoaded = false;
+        private bool isPopularMediaLoaded = false;
         private bool isFollowedTopicsLoaded = false;
 
         ApplicationBarIconButton refresh;
@@ -39,6 +41,7 @@ namespace BreakingNews
 
             LatestPosts = new ObservableCollection<Post>();
             PopularPosts = new ObservableCollection<Post>();
+            PopularPhotos = new ObservableCollection<Post>();
             FollowedTopics = new ObservableCollection<TopicItem>();
 
             this.BuildApplicationBar();
@@ -142,6 +145,7 @@ namespace BreakingNews
 
                         if (isLatestLoaded &&
                             isPopularLoaded &&
+                            isPopularMediaLoaded &&
                             isFollowedTopicsLoaded)
                         {
                             ToggleLoadingText();
@@ -167,6 +171,36 @@ namespace BreakingNews
 
                         if (isLatestLoaded &&
                             isPopularLoaded &&
+                            isPopularMediaLoaded &&
+                            isFollowedTopicsLoaded)
+                        {
+                            ToggleLoadingText();
+                            ToggleEmptyText();
+
+                            this.prgLoading.Visibility = System.Windows.Visibility.Collapsed;
+                        }
+                    });
+                });
+
+                await App.BreakingNewsClient.GetPopularPhotos((result) =>
+                {
+                    SmartDispatcher.BeginInvoke(() =>
+                    {
+                        PopularPhotos.Clear();
+
+                        int maximum = 8;
+
+                        foreach (Post item in result)
+                        {
+                            if (PopularPhotos.Count < maximum)
+                                PopularPhotos.Add(item);
+                        }
+
+                        isPopularMediaLoaded = true;
+
+                        if (isLatestLoaded &&
+                            isPopularLoaded &&
+                            isPopularMediaLoaded &&
                             isFollowedTopicsLoaded)
                         {
                             ToggleLoadingText();
@@ -193,6 +227,7 @@ namespace BreakingNews
 
                     if (isLatestLoaded &&
                         isPopularLoaded &&
+                        isPopularMediaLoaded &&
                         isFollowedTopicsLoaded)
                     {
                         ToggleLoadingText();
@@ -212,6 +247,7 @@ namespace BreakingNews
 
             this.lstLatestPosts.Visibility = System.Windows.Visibility.Visible;
             this.lstPopularPosts.Visibility = System.Windows.Visibility.Visible;
+            this.lstPopularPhotos.Visibility = System.Windows.Visibility.Visible;
             this.lstFollowedTopics.Visibility = System.Windows.Visibility.Visible;
         }
 
@@ -239,6 +275,7 @@ namespace BreakingNews
 
             isLatestLoaded = false;
             isPopularLoaded = false;
+            isPopularMediaLoaded = false;
             isFollowedTopicsLoaded = false;
 
             LoadData(false);
