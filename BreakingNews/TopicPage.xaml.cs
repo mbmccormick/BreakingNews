@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Navigation;
 using BreakingNews.API.Models;
@@ -7,6 +8,7 @@ using BreakingNews.Common;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
+using Windows.ApplicationModel.Store;
 
 namespace BreakingNews
 {
@@ -27,6 +29,7 @@ namespace BreakingNews
         ApplicationBarMenuItem follow;
         ApplicationBarMenuItem unfollow;
         ApplicationBarMenuItem feedback;
+        ApplicationBarMenuItem donate;
         ApplicationBarMenuItem about;
 
         public TopicPage()
@@ -60,6 +63,10 @@ namespace BreakingNews
             feedback.Text = "feedback";
             feedback.Click += Feedback_Click;
 
+            donate = new ApplicationBarMenuItem();
+            donate.Text = "donate";
+            donate.Click += Donate_Click;
+
             about = new ApplicationBarMenuItem();
             about.Text = "about";
             about.Click += About_Click;
@@ -69,6 +76,7 @@ namespace BreakingNews
 
             ApplicationBar.MenuItems.Add(follow);
             ApplicationBar.MenuItems.Add(feedback);
+            ApplicationBar.MenuItems.Add(donate);
             ApplicationBar.MenuItems.Add(about);
         }
 
@@ -93,8 +101,6 @@ namespace BreakingNews
             if (e.IsNavigationInitiator == false)
             {
                 LittleWatson.CheckForPreviousException(true);
-
-                TrialManager.CheckLicense();
 
                 FeedbackHelper.PromptForRating();
             }
@@ -274,6 +280,27 @@ namespace BreakingNews
             if (this.prgLoading.Visibility == System.Windows.Visibility.Visible) return;
 
             FeedbackHelper.Default.Feedback();
+        }
+
+        private async void Donate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var productList = await CurrentApp.LoadListingInformationAsync();
+                var product = productList.ProductListings.FirstOrDefault(p => p.Value.ProductType == ProductType.Consumable);
+                var receipt = await CurrentApp.RequestProductPurchaseAsync(product.Value.ProductId, true);
+
+                if (CurrentApp.LicenseInformation.ProductLicenses[product.Value.ProductId].IsActive)
+                {
+                    CurrentApp.ReportProductFulfillment(product.Value.ProductId);
+
+                    MessageBox.Show("Thank you for your donation! Your support motivates me to keep developing for Breaking News, the best Breaking News client for Windows Phone.", "Thank You", MessageBoxButton.OK);
+                }
+            }
+            catch (Exception ex)
+            {
+                // do nothing
+            }
         }
 
         private void About_Click(object sender, EventArgs e)
