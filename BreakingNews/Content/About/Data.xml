@@ -64,6 +64,9 @@
     </Item>
     <Item Title="what's new?"
           Type="text">
+      Version 1.2
+      This release includes the ability to view photos in the new photo viewer and allows you to share a story from the context menu. Revamped the Popular posts page and fixed some minor issues with background notifications.
+      
       Version 1.1
       This release includes the ability to receive background toast notifications for breaking news stories. This version also includes several user interface tweaks and bug fixes.
 
