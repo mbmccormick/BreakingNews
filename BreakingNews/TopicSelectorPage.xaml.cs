@@ -105,7 +105,10 @@ namespace BreakingNews
 
             this.txtLoading.Visibility = System.Windows.Visibility.Visible;
 
-            this.lstTopics.Visibility = System.Windows.Visibility.Collapsed;
+            if (Topics.Count == 0)
+            {
+                this.lstTopics.Visibility = System.Windows.Visibility.Collapsed;
+            }
         }
 
         private void ToggleLoadingText()

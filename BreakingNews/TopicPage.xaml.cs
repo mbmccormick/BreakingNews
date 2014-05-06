@@ -182,9 +182,13 @@ namespace BreakingNews
 
             this.txtLoading.Visibility = System.Windows.Visibility.Visible;
 
-            this.txtName.Visibility = System.Windows.Visibility.Collapsed;
-            this.txtDescription.Visibility = System.Windows.Visibility.Collapsed;
-            this.lstPosts.Visibility = System.Windows.Visibility.Collapsed;
+            if (CurrentTopic == null &&
+                TopicPosts.Count == 0)
+            {
+                this.txtName.Visibility = System.Windows.Visibility.Collapsed;
+                this.txtDescription.Visibility = System.Windows.Visibility.Collapsed;
+                this.lstPosts.Visibility = System.Windows.Visibility.Collapsed;
+            }
         }
 
         private void ToggleLoadingText()
