@@ -103,10 +103,10 @@ namespace BreakingNews
         {
             this.txtEmpty.Visibility = System.Windows.Visibility.Collapsed;
 
-            this.txtLoading.Visibility = System.Windows.Visibility.Visible;
-
             if (Topics.Count == 0)
             {
+                this.txtLoading.Visibility = System.Windows.Visibility.Visible;
+
                 this.lstTopics.Visibility = System.Windows.Visibility.Collapsed;
             }
         }

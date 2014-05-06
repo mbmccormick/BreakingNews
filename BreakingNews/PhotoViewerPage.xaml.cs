@@ -93,10 +93,12 @@ namespace BreakingNews
 
         private void ResetDefaultLayout()
         {
-            this.txtLoading.Visibility = System.Windows.Visibility.Visible;
+            this.txtEmpty.Visibility = System.Windows.Visibility.Collapsed;
 
             if (CurrentPost == null)
             {
+                this.txtLoading.Visibility = System.Windows.Visibility.Visible;
+
                 this.imgMedia.Visibility = System.Windows.Visibility.Collapsed;
                 this.txtContent.Visibility = System.Windows.Visibility.Collapsed;
                 this.txtDescription.Visibility = System.Windows.Visibility.Collapsed;

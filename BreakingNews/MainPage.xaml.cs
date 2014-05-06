@@ -253,14 +253,14 @@ namespace BreakingNews
             this.txtPopularPostsEmpty.Visibility = System.Windows.Visibility.Collapsed;
             this.txtFollowedTopicsEmpty.Visibility = System.Windows.Visibility.Collapsed;
 
-            this.txtLatestPostsLoading.Visibility = System.Windows.Visibility.Visible;
-            this.txtPopularPostsLoading.Visibility = System.Windows.Visibility.Visible;
-            this.txtFollowedTopicsLoading.Visibility = System.Windows.Visibility.Visible;
-
             if (LatestPosts.Count == 0 &&
                 PopularPosts.Count == 0 &&
                 FollowedTopics.Count == 0)
             {
+                this.txtLatestPostsLoading.Visibility = System.Windows.Visibility.Visible;
+                this.txtPopularPostsLoading.Visibility = System.Windows.Visibility.Visible;
+                this.txtFollowedTopicsLoading.Visibility = System.Windows.Visibility.Visible;
+
                 this.lstLatestPosts.Visibility = System.Windows.Visibility.Collapsed;
                 this.lstPopularPosts.Visibility = System.Windows.Visibility.Collapsed;
                 this.lstPopularPhotos.Visibility = System.Windows.Visibility.Collapsed;
