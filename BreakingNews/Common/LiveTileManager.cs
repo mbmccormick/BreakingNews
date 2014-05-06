@@ -11,8 +11,9 @@ namespace BreakingNews.Common
         {
             FlipTileData tile = new FlipTileData();
 
-            tile.BackgroundImage = new Uri("/Assets/Tiles/FlipCycleTileMedium.png", UriKind.Relative);
             tile.SmallBackgroundImage = new Uri("/Assets/Tiles/FlipCycleTileSmall.png", UriKind.Relative);
+            tile.BackgroundImage = new Uri("/Assets/Tiles/FlipCycleTileMedium.png", UriKind.Relative);
+            tile.WideBackgroundImage = new Uri("/Assets/Tiles/FlipCycleTileWide.png", UriKind.Relative);
 
             tile.Title = "Breaking News";
             tile.Count = 0;
@@ -36,8 +37,9 @@ namespace BreakingNews.Common
         {
             FlipTileData tile = new FlipTileData();
 
-            tile.BackgroundImage = new Uri("/Assets/Tiles/FlipCycleTileMediumTransparent.png", UriKind.Relative);
             tile.SmallBackgroundImage = new Uri("/Assets/Tiles/FlipCycleTileSmallTransparent.png", UriKind.Relative);
+            tile.BackgroundImage = new Uri("/Assets/Tiles/FlipCycleTileMediumTransparent.png", UriKind.Relative);
+            tile.WideBackgroundImage = new Uri("/Assets/Tiles/FlipCycleTileWideTransparent.png", UriKind.Relative);
 
             tile.Title = "Breaking News";
             tile.Count = 0;

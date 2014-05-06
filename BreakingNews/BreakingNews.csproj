@@ -151,6 +151,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Tiles\FlipCycleTileSmallTransparent.png" />
+    <Content Include="Assets\Tiles\FlipCycleTileWide.png" />
+    <Content Include="Assets\Tiles\FlipCycleTileWideTransparent.png" />
     <Content Include="Content\About\Data.xml">
       <SubType>Designer</SubType>
     </Content>

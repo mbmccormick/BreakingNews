@@ -16,6 +16,7 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
+            <RowDefinition Height="78" />
         </Grid.RowDefinitions>
 
         <Image x:Name="imgBackground" Grid.Row="0" Grid.Column="0" Margin="0,0,0,0" />
@@ -23,5 +24,7 @@
         <StackPanel Grid.Row="0" Grid.Column="0" Margin="19,19,19,19">
             <TextBlock x:Name="txtContent" Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFFFFFFF" Margin="0,-6,0,0" TextWrapping="Wrap" />
         </StackPanel>
+
+        <TextBlock Text="Breaking News" Grid.Row="1" Grid.Column="0" Margin="19,0,19,13" Style="{StaticResource PhoneTextNormalStyle}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Foreground="#FFFFFFFF" VerticalAlignment="Bottom" />
     </Grid>
 </UserControl>

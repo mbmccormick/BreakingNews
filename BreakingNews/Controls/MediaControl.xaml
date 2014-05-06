@@ -10,6 +10,6 @@
     d:DesignHeight="480" d:DesignWidth="480">
 
     <StackPanel x:Name="LayoutRoot" Background="{StaticResource PhoneChromeBrush}">
-        <Image Source="{Binding FriendlyImage}" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center" Tap="PostContent_Tap" />
+        <Image Source="{Binding FriendlyImage}" Stretch="UniformToFill" Height="111" Width="111" VerticalAlignment="Center" HorizontalAlignment="Center" Tap="PostContent_Tap" />
     </StackPanel>
 </UserControl>
