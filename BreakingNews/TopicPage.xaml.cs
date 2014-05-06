@@ -215,6 +215,7 @@ namespace BreakingNews
 
                 ApplicationBar.MenuItems.Add(unfollow);
                 ApplicationBar.MenuItems.Add(feedback);
+                ApplicationBar.MenuItems.Add(donate);
                 ApplicationBar.MenuItems.Add(about);
             }
             else
@@ -223,6 +224,7 @@ namespace BreakingNews
 
                 ApplicationBar.MenuItems.Add(follow);
                 ApplicationBar.MenuItems.Add(feedback);
+                ApplicationBar.MenuItems.Add(donate);
                 ApplicationBar.MenuItems.Add(about);
             }
         }

@@ -351,6 +351,7 @@ namespace BreakingNews
                 ApplicationBar.Buttons.Add(refresh);
 
                 ApplicationBar.MenuItems.Add(feedback);
+                ApplicationBar.MenuItems.Add(donate);
                 ApplicationBar.MenuItems.Add(about);
             }
             else
@@ -358,6 +359,7 @@ namespace BreakingNews
                 ApplicationBar.Buttons.Add(add);
 
                 ApplicationBar.MenuItems.Add(feedback);
+                ApplicationBar.MenuItems.Add(donate);
                 ApplicationBar.MenuItems.Add(about);
             }
         }
