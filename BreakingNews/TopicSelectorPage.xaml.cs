@@ -73,6 +73,8 @@ namespace BreakingNews
         {
             this.prgLoading.Visibility = System.Windows.Visibility.Visible;
 
+            ResetDefaultLayout();
+
             await App.BreakingNewsClient.GetOngoingTopics((result) =>
             {
                 SmartDispatcher.BeginInvoke(() =>
@@ -97,25 +99,28 @@ namespace BreakingNews
             });
         }
 
+        private void ResetDefaultLayout()
+        {
+            this.txtEmpty.Visibility = System.Windows.Visibility.Collapsed;
+
+            this.txtLoading.Visibility = System.Windows.Visibility.Visible;
+
+            this.lstTopics.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
         private void ToggleLoadingText()
         {
-            SmartDispatcher.BeginInvoke(() =>
-            {
-                this.txtLoading.Visibility = System.Windows.Visibility.Collapsed;
+            this.txtLoading.Visibility = System.Windows.Visibility.Collapsed;
 
-                this.lstTopics.Visibility = System.Windows.Visibility.Visible;
-            });
+            this.lstTopics.Visibility = System.Windows.Visibility.Visible;
         }
 
         private void ToggleEmptyText()
         {
-            SmartDispatcher.BeginInvoke(() =>
-            {
-                if (Topics.Count == 0)
-                    this.txtEmpty.Visibility = System.Windows.Visibility.Visible;
-                else
-                    this.txtEmpty.Visibility = System.Windows.Visibility.Collapsed;
-            });
+            if (Topics.Count == 0)
+                this.txtEmpty.Visibility = System.Windows.Visibility.Visible;
+            else
+                this.txtEmpty.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void Feedback_Click(object sender, EventArgs e)

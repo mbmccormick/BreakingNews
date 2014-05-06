@@ -134,6 +134,8 @@ namespace BreakingNews
         {
             this.prgLoading.Visibility = System.Windows.Visibility.Visible;
 
+            ResetDefaultLayout();
+
             if (isNavigationInitiator == false)
             {
                 await App.BreakingNewsClient.GetLatestPosts((result) =>
@@ -243,6 +245,22 @@ namespace BreakingNews
                     }
                 });
             });
+        }
+
+        private void ResetDefaultLayout()
+        {
+            this.txtLatestPostsEmpty.Visibility = System.Windows.Visibility.Collapsed;
+            this.txtPopularPostsEmpty.Visibility = System.Windows.Visibility.Collapsed;
+            this.txtFollowedTopicsEmpty.Visibility = System.Windows.Visibility.Collapsed;
+
+            this.txtLatestPostsLoading.Visibility = System.Windows.Visibility.Visible;
+            this.txtPopularPostsLoading.Visibility = System.Windows.Visibility.Visible;
+            this.txtFollowedTopicsLoading.Visibility = System.Windows.Visibility.Visible;
+
+            this.lstLatestPosts.Visibility = System.Windows.Visibility.Collapsed;
+            this.lstPopularPosts.Visibility = System.Windows.Visibility.Collapsed;
+            this.lstPopularPhotos.Visibility = System.Windows.Visibility.Collapsed;
+            this.lstFollowedTopics.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void ToggleLoadingText()

@@ -64,6 +64,8 @@ namespace BreakingNews
             {
                 this.prgLoading.Visibility = System.Windows.Visibility.Visible;
 
+                ResetDefaultLayout();
+
                 int postId = Convert.ToInt32(id);
 
                 await App.BreakingNewsClient.GetPost((result) =>
@@ -89,16 +91,22 @@ namespace BreakingNews
             }
         }
 
+        private void ResetDefaultLayout()
+        {
+            this.txtLoading.Visibility = System.Windows.Visibility.Visible;
+
+            this.imgMedia.Visibility = System.Windows.Visibility.Collapsed;
+            this.txtContent.Visibility = System.Windows.Visibility.Collapsed;
+            this.txtDescription.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
         private void ToggleLoadingText()
         {
-            SmartDispatcher.BeginInvoke(() =>
-            {
-                this.txtLoading.Visibility = System.Windows.Visibility.Collapsed;
+            this.txtLoading.Visibility = System.Windows.Visibility.Collapsed;
 
-                this.imgMedia.Visibility = System.Windows.Visibility.Visible;
-                this.txtContent.Visibility = System.Windows.Visibility.Visible;
-                this.txtDescription.Visibility = System.Windows.Visibility.Visible;
-            });
+            this.imgMedia.Visibility = System.Windows.Visibility.Visible;
+            this.txtContent.Visibility = System.Windows.Visibility.Visible;
+            this.txtDescription.Visibility = System.Windows.Visibility.Visible;
         }
 
         private void ImageContent_Tap(object sender, System.Windows.Input.GestureEventArgs e)

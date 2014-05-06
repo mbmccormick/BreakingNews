@@ -104,7 +104,7 @@ namespace BreakingNews
 
                 FeedbackHelper.PromptForRating();
             }
-            
+
             if (isTopicLoaded == false ||
                 isTopicPostsLoaded == false)
             {
@@ -121,6 +121,8 @@ namespace BreakingNews
             if (NavigationContext.QueryString.TryGetValue("id", out id))
             {
                 this.prgLoading.Visibility = System.Windows.Visibility.Visible;
+
+                ResetDefaultLayout();
 
                 int topicId = Convert.ToInt32(id);
 
@@ -174,27 +176,32 @@ namespace BreakingNews
             }
         }
 
+        private void ResetDefaultLayout()
+        {
+            this.txtEmpty.Visibility = System.Windows.Visibility.Collapsed;
+
+            this.txtLoading.Visibility = System.Windows.Visibility.Visible;
+
+            this.txtName.Visibility = System.Windows.Visibility.Collapsed;
+            this.txtDescription.Visibility = System.Windows.Visibility.Collapsed;
+            this.lstPosts.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
         private void ToggleLoadingText()
         {
-            SmartDispatcher.BeginInvoke(() =>
-            {
-                this.txtLoading.Visibility = System.Windows.Visibility.Collapsed;
+            this.txtLoading.Visibility = System.Windows.Visibility.Collapsed;
 
-                this.txtName.Visibility = System.Windows.Visibility.Visible;
-                this.txtDescription.Visibility = System.Windows.Visibility.Visible;
-                this.lstPosts.Visibility = System.Windows.Visibility.Visible;
-            });
+            this.txtName.Visibility = System.Windows.Visibility.Visible;
+            this.txtDescription.Visibility = System.Windows.Visibility.Visible;
+            this.lstPosts.Visibility = System.Windows.Visibility.Visible;
         }
 
         private void ToggleEmptyText()
         {
-            SmartDispatcher.BeginInvoke(() =>
-            {
-                if (TopicPosts.Count == 0)
-                    this.txtEmpty.Visibility = System.Windows.Visibility.Visible;
-                else
-                    this.txtEmpty.Visibility = System.Windows.Visibility.Collapsed;
-            });
+            if (TopicPosts.Count == 0)
+                this.txtEmpty.Visibility = System.Windows.Visibility.Visible;
+            else
+                this.txtEmpty.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void ToggleFollowButton()
@@ -322,7 +329,7 @@ namespace BreakingNews
             {
                 this.txtDescription.Text = this.txtDescription.Text.Substring(0, 137).Trim() + "...";
                 this.txtDescription.Text.Replace("....", "...");
-            } 
+            }
         }
 
         private int _offsetKnob = 5;
