@@ -22,8 +22,8 @@
 
         <TextBlock x:Name="txtLoading" Margin="24,24,24,0" Visibility="Visible" TextWrapping="Wrap" Text="Just a moment..." Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFFFFFFF" />
         <Image x:Name="imgMedia" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" Tap="ImageContent_Tap" />
-        <StackPanel x:Name="stkCaption" VerticalAlignment="Bottom" Tap="PostContent_Tap" Background="#22FFFFFF">
-            <TextBlock x:Name="txtContent" TextWrapping="Wrap" Margin="24,12,24,6" Style="{StaticResource PhoneTextLargeStyle}" Foreground="#FFFFFFFF" Visibility="Collapsed" />
+        <StackPanel x:Name="stkCaption" VerticalAlignment="Bottom" Tap="PostContent_Tap" Background="#88000000">
+            <TextBlock x:Name="txtContent" TextWrapping="Wrap" Margin="24,12,24,6" Style="{StaticResource PhoneTextNormalStyle}" Foreground="#FFFFFFFF" Visibility="Collapsed" />
             <TextBlock x:Name="txtDescription" TextWrapping="Wrap" Margin="24,0,24,24" Style="{StaticResource PhoneTextSubtleStyle}" Foreground="#FFCCCCCC" Visibility="Collapsed" />
         </StackPanel>
         
